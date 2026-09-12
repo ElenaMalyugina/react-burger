@@ -3,6 +3,6 @@ export const priceToCurrency = (rawPrice: number): string => {
     return '0';
   }
 
-  const price = Math.ceil(rawPrice * 0.01).toString();
+  const price = Math.ceil(rawPrice).toString();
   return price;
 };
