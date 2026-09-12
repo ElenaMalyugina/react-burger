@@ -1,5 +1,7 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 
+import { IngredientsList } from '../ingredients-list/ingredients-list';
+
 import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
@@ -46,6 +48,7 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
+      <IngredientsList ingredients={ingredients} />
     </section>
   );
 };
