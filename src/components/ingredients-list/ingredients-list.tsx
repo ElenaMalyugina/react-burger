@@ -6,18 +6,23 @@ import styles from './ingredients-list.module.css';
 
 type TIngredientsListProps = {
   ingredients: TIngredient[];
+  ingredientsType: string;
 };
 
 export const IngredientsList = ({
   ingredients,
+  ingredientsType,
 }: TIngredientsListProps): React.JSX.Element => {
   const IngredientsCards = ingredients.map((item) => (
     <IngredientCard key={item._id} ingredient={item} />
   ));
 
   return (
-    <ul className={`custom-scroll box-with-scroll ${styles['ingredients-list']}`}>
-      {IngredientsCards}
-    </ul>
+    <section className={`box-with-scroll`}>
+      <h2>{ingredientsType}</h2>
+      <ul className={`custom-scroll ${styles['ingredients-list']}`}>
+        {IngredientsCards}
+      </ul>
+    </section>
   );
 };

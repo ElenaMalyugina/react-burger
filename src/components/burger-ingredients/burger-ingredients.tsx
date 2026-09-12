@@ -1,4 +1,5 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
 
 import { IngredientsList } from '../ingredients-list/ingredients-list';
 
@@ -10,10 +11,38 @@ type TBurgerIngredientsProps = {
   ingredients: TIngredient[];
 };
 
+const displayTypes = [
+  {
+    type: 'bun',
+    displayType: 'Булки',
+  },
+  {
+    type: 'main',
+    displayType: 'Начинки',
+  },
+  {
+    type: 'sauce',
+    displayType: 'Соусы',
+  },
+];
+
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  console.log(ingredients);
+  const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
+
+  const [activeType, setActiveType] = useState('bun');
+  const [activeDisplayType, setActiveDisplayType] = useState('');
+
+  useEffect(() => {
+    const preparedIngredients =
+      ingredients.filter((item) => item.type == activeType) ?? [];
+    setFilteredIngredients(preparedIngredients);
+
+    const displayType =
+      displayTypes.find((item) => item.type == activeType)?.displayType ?? '';
+    setActiveDisplayType(displayType);
+  }, [activeType]);
 
   return (
     <section className={styles.burger_ingredients}>
@@ -21,34 +50,37 @@ export const BurgerIngredients = ({
         <ul className={styles.menu}>
           <Tab
             value="bun"
-            active={true}
+            active={activeType == 'bun'}
             onClick={() => {
-              /* TODO */
+              setActiveType('bun');
             }}
           >
             Булки
           </Tab>
           <Tab
             value="main"
-            active={false}
+            active={activeType == 'main'}
             onClick={() => {
-              /* TODO */
+              setActiveType('main');
             }}
           >
             Начинки
           </Tab>
           <Tab
             value="sauce"
-            active={false}
+            active={activeType == 'sauce'}
             onClick={() => {
-              /* TODO */
+              setActiveType('sauce');
             }}
           >
             Соусы
           </Tab>
         </ul>
       </nav>
-      <IngredientsList ingredients={ingredients} />
+      <IngredientsList
+        ingredients={filteredIngredients}
+        ingredientsType={activeDisplayType}
+      />
     </section>
   );
 };
