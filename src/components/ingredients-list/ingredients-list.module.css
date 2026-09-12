@@ -1,0 +1,7 @@
+.ingredients-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none;
+}
