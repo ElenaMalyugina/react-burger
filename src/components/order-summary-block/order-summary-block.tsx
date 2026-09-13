@@ -1,0 +1,43 @@
+import { ingredients } from '@/utils/ingredients';
+import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
+
+import { PriceBlock } from '../price-block/price-block';
+
+import type { TIngredient } from '@/utils/types';
+import type React from 'react';
+
+import styles from './order-summary-block.module.css';
+
+type TOrderSummaryBlock = {
+  orderIngredients: TIngredient[];
+};
+
+export const OrderSummaryBlock = ({
+  orderIngredients,
+}: TOrderSummaryBlock): React.JSX.Element => {
+  const [summaryPrice, setSummaryPrice] = useState(0);
+
+  useEffect(() => {
+    const newSummaryPrice = orderIngredients.reduce(
+      (acc, ingredient) => (acc = acc + ingredient.price),
+      0
+    );
+    setSummaryPrice(newSummaryPrice);
+  }, [ingredients]);
+
+  const createOrder = (): void => {
+    console.log('Заказ создан');
+  };
+
+  return (
+    <section>
+      <div className={styles.orderSummaryFlex}>
+        <PriceBlock price={summaryPrice} />
+        <Button onClick={createOrder} size="medium" type="primary">
+          Нажми на меня
+        </Button>
+      </div>
+    </section>
+  );
+};

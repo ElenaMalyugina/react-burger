@@ -11,19 +11,36 @@ type TBurgerConstructorList = {
 export const BurgerConstructorList = ({
   ingredients,
 }: TBurgerConstructorList): React.JSX.Element => {
-  const cards = ingredients.map((ingredient, ndx) => (
-    <BurgerConstructorCard
-      key={ingredient._id}
-      ingredient={ingredient}
-      displayType={
-        ndx == 0 ? 'top' : ndx == ingredients.length - 1 ? 'bottom' : undefined
-      }
-    />
+  const ingredientsForCards = [...ingredients];
+
+  const firstIngredient = ingredientsForCards.shift();
+  const latestIngredient = ingredientsForCards.pop();
+
+  const cards = ingredientsForCards.map((ingredient) => (
+    <BurgerConstructorCard key={ingredient._id} ingredient={ingredient} />
   ));
 
   return (
-    <ul className={`custom-scroll box-with-scroll ${styles.burgerConstructorList}`}>
-      {cards}
+    <ul className={styles.burgerConstructorList}>
+      {firstIngredient && (
+        <BurgerConstructorCard
+          key={firstIngredient._id}
+          ingredient={firstIngredient}
+          displayType="top"
+        />
+      )}
+      <ul
+        className={`custom-scroll box-with-scroll ${styles.burgerConstructorListInner}`}
+      >
+        {cards}
+      </ul>
+      {latestIngredient && (
+        <BurgerConstructorCard
+          key={latestIngredient._id}
+          ingredient={latestIngredient}
+          displayType="bottom"
+        />
+      )}
     </ul>
   );
 };

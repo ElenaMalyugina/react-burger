@@ -6,7 +6,7 @@ import styles from './burger-constructor-card.module.css';
 
 type TBurgerConstructorCard = {
   ingredient: TIngredient;
-  displayType: 'top' | 'bottom' | undefined;
+  displayType?: 'top' | 'bottom' | undefined;
 };
 
 export const BurgerConstructorCard = ({

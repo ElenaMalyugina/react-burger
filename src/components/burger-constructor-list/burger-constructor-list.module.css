@@ -1,3 +1,11 @@
 .burgerConstructorList {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  list-style-type: none;
+}
+
+.burgerConstructorListInner {
+  padding-left: 0;
   list-style-type: none;
 }

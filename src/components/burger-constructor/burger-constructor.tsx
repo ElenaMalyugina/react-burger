@@ -1,4 +1,5 @@
 import { BurgerConstructorList } from '../burger-constructor-list/burger-constructor-list';
+import { OrderSummaryBlock } from '../order-summary-block/order-summary-block';
 
 import type { TIngredient } from '@utils/types';
 
@@ -16,6 +17,7 @@ export const BurgerConstructor = ({
   return (
     <section className={styles.burger_constructor}>
       <BurgerConstructorList ingredients={ingredients} />
+      <OrderSummaryBlock orderIngredients={ingredients} />
     </section>
   );
 };
