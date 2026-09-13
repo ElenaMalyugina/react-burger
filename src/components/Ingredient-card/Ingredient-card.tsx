@@ -17,7 +17,7 @@ export const IngredientCard = ({
     <li className={styles.ingredientCard} tabIndex={0}>
       <Counter count={1} size="default" />
       <img src={ingredient.image} alt={ingredient.name} />
-      <PriceBlock price={ingredient.price} />
+      <PriceBlock price={ingredient.price} textClass={'text text_type_main-medium'} />
       <h3>{ingredient.name}</h3>
     </li>
   );

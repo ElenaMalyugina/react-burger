@@ -1,4 +1,3 @@
-import { ingredients } from '@/utils/ingredients';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 
@@ -24,18 +23,18 @@ export const OrderSummaryBlock = ({
       0
     );
     setSummaryPrice(newSummaryPrice);
-  }, [ingredients]);
+  }, [orderIngredients]);
 
   const createOrder = (): void => {
     console.log('Заказ создан');
   };
 
   return (
-    <section>
+    <section className={styles.orderSummaryBlock}>
       <div className={styles.orderSummaryFlex}>
-        <PriceBlock price={summaryPrice} />
-        <Button onClick={createOrder} size="medium" type="primary">
-          Нажми на меня
+        <PriceBlock price={summaryPrice} textClass={'text text_type_main-large'} />
+        <Button onClick={createOrder} size="medium" type="primary" htmlType={'button'}>
+          Оформить заказ
         </Button>
       </div>
     </section>

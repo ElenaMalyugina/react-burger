@@ -42,7 +42,7 @@ export const BurgerIngredients = ({
     const displayType =
       displayTypes.find((item) => item.type == activeType)?.displayType ?? '';
     setActiveDisplayType(displayType);
-  }, [activeType]);
+  }, [ingredients, activeType]);
 
   return (
     <section className={styles.burger_ingredients}>
