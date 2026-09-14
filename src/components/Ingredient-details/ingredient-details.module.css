@@ -1,0 +1,10 @@
+.table th,
+.table td {
+  padding: 2px 4px;
+  text-align: center;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 0;
+}

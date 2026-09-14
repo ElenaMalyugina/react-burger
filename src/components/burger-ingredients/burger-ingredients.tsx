@@ -102,7 +102,11 @@ export const BurgerIngredients = ({
         </ul>
       </nav>
       {isLoading && <Preloader />}
-      {isError && <p>Не удалось получить список ингредиентов</p>}
+      {isError && (
+        <p className="text text_type_main-small mt-2 mb-2">
+          Не удалось получить список ингредиентов
+        </p>
+      )}
       <IngredientsList ingredientsType={activeDisplayType}>
         {IngredientsCards}
       </IngredientsList>

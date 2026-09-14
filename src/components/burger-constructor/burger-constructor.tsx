@@ -19,9 +19,13 @@ export const BurgerConstructor = ({
   isError,
 }: TBurgerConstructorProps): React.JSX.Element => {
   return (
-    <section className={styles.burger_constructor}>
+    <section className={`pb-4 ${styles.burger_constructor}`}>
       {isLoading && <Preloader />}
-      {isError && <p>Не удалось получить список ингредиентов</p>}
+      {isError && (
+        <p className="text text_type_main-small mt-2 mb-2">
+          Не удалось получить список ингредиентов
+        </p>
+      )}
       <BurgerConstructorList ingredients={ingredients} />
       <OrderSummaryBlock orderIngredients={ingredients} />
     </section>

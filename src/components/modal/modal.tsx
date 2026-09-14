@@ -29,15 +29,11 @@ function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onClose={handleCloseModal} />
-      <dialog className={styles.modalBody} open={true}>
+      <dialog className={`p-15 ${styles.modalBody}`} open={true}>
         <div className="modalOverlay" />
         <div className="modal">
           {header && (
-            <h3
-              className={`text text_type_main-large modal-header ${styles.modalHeader}`}
-            >
-              {header}
-            </h3>
+            <h3 className={`text text_type_main-large modal-header mb-8`}>{header}</h3>
           )}
           <button
             className={styles.closeButton}

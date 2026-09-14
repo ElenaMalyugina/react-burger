@@ -16,7 +16,7 @@ export const IngredientCard = ({
   handleClick,
 }: TIngredientCardProps): React.JSX.Element => {
   return (
-    <li className={styles.ingredientCard} onClick={handleClick} tabIndex={0}>
+    <li className={`p-2 ${styles.ingredientCard}`} onClick={handleClick} tabIndex={0}>
       <Counter count={1} size="default" />
       <img src={ingredient.image} alt={ingredient.name} />
       <PriceBlock price={ingredient.price} textClass={'text text_type_main-medium'} />

@@ -1,7 +1,6 @@
 .modalBody {
   position: fixed;
   inset: 0;
-  padding: 40px;
   color: #f2f2f3;
   background: var(--background-alt);
   border: none;
@@ -15,8 +14,4 @@
   background: transparent;
   border: none;
   cursor: pointer;
-}
-
-.modalHeader {
-  margin-bottom: 40px;
 }

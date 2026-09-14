@@ -39,7 +39,7 @@ export const OrderSummaryBlock = ({
 
   return (
     <>
-      <section className={styles.orderSummaryBlock}>
+      <section className="ml-5 mr-5 mb-5 mt-5">
         <div className={styles.orderSummaryFlex}>
           <PriceBlock price={totalCost} textClass={'text text_type_main-large'} />
           <Button onClick={createOrder} size="medium" type="primary" htmlType={'button'}>
