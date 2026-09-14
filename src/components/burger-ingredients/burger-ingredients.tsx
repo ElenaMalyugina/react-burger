@@ -1,3 +1,4 @@
+import { useModal } from '@/hooks/useModal';
 import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 
@@ -41,12 +42,15 @@ export const BurgerIngredients = ({
   const [activeType, setActiveType] = useState('bun');
   const [activeDisplayType, setActiveDisplayType] = useState('');
   const [activeIngredient, setActiveIngredient] = useState<TIngredient | null>(null);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const openModalDetails = (ingredient: TIngredient): void => {
     setActiveIngredient(ingredient);
+    openModal();
   };
 
   const closeModalDetails = (): void => {
+    closeModal();
     setActiveIngredient(null);
   };
 
@@ -110,7 +114,7 @@ export const BurgerIngredients = ({
       <IngredientsList ingredientsType={activeDisplayType}>
         {IngredientsCards}
       </IngredientsList>
-      {activeIngredient && (
+      {isModalOpen && (
         <Modal header={'Детали ингредиента'} handleCloseModal={closeModalDetails}>
           <IngredientDetails ingredient={activeIngredient} />
         </Modal>

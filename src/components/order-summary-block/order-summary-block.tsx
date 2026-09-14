@@ -1,3 +1,4 @@
+import { useModal } from '@/hooks/useModal';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 
@@ -18,7 +19,7 @@ export const OrderSummaryBlock = ({
   orderIngredients,
 }: TOrderSummaryBlock): React.JSX.Element => {
   const [totalCost, setTotalCost] = useState(0);
-  const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
     const newSummaryPrice = orderIngredients.reduce(
@@ -30,11 +31,11 @@ export const OrderSummaryBlock = ({
 
   const createOrder = (): void => {
     console.log('Заказ создан');
-    setShowOrderDetails(true);
+    openModal();
   };
 
   const pauseOrder = (): void => {
-    setShowOrderDetails(false);
+    closeModal();
   };
 
   return (
@@ -47,7 +48,7 @@ export const OrderSummaryBlock = ({
           </Button>
         </div>
       </section>
-      {showOrderDetails && (
+      {isModalOpen && (
         <Modal handleCloseModal={pauseOrder}>
           <OrderDetails />
         </Modal>
