@@ -10,11 +10,13 @@ import styles from './burger-constructor-card.module.css';
 type TBurgerConstructorCard = {
   ingredient: TIngredient;
   displayType?: 'top' | 'bottom' | undefined;
+  postfix?: string;
 };
 
 export const BurgerConstructorCard = ({
   ingredient,
   displayType,
+  postfix,
 }: TBurgerConstructorCard): React.JSX.Element => {
   return (
     <li className={styles.burgerConstructorCard}>
@@ -29,7 +31,7 @@ export const BurgerConstructorCard = ({
         }}
         isLocked={displayType !== undefined}
         price={ingredient.price}
-        text={ingredient.name}
+        text={`${ingredient.name} ${postfix ?? postfix}`}
         thumbnail={ingredient.image}
         type={displayType}
       />

@@ -13,20 +13,26 @@ export const BurgerConstructorList = ({
 }: TBurgerConstructorList): React.JSX.Element => {
   const ingredientsForCards = [...ingredients];
 
-  const firstIngredient = ingredientsForCards.shift();
-  const latestIngredient = ingredientsForCards.pop();
+  const bunIngredient = ingredientsForCards.find(
+    (ingredient) => (ingredient.type = 'bun')
+  );
 
-  const cards = ingredientsForCards.map((ingredient) => (
+  const otherIngredients = ingredientsForCards.filter(
+    (ingredient) => ingredient.type != 'bun'
+  );
+
+  const cards = otherIngredients.map((ingredient) => (
     <BurgerConstructorCard key={ingredient._id} ingredient={ingredient} />
   ));
 
   return (
     <ul className={styles.burgerConstructorList}>
-      {firstIngredient && (
+      {bunIngredient && (
         <BurgerConstructorCard
-          key={firstIngredient._id}
-          ingredient={firstIngredient}
+          key={bunIngredient._id}
+          ingredient={bunIngredient}
           displayType="top"
+          postfix="Верх"
         />
       )}
       <ul
@@ -34,11 +40,12 @@ export const BurgerConstructorList = ({
       >
         {cards}
       </ul>
-      {latestIngredient && (
+      {bunIngredient && (
         <BurgerConstructorCard
-          key={latestIngredient._id}
-          ingredient={latestIngredient}
+          key={`${bunIngredient._id}-l`}
+          ingredient={bunIngredient}
           displayType="bottom"
+          postfix="Низ"
         />
       )}
     </ul>

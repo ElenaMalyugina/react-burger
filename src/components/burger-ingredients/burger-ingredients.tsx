@@ -111,7 +111,7 @@ export const BurgerIngredients = ({
         {IngredientsCards}
       </IngredientsList>
       {activeIngredient && (
-        <Modal header={'Ингредиенты'} handleCloseModal={closeModalDetails}>
+        <Modal header={'Детали ингредиента'} handleCloseModal={closeModalDetails}>
           <IngredientDetails ingredient={activeIngredient} />
         </Modal>
       )}

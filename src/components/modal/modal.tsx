@@ -15,13 +15,13 @@ type TTModalProps = {
 };
 
 function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.Element {
-  const handleEsc = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') {
-      handleCloseModal();
-    }
-  };
-
   useEffect(() => {
+    const handleEsc = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        handleCloseModal();
+      }
+    };
+
     document.addEventListener('keydown', handleEsc);
     return (): void => document.removeEventListener('keydown', handleEsc);
   }, []);
