@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { ModalOverlay } from '../modal-overlay/modal-overlay';
@@ -10,22 +10,29 @@ const modalRoot = document.getElementById('root-modal');
 type TTModalProps = {
   header: React.JSX.Element | string;
   children?: React.JSX.Element | string;
+  handleCloseModal: () => unknown;
 };
 
-function Modal({ header, children }: TTModalProps): React.JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const handleClose = (): void => {
-    setIsOpen(false);
+function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.Element {
+  const handleEsc = (event: KeyboardEvent): void => {
+    if (event.key === 'Escape') {
+      handleCloseModal();
+    }
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEsc);
+    return (): void => document.removeEventListener('keydown', handleEsc);
+  }, []);
 
   return ReactDOM.createPortal(
     <>
-      {isOpen && <ModalOverlay onClose={handleClose} />}
-      <dialog className={styles.modalBody} open={isOpen}>
+      <ModalOverlay onClose={handleCloseModal} />
+      <dialog className={styles.modalBody} open={true}>
         <div className="modalOverlay" />
         <div className="modal">
           <h3>{header}</h3>
+          <button onClick={handleCloseModal}>Закрыть</button>
           {children}
         </div>
       </dialog>

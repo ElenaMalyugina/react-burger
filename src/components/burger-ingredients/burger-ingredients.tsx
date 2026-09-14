@@ -1,7 +1,10 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 
+import { IngredientCard } from '../Ingredient-card/Ingredient-card';
+import { IngredientDetails } from '../Ingredient-details/Ingredient-details';
 import { IngredientsList } from '../ingredients-list/ingredients-list';
+import Modal from '../modal/modal';
 
 import type { TIngredient } from '@utils/types';
 
@@ -33,6 +36,23 @@ export const BurgerIngredients = ({
 
   const [activeType, setActiveType] = useState('bun');
   const [activeDisplayType, setActiveDisplayType] = useState('');
+  const [activeIngredient, setActiveIngredient] = useState<TIngredient | null>(null);
+
+  const openModalDetails = (ingredient: TIngredient): void => {
+    setActiveIngredient(ingredient);
+  };
+
+  const closeModalDetails = (): void => {
+    setActiveIngredient(null);
+  };
+
+  const IngredientsCards = filteredIngredients.map((item) => (
+    <IngredientCard
+      key={item._id}
+      ingredient={item}
+      handleClick={() => openModalDetails(item)}
+    />
+  ));
 
   useEffect(() => {
     const preparedIngredients =
@@ -77,10 +97,14 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
-      <IngredientsList
-        ingredients={filteredIngredients}
-        ingredientsType={activeDisplayType}
-      />
+      <IngredientsList ingredientsType={activeDisplayType}>
+        {IngredientsCards}
+      </IngredientsList>
+      {activeIngredient && (
+        <Modal header={'Ингредиенты'} handleCloseModal={closeModalDetails}>
+          <IngredientDetails ingredient={activeIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };
