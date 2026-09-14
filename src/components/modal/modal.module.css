@@ -1,0 +1,5 @@
+.modalBody {
+  position: fixed;
+  inset: 0;
+  background: red;
+}
