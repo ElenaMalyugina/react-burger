@@ -9,7 +9,7 @@ import styles from './modal.module.css';
 const modalRoot = document.getElementById('root-modal');
 
 type TTModalProps = {
-  header: React.JSX.Element | string;
+  header?: React.JSX.Element | string;
   children?: React.JSX.Element | string;
   handleCloseModal: () => unknown;
 };
@@ -32,7 +32,13 @@ function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.
       <dialog className={styles.modalBody} open={true}>
         <div className="modalOverlay" />
         <div className="modal">
-          <h3 className={`text text_type_main-large ${styles.modalHeader}`}>{header}</h3>
+          {header && (
+            <h3
+              className={`text text_type_main-large modal-header ${styles.modalHeader}`}
+            >
+              {header}
+            </h3>
+          )}
           <button
             className={styles.closeButton}
             onClick={handleCloseModal}
