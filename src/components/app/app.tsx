@@ -11,14 +11,21 @@ import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
   const [ingredients, setIngredients] = useState<TIngredient[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     ingredientsService
       .getIngredients()
-      .then((ingredients) => setIngredients(ingredients))
+      .then((ingredients) => {
+        setIngredients(ingredients);
+        setIsLoading(false);
+        setIsError(false);
+      })
       .catch((error) => {
         console.error('Ошибка загрузки ингредиентов:', error);
-        //что то сделать, какое-то сообщение
+        setIsLoading(false);
+        setIsError(true);
       });
   }, []);
 
@@ -30,8 +37,16 @@ export const App = (): React.JSX.Element => {
           Соберите бургер
         </h1>
         <main className={`${styles.main} pl-5 pr-5`}>
-          <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor ingredients={ingredients} />
+          <BurgerIngredients
+            ingredients={ingredients}
+            isLoading={isLoading}
+            isError={isError}
+          />
+          <BurgerConstructor
+            ingredients={ingredients}
+            isLoading={isLoading}
+            isError={isError}
+          />
         </main>
       </div>
     </>

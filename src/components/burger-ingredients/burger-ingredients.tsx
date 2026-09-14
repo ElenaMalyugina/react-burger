@@ -1,4 +1,4 @@
-import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 
 import { IngredientCard } from '../Ingredient-card/Ingredient-card';
@@ -12,6 +12,8 @@ import styles from './burger-ingredients.module.css';
 
 type TBurgerIngredientsProps = {
   ingredients: TIngredient[];
+  isLoading: boolean;
+  isError: boolean;
 };
 
 const displayTypes = [
@@ -31,6 +33,8 @@ const displayTypes = [
 
 export const BurgerIngredients = ({
   ingredients,
+  isLoading,
+  isError,
 }: TBurgerIngredientsProps): React.JSX.Element => {
   const [filteredIngredients, setFilteredIngredients] = useState(ingredients);
 
@@ -97,6 +101,8 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
+      {isLoading && <Preloader />}
+      {isError && <p>Не удалось получить список ингредиентов</p>}
       <IngredientsList ingredientsType={activeDisplayType}>
         {IngredientsCards}
       </IngredientsList>

@@ -1,8 +1,16 @@
 .burgerConstructorCard {
   position: relative;
-  margin-bottom: 16px;
+  margin: 16px 0;
   padding-right: 10px;
   padding-left: 50px;
+}
+
+.burgerConstructorCard:first-child {
+  margin-top: 0;
+}
+
+.burgerConstructorCard:last-child {
+  margin-bottom: 0;
 }
 
 .dragButton {
