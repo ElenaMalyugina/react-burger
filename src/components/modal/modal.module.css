@@ -1,5 +1,22 @@
 .modalBody {
   position: fixed;
   inset: 0;
-  background: red;
+  padding: 40px;
+  color: #f2f2f3;
+  background: var(--background-alt);
+  border: none;
+  border-radius: 50px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modalHeader {
+  margin-bottom: 40px;
 }

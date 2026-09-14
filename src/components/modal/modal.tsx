@@ -1,3 +1,4 @@
+import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -31,8 +32,14 @@ function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.
       <dialog className={styles.modalBody} open={true}>
         <div className="modalOverlay" />
         <div className="modal">
-          <h3>{header}</h3>
-          <button onClick={handleCloseModal}>Закрыть</button>
+          <h3 className={`text text_type_main-large ${styles.modalHeader}`}>{header}</h3>
+          <button
+            className={styles.closeButton}
+            onClick={handleCloseModal}
+            title="Закрыть"
+          >
+            <CloseIcon type="primary" />
+          </button>
           {children}
         </div>
       </dialog>
