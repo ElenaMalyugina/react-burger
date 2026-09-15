@@ -1,0 +1,17 @@
+.modalBody {
+  position: fixed;
+  inset: 0;
+  color: #f2f2f3;
+  background: var(--background-alt);
+  border: none;
+  border-radius: 50px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

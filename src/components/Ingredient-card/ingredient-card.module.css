@@ -1,0 +1,12 @@
+.ingredientCard {
+  position: relative;
+  margin-right: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.ingredientCard:hover {
+  background: radial-gradient(circle, rgb(255 255 255 / 10%), transparent);
+  transition: 0.3s;
+}

@@ -1,0 +1,24 @@
+.burgerConstructorCard {
+  position: relative;
+  margin: 16px 0;
+  padding-right: 10px;
+  padding-left: 50px;
+}
+
+.burgerConstructorCard:first-child {
+  margin-top: 0;
+}
+
+.burgerConstructorCard:last-child {
+  margin-bottom: 0;
+}
+
+.dragButton {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
