@@ -1,34 +1,28 @@
-import { ingredientsService } from '@/services/ingredients-service/ingredients-service';
-import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@/services/hooks';
+import {
+  getIngredients,
+  getIngredientsError,
+  getIngredientsLoading,
+} from '@/services/ingredients-service/slice';
+import { fetchIngredients } from '@/services/ingredients-service/thunks';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 
-import type { TIngredient } from '@/utils/types';
-
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const [ingredients, setIngredients] = useState<TIngredient[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const dispatch = useAppDispatch();
+  const ingredients = useSelector(getIngredients);
+  const isLoading = useSelector(getIngredientsLoading);
+  const error = useSelector(getIngredientsError);
 
   useEffect(() => {
-    ingredientsService
-      .getIngredients()
-      .then((ingredients) => {
-        setIngredients(ingredients);
-        setIsError(false);
-      })
-      .catch((error) => {
-        console.error('Ошибка загрузки ингредиентов:', error);
-        setIsError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    void dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -40,12 +34,12 @@ export const App = (): React.JSX.Element => {
         <BurgerIngredients
           ingredients={ingredients}
           isLoading={isLoading}
-          isError={isError}
+          isError={error !== null}
         />
         <BurgerConstructor
           ingredients={ingredients}
           isLoading={isLoading}
-          isError={isError}
+          isError={error !== null}
         />
       </main>
     </div>

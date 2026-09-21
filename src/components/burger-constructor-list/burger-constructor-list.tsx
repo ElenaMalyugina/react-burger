@@ -14,11 +14,11 @@ export const BurgerConstructorList = ({
   const ingredientsForCards = [...ingredients];
 
   const bunIngredient = ingredientsForCards.find(
-    (ingredient) => (ingredient.type = 'bun')
+    (ingredient) => ingredient.type === 'bun'
   );
 
   const otherIngredients = ingredientsForCards.filter(
-    (ingredient) => ingredient.type != 'bun'
+    (ingredient) => ingredient.type !== 'bun'
   );
 
   const cards = otherIngredients.map((ingredient) => (
