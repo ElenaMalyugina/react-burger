@@ -1,6 +1,10 @@
 import { useModal } from '@/hooks/useModal';
+import { useAppDispatch } from '@/services/hooks';
+import { createOrder } from '@/services/order-service/slice';
+import { sendOrder } from '@/services/order-service/thunks';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -15,11 +19,20 @@ type TOrderSummaryBlock = {
   orderIngredients: TIngredient[];
 };
 
+const testData = [
+  '692889f16bf770001bfeb4cc',
+  '692889f16bf770001bfeb4d6',
+  '692889f16bf770001bfeb4cc',
+];
+
 export const OrderSummaryBlock = ({
   orderIngredients,
 }: TOrderSummaryBlock): React.JSX.Element => {
+  const dispatch = useAppDispatch();
   const [totalCost, setTotalCost] = useState(0);
   const { isModalOpen, openModal, closeModal } = useModal();
+
+  const orderId = useSelector(createOrder);
 
   useEffect(() => {
     const newSummaryPrice = orderIngredients.reduce(
@@ -29,12 +42,13 @@ export const OrderSummaryBlock = ({
     setTotalCost(newSummaryPrice);
   }, [orderIngredients]);
 
-  const createOrder = (): void => {
+  const createOrderHandler = (): void => {
+    void dispatch(sendOrder(testData));
     console.log('Заказ создан');
     openModal();
   };
 
-  const pauseOrder = (): void => {
+  const pauseOrderHandler = (): void => {
     closeModal();
   };
 
@@ -43,14 +57,19 @@ export const OrderSummaryBlock = ({
       <section className="ml-5 mr-5 mb-5 mt-5">
         <div className={styles.orderSummaryFlex}>
           <PriceBlock price={totalCost} textClass={'text text_type_main-large'} />
-          <Button onClick={createOrder} size="medium" type="primary" htmlType={'button'}>
+          <Button
+            onClick={createOrderHandler}
+            size="medium"
+            type="primary"
+            htmlType={'button'}
+          >
             Оформить заказ
           </Button>
         </div>
       </section>
       {isModalOpen && (
-        <Modal handleCloseModal={pauseOrder}>
-          <OrderDetails />
+        <Modal handleCloseModal={pauseOrderHandler}>
+          <OrderDetails orderId={orderId} />
         </Modal>
       )}
     </>
