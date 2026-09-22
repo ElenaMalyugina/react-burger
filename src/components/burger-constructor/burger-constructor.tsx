@@ -1,6 +1,3 @@
-import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useDrop } from 'react-dnd';
-
 import { BurgerConstructorList } from '../burger-constructor-list/burger-constructor-list';
 import { OrderSummaryBlock } from '../order-summary-block/order-summary-block';
 
@@ -14,38 +11,16 @@ export type TDraggableElement = {
 
 type TBurgerConstructorProps = {
   ingredients: TIngredient[];
-  isLoading: boolean;
-  isError: boolean;
-  onDropHandler: (ingredient: TDraggableElement) => void;
+  onDropHandler: (el: TDraggableElement) => void;
 };
 
 export const BurgerConstructor = ({
   ingredients,
-  isLoading,
-  isError,
   onDropHandler,
 }: TBurgerConstructorProps): React.JSX.Element => {
-  const [, dropTarget] = useDrop({
-    accept: 'ingredient',
-    drop(ingredientCard: TDraggableElement) {
-      onDropHandler(ingredientCard);
-    },
-  });
-
   return (
-    <section
-      className={`pb-4 ${styles.burger_constructor}`}
-      ref={(node) => {
-        dropTarget(node);
-      }}
-    >
-      {isLoading && <Preloader />}
-      {isError && (
-        <p className="text text_type_main-small mt-2 mb-2">
-          Не удалось получить список ингредиентов
-        </p>
-      )}
-      <BurgerConstructorList ingredients={ingredients} />
+    <section className={`pb-4 ${styles.burger_constructor}`}>
+      <BurgerConstructorList ingredients={ingredients} onDropHandler={onDropHandler} />
       <OrderSummaryBlock orderIngredients={ingredients} />
     </section>
   );

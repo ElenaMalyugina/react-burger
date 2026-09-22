@@ -65,8 +65,6 @@ export const App = (): React.JSX.Element => {
           />
           <BurgerConstructor
             ingredients={constructorIngredients}
-            isLoading={isLoading}
-            isError={error !== null}
             onDropHandler={handleDrop}
           />
         </DndProvider>
