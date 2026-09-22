@@ -1,4 +1,5 @@
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
+import { useDrag } from 'react-dnd';
 
 import { PriceBlock } from '../price-block/price-block';
 
@@ -15,11 +16,26 @@ export const IngredientCard = ({
   ingredient,
   handleClick,
 }: TIngredientCardProps): React.JSX.Element => {
+  const [{ isDragging }, dragRef] = useDrag({
+    type: 'ingredient',
+    item: () => ({ ingredient }),
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
   return (
-    <li className={`p-2 ${styles.ingredientCard}`} onClick={handleClick} tabIndex={0}>
+    <li
+      ref={(node) => {
+        dragRef(node);
+      }} // правильный тип для ref
+      className={`p-2 ${styles.ingredientCard} ${isDragging ? 'opacity-50' : ''}`}
+      onClick={handleClick}
+      tabIndex={0}
+    >
       <Counter count={1} size="default" />
       <img src={ingredient.image} alt={ingredient.name} />
-      <PriceBlock price={ingredient.price} textClass={'text text_type_main-medium'} />
+      <PriceBlock price={ingredient.price} textClass="text text_type_main-medium" />
       <h3>{ingredient.name}</h3>
     </li>
   );
