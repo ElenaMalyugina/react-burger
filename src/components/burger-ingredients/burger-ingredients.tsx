@@ -1,6 +1,14 @@
-import { useModal } from '@/hooks/useModal';
+import { useAppDispatch } from '@/services/hooks';
 import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import {
+  selectIngredient,
+  removeSelectedIngredient,
+  selectActiveIngredient,
+  selectIsNodfalOpen,
+} from '@services/selected-ingredient-service/slice';
 
 import { IngredientCard } from '../Ingredient-card/Ingredient-card';
 import { IngredientDetails } from '../Ingredient-details/Ingredient-details';
@@ -22,13 +30,15 @@ export const BurgerIngredients = ({
   isLoading,
   isError,
 }: TBurgerIngredientsProps): React.JSX.Element => {
+  const dispatch = useAppDispatch();
+  const isModalOpen = useSelector(selectIsNodfalOpen);
+  const activeIngredient = useSelector(selectActiveIngredient);
+
   const [bunIngredients, setBunIngredients] = useState<TIngredient[]>([]);
   const [mainIngredients, setMainIngredients] = useState<TIngredient[]>([]);
   const [sauceIngredients, setSauceIngredients] = useState<TIngredient[]>([]);
 
   const [activeType, setActiveType] = useState('bun');
-  const [activeIngredient, setActiveIngredient] = useState<TIngredient | null>(null);
-  const { isModalOpen, openModal, closeModal } = useModal();
 
   const bunArticleRef = useRef<HTMLElement | null>(null);
   const mainArticleRef = useRef<HTMLElement | null>(null);
@@ -37,13 +47,11 @@ export const BurgerIngredients = ({
   const scrollContainerRef = useRef<HTMLElement | null>(null);
 
   const openModalDetails = (ingredient: TIngredient): void => {
-    setActiveIngredient(ingredient);
-    openModal();
+    dispatch(selectIngredient(ingredient));
   };
 
   const closeModalDetails = (): void => {
-    closeModal();
-    setActiveIngredient(null);
+    dispatch(removeSelectedIngredient());
   };
 
   const BunIngredientsCards = bunIngredients.map((item) => (
