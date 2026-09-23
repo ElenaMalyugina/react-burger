@@ -14,9 +14,9 @@ const rootReducer = combineSlices(
 
 export const store = configureStore({
   reducer: rootReducer,
+  devTools: true,
 });
 
-console.log(store.getState());
 //чтобы ts не ругался
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
