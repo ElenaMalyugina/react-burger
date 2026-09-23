@@ -9,3 +9,4 @@ export function useAppSelector<TSelected>(
 ): TSelected {
   return useSelector(selector);
 }
+//это сделано только для совместимости типов

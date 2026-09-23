@@ -1,34 +1,37 @@
+import {
+  addBunBurger,
+  addIngredientToBurger,
+  getBurgerConstructorBun,
+  getBurgerConstructorIngredients,
+} from '@/services/burger-constructor-service/slice';
+import { useAppDispatch } from '@/services/hooks';
 import { useDrop } from 'react-dnd';
+import { useSelector } from 'react-redux';
 
 import { BurgerConstructorCard } from '../burger-constructor-card/burger-constructor-card';
 
 import type { TDraggableElement } from '../burger-constructor/burger-constructor';
-import type { TIngredient } from '@/utils/types';
 
 import styles from './burger-constructor-list.module.css';
 
-type TBurgerConstructorList = {
-  ingredients: TIngredient[];
-  onDropHandler: (el: TDraggableElement) => void;
-};
-
-export const BurgerConstructorList = ({
-  ingredients,
-  onDropHandler,
-}: TBurgerConstructorList): React.JSX.Element => {
-  const ingredientsForCards = [...ingredients];
-
-  const bunIngredient = ingredientsForCards.find(
-    (ingredient) => ingredient.type === 'bun'
-  );
-
-  const otherIngredients = ingredientsForCards.filter(
-    (ingredient) => ingredient.type !== 'bun'
-  );
+export const BurgerConstructorList = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
+  const bunIngredient = useSelector(getBurgerConstructorBun);
+  const otherIngredients = useSelector(getBurgerConstructorIngredients);
 
   const cards = otherIngredients.map((ingredient) => (
     <BurgerConstructorCard key={ingredient._id} ingredient={ingredient} />
   ));
+
+  const onDropHandler = (ingredientCard: TDraggableElement): void => {
+    const ingredient = ingredientCard.ingredient;
+
+    if (ingredient.type === 'bun') {
+      dispatch(addBunBurger(ingredient));
+    } else {
+      dispatch(addIngredientToBurger(ingredient));
+    }
+  };
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',

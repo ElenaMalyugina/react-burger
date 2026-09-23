@@ -3,21 +3,16 @@ import { useAppDispatch } from '@/services/hooks';
 import { createOrder } from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 import { PriceBlock } from '../price-block/price-block';
 
-import type { TIngredient } from '@/utils/types';
 import type React from 'react';
 
 import styles from './order-summary-block.module.css';
-
-type TOrderSummaryBlock = {
-  orderIngredients: TIngredient[];
-};
 
 const testData = [
   '692889f16bf770001bfeb4cc',
@@ -25,22 +20,20 @@ const testData = [
   '692889f16bf770001bfeb4cc',
 ];
 
-export const OrderSummaryBlock = ({
-  orderIngredients,
-}: TOrderSummaryBlock): React.JSX.Element => {
+export const OrderSummaryBlock = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const [totalCost, setTotalCost] = useState(0);
+  const [totalCost, _] = useState(0);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const orderId = useSelector(createOrder);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const newSummaryPrice = orderIngredients.reduce(
       (acc, ingredient) => (acc = acc + ingredient.price),
       0
     );
     setTotalCost(newSummaryPrice);
-  }, [orderIngredients]);
+  }, [orderIngredients]);*/
 
   const createOrderHandler = (): void => {
     void dispatch(sendOrder(testData));

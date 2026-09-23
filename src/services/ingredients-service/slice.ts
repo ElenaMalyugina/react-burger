@@ -7,13 +7,13 @@ import type { TIngredient } from '@/utils/types';
 type TIngredientsState = {
   ingredients: TIngredient[];
   loading: boolean;
-  error: string | null;
+  error: boolean;
 };
 
 const initialState: TIngredientsState = {
   ingredients: [],
   loading: false,
-  error: null as string | null,
+  error: false,
 };
 
 export const ingredientsSlice = createSlice({
@@ -29,15 +29,16 @@ export const ingredientsSlice = createSlice({
     builder
       .addCase(fetchIngredients.pending, (state) => {
         state.loading = true;
-        state.error = null;
+        state.error = false;
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = false;
         state.ingredients = action.payload;
       })
-      .addCase(fetchIngredients.rejected, (state, action) => {
+      .addCase(fetchIngredients.rejected, (state) => {
         state.loading = false;
-        state.error = action.error.message ?? 'Не удалось загрузить ингредиенты';
+        state.error = true;
       });
   },
 });
