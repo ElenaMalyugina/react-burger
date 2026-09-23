@@ -1,5 +1,5 @@
 import { useModal } from '@/hooks/useModal';
-import { getOrderPrice } from '@/services/burger-constructor-service/slice';
+import { getOrder, getOrderPrice } from '@/services/burger-constructor-service/slice';
 import { useAppDispatch } from '@/services/hooks';
 import { createOrder } from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';
@@ -14,12 +14,6 @@ import type React from 'react';
 
 import styles from './order-summary-block.module.css';
 
-const testData = [
-  '692889f16bf770001bfeb4cc',
-  '692889f16bf770001bfeb4d6',
-  '692889f16bf770001bfeb4cc',
-];
-
 export const OrderSummaryBlock = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
@@ -29,8 +23,10 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
 
   const totalCost = useSelector(getOrderPrice);
 
+  const orderData = useSelector(getOrder);
+
   const createOrderHandler = (): void => {
-    void dispatch(sendOrder(testData));
+    void dispatch(sendOrder(orderData));
     console.log('Заказ создан');
     openModal();
   };
@@ -49,6 +45,7 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
             size="medium"
             type="primary"
             htmlType={'button'}
+            disabled={totalCost === 0}
           >
             Оформить заказ
           </Button>

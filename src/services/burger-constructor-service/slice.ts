@@ -37,8 +37,6 @@ export const burgerConstructorSlice = createSlice({
   selectors: {
     getBurgerConstructorBun: (state) => state.bun,
     getBurgerConstructorIngredients: (state) => state.ingredients,
-    getAllIngredients: (state) =>
-      [state.bun, ...state.ingredients, state.bun].filter((item) => item !== null),
   },
 });
 
@@ -52,20 +50,25 @@ export const {
   reorderBurgerConstructorIngredients,
 } = burgerConstructorSlice.actions;
 
-export const getBurgerConstructorIngredientCount = createSelector(
+const getAllIngredients = createSelector(
   [
-    (state: RootState): TIngredient[] =>
-      burgerConstructorSlice.getSelectors().getAllIngredients(state.burgerConstructor),
-    (_state: RootState, ingredientId: string): string => ingredientId,
+    (state: RootState): TIngredient | null => state.burgerConstructor.bun,
+    (state: RootState): TIngredient[] => state.burgerConstructor.ingredients,
   ],
+  (bun, ingredients): TIngredient[] =>
+    [bun, ...ingredients, bun].filter((item) => item !== null)
+);
+
+export const getBurgerConstructorIngredientCount = createSelector(
+  [getAllIngredients, (_state: RootState, ingredientId: string): string => ingredientId],
   (ingredients, ingredientId): number =>
     ingredients.reduce((acc, item) => (item._id === ingredientId ? acc + 1 : acc), 0)
 );
 
-export const getOrderPrice = createSelector(
-  [
-    (state: RootState): TIngredient[] =>
-      burgerConstructorSlice.getSelectors().getAllIngredients(state.burgerConstructor),
-  ],
-  (ingredients): number => ingredients.reduce((acc, item) => acc + item.price, 0)
+export const getOrderPrice = createSelector([getAllIngredients], (ingredients): number =>
+  ingredients.reduce((acc, item) => acc + item.price, 0)
+);
+
+export const getOrder = createSelector([getAllIngredients], (ingredients): string[] =>
+  ingredients.map((item) => item._id)
 );
