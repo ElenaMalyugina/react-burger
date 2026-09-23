@@ -1,7 +1,9 @@
+import { deleteIngredient } from '@/services/burger-constructor-service/slice';
 import {
   ConstructorElement,
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { useDispatch } from 'react-redux';
 
 import type { TIngredient } from '@/utils/types';
 
@@ -18,6 +20,12 @@ export const BurgerConstructorCard = ({
   displayType,
   postfix,
 }: TBurgerConstructorCard): React.JSX.Element => {
+  const dispatch = useDispatch();
+
+  const handleDelete = (ingredient: TIngredient): void => {
+    dispatch(deleteIngredient(ingredient));
+  };
+
   return (
     <li className={styles.burgerConstructorCard}>
       {displayType == undefined && (
@@ -27,7 +35,7 @@ export const BurgerConstructorCard = ({
       )}
       <ConstructorElement
         handleClose={() => {
-          return false;
+          handleDelete(ingredient);
         }}
         isLocked={displayType !== undefined}
         price={ingredient.price}
