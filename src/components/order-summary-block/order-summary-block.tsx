@@ -1,9 +1,9 @@
 import { useModal } from '@/hooks/useModal';
+import { getOrderPrice } from '@/services/burger-constructor-service/slice';
 import { useAppDispatch } from '@/services/hooks';
 import { createOrder } from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';
 import { Button } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import Modal from '../modal/modal';
@@ -22,18 +22,12 @@ const testData = [
 
 export const OrderSummaryBlock = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const [totalCost, _] = useState(0);
+
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const orderId = useSelector(createOrder);
 
-  /*useEffect(() => {
-    const newSummaryPrice = orderIngredients.reduce(
-      (acc, ingredient) => (acc = acc + ingredient.price),
-      0
-    );
-    setTotalCost(newSummaryPrice);
-  }, [orderIngredients]);*/
+  const totalCost = useSelector(getOrderPrice);
 
   const createOrderHandler = (): void => {
     void dispatch(sendOrder(testData));

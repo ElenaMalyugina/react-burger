@@ -61,3 +61,11 @@ export const getBurgerConstructorIngredientCount = createSelector(
   (ingredients, ingredientId): number =>
     ingredients.reduce((acc, item) => (item._id === ingredientId ? acc + 1 : acc), 0)
 );
+
+export const getOrderPrice = createSelector(
+  [
+    (state: RootState): TIngredient[] =>
+      burgerConstructorSlice.getSelectors().getAllIngredients(state.burgerConstructor),
+  ],
+  (ingredients): number => ingredients.reduce((acc, item) => acc + item.price, 0)
+);
