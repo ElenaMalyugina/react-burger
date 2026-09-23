@@ -20,7 +20,7 @@ export const BurgerConstructorList = (): React.JSX.Element => {
   const otherIngredients = useSelector(getBurgerConstructorIngredients);
 
   const cards = otherIngredients.map((ingredient) => (
-    <BurgerConstructorCard key={ingredient._id} ingredient={ingredient} />
+    <BurgerConstructorCard key={ingredient.innerId} ingredient={ingredient} />
   ));
 
   const onDropHandler = (ingredientCard: TDraggableElement): void => {
