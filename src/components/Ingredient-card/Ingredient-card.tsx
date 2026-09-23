@@ -1,8 +1,11 @@
+import { getBurgerConstructorIngredientCount } from '@/services/burger-constructor-service/slice';
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
+import { useSelector } from 'react-redux';
 
 import { PriceBlock } from '../price-block/price-block';
 
+import type { RootState } from '@/services/store';
 import type { TIngredient } from '@/utils/types';
 
 import styles from './ingredient-card.module.css';
@@ -24,6 +27,10 @@ export const IngredientCard = ({
     }),
   });
 
+  const ingredientCount = useSelector((state: RootState) =>
+    getBurgerConstructorIngredientCount(state, ingredient._id)
+  );
+
   return (
     <li
       ref={(node) => {
@@ -33,7 +40,7 @@ export const IngredientCard = ({
       onClick={handleClick}
       tabIndex={0}
     >
-      <Counter count={1} size="default" />
+      <Counter count={ingredientCount} size="default" />
       <img src={ingredient.image} alt={ingredient.name} />
       <PriceBlock price={ingredient.price} textClass="text text_type_main-medium" />
       <h3>{ingredient.name}</h3>
