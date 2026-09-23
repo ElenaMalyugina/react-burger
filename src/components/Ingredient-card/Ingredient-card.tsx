@@ -29,7 +29,7 @@ export const IngredientCard = ({
       ref={(node) => {
         dragRef(node);
       }} // правильный тип для ref
-      className={`p-2 ${styles.ingredientCard} ${isDragging ? 'opacity-50' : ''}`}
+      className={`p-2 ${styles.ingredientCard} ${isDragging ? 'opacity-90' : ''}`}
       onClick={handleClick}
       tabIndex={0}
     >

@@ -29,6 +29,9 @@ export const burgerConstructorSlice = createSlice({
         (ingredient) => ingredient.innerId != action.payload.innerId
       );
     },
+    reorderBurgerConstructorIngredients: (state, action: { payload: TIngredient[] }) => {
+      state.ingredients = action.payload;
+    },
   },
   selectors: {
     getBurgerConstructorBun: (state) => state.bun,
@@ -39,5 +42,9 @@ export const burgerConstructorSlice = createSlice({
 export const { getBurgerConstructorBun, getBurgerConstructorIngredients } =
   burgerConstructorSlice.selectors;
 
-export const { addBunBurger, addIngredientToBurger, deleteIngredient } =
-  burgerConstructorSlice.actions;
+export const {
+  addBunBurger,
+  addIngredientToBurger,
+  deleteIngredient,
+  reorderBurgerConstructorIngredients,
+} = burgerConstructorSlice.actions;

@@ -3,6 +3,7 @@ import {
   addIngredientToBurger,
   getBurgerConstructorBun,
   getBurgerConstructorIngredients,
+  reorderBurgerConstructorIngredients,
 } from '@/services/burger-constructor-service/slice';
 import { useAppDispatch } from '@/services/hooks';
 import { useDrop } from 'react-dnd';
@@ -19,8 +20,20 @@ export const BurgerConstructorList = (): React.JSX.Element => {
   const bunIngredient = useSelector(getBurgerConstructorBun);
   const otherIngredients = useSelector(getBurgerConstructorIngredients);
 
-  const cards = otherIngredients.map((ingredient) => (
-    <BurgerConstructorCard key={ingredient.innerId} ingredient={ingredient} />
+  const onDropSortHandler = (dragIndex: number, hoverIndex: number): void => {
+    const list = [...otherIngredients];
+    const [dragged] = list.splice(dragIndex, 1);
+    list.splice(hoverIndex, 0, dragged);
+    dispatch(reorderBurgerConstructorIngredients(list));
+  };
+
+  const cards = otherIngredients.map((ingredient, ndx) => (
+    <BurgerConstructorCard
+      key={ingredient.innerId}
+      ingredient={ingredient}
+      index={ndx}
+      onSort={onDropSortHandler}
+    />
   ));
 
   const onDropHandler = (ingredientCard: TDraggableElement): void => {

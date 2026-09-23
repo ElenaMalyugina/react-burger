@@ -7,6 +7,7 @@ import styles from './burger-constructor.module.css';
 
 export type TDraggableElement = {
   ingredient: TIngredient;
+  index?: number;
 };
 
 export const BurgerConstructor = (): React.JSX.Element => {
