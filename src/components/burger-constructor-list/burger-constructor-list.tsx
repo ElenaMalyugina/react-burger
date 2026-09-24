@@ -6,6 +6,7 @@ import {
   reorderBurgerConstructorIngredients,
 } from '@/services/burger-constructor-service/slice';
 import { useAppDispatch } from '@/services/hooks';
+import { useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useSelector } from 'react-redux';
 
@@ -34,6 +35,7 @@ export const BurgerConstructorList = (): React.JSX.Element => {
       ingredient={ingredient}
       index={ndx}
       onSort={onDropSortHandler}
+      postfix=""
     />
   ));
 
@@ -47,8 +49,15 @@ export const BurgerConstructorList = (): React.JSX.Element => {
     }
   };
 
+  const [draggingType, setDraggingType] = useState<'bun' | 'main' | 'sauce' | null>(
+    null
+  );
+
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
+    hover(item: TDraggableElement) {
+      setDraggingType(item.ingredient.type);
+    },
     drop(ingredientCard: TDraggableElement) {
       onDropHandler(ingredientCard);
     },
@@ -57,6 +66,13 @@ export const BurgerConstructorList = (): React.JSX.Element => {
     }),
   });
 
+  useEffect(() => {
+    // Когда перетаскивание закончилось, сбрасываем тип
+    if (!isHover) {
+      setDraggingType(null);
+    }
+  }, [isHover]);
+
   return (
     <ul
       className={`${styles.burgerConstructorList} ${isHover && styles.isHover}`}
@@ -64,7 +80,13 @@ export const BurgerConstructorList = (): React.JSX.Element => {
         dropTarget(node);
       }}
     >
-      {!bunIngredient && <EmptyConstructorCard text="Выберите булки" type="top" />}
+      {!bunIngredient && (
+        <EmptyConstructorCard
+          text="Выберите булки"
+          type="top"
+          isHighlighted={draggingType === 'bun'}
+        />
+      )}
       {bunIngredient && (
         <BurgerConstructorCard
           key={bunIngredient._id}
@@ -76,10 +98,22 @@ export const BurgerConstructorList = (): React.JSX.Element => {
       <ul
         className={`custom-scroll box-with-scroll ${styles.burgerConstructorListInner}`}
       >
-        {!cards.length && <EmptyConstructorCard text="Выберите начинку" />}
+        {!cards.length && (
+          <EmptyConstructorCard
+            text="Выберите начинку"
+            isHighlighted={draggingType === 'main' || draggingType === 'sauce'}
+          />
+        )}
         {cards}
       </ul>
-      {!bunIngredient && <EmptyConstructorCard text="Выберите булки" type="bottom" />}
+
+      {!bunIngredient && (
+        <EmptyConstructorCard
+          text="Выберите булки"
+          type="bottom"
+          isHighlighted={draggingType === 'bun'}
+        />
+      )}
       {bunIngredient && (
         <BurgerConstructorCard
           key={`${bunIngredient._id}-l`}
