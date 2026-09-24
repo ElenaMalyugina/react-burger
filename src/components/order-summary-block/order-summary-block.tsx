@@ -4,9 +4,13 @@ import {
   getOrderPrice,
 } from '@/services/burger-constructor-service/selectors';
 import { useAppDispatch } from '@/services/hooks';
-import { createOrder } from '@/services/order-service/slice';
+import {
+  createOrder,
+  createOrderLoading,
+  createOrderError,
+} from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';
-import { Button } from '@krgaa/react-developer-burger-ui-components';
+import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 
 import Modal from '../modal/modal';
@@ -22,7 +26,9 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const orderId = useSelector(createOrder);
+  const createdOrderId = useSelector(createOrder);
+  const createdOrderLoading = useSelector(createOrderLoading);
+  const createdOrderError = useSelector(createOrderError);
 
   const totalCost = useSelector(getOrderPrice);
 
@@ -55,7 +61,18 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
       </section>
       {isModalOpen && (
         <Modal handleCloseModal={pauseOrderHandler}>
-          <OrderDetails orderId={orderId} />
+          {createdOrderLoading ? (
+            <Preloader />
+          ) : createdOrderError != null ? (
+            <h3 className="text text_type_main-large mt-5">
+              Что-то пошло не так. <br />
+              Проверьте состав заказа.
+            </h3>
+          ) : typeof createdOrderId === 'number' && createdOrderId > 0 ? (
+            <OrderDetails orderId={createdOrderId} />
+          ) : (
+            ''
+          )}
         </Modal>
       )}
     </>

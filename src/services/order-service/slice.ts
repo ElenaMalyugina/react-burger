@@ -19,9 +19,9 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    createOrder: (state) => state.orderNum,
-    createOrderError: (state) => state.error,
-    createOrderLoading: (state) => state.loading,
+    createOrder: (state) => state.orderNum ?? null,
+    createOrderError: (state) => state.error ?? null,
+    createOrderLoading: (state) => state.loading ?? false,
   },
   extraReducers: (builder) => {
     builder
