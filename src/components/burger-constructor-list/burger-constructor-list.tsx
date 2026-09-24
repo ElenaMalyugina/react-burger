@@ -10,6 +10,7 @@ import { useDrop } from 'react-dnd';
 import { useSelector } from 'react-redux';
 
 import { BurgerConstructorCard } from '../burger-constructor-card/burger-constructor-card';
+import { EmptyConstructorCard } from '../empty-constructor-card/empty-constructor-card';
 
 import type { TDraggableElement } from '../burger-constructor/burger-constructor';
 
@@ -63,6 +64,7 @@ export const BurgerConstructorList = (): React.JSX.Element => {
         dropTarget(node);
       }}
     >
+      {!bunIngredient && <EmptyConstructorCard text="Выберите булки" type="top" />}
       {bunIngredient && (
         <BurgerConstructorCard
           key={bunIngredient._id}
@@ -74,8 +76,10 @@ export const BurgerConstructorList = (): React.JSX.Element => {
       <ul
         className={`custom-scroll box-with-scroll ${styles.burgerConstructorListInner}`}
       >
+        {!cards.length && <EmptyConstructorCard text="Выберите начинку" />}
         {cards}
       </ul>
+      {!bunIngredient && <EmptyConstructorCard text="Выберите булки" type="bottom" />}
       {bunIngredient && (
         <BurgerConstructorCard
           key={`${bunIngredient._id}-l`}
