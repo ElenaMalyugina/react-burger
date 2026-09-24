@@ -1,5 +1,8 @@
 import { useModal } from '@/hooks/useModal';
-import { getOrder, getOrderPrice } from '@/services/burger-constructor-service/slice';
+import {
+  getOrder,
+  getOrderPrice,
+} from '@/services/burger-constructor-service/selectors';
 import { useAppDispatch } from '@/services/hooks';
 import { createOrder } from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';

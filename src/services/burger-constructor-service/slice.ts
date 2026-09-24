@@ -1,6 +1,5 @@
-import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 
-import type { RootState } from '../store';
 import type { TIngredient } from '@/utils/types';
 
 type TBurgerConstructorState = {
@@ -49,26 +48,3 @@ export const {
   deleteIngredient,
   reorderBurgerConstructorIngredients,
 } = burgerConstructorSlice.actions;
-
-const getAllIngredients = createSelector(
-  [
-    (state: RootState): TIngredient | null => state.burgerConstructor.bun,
-    (state: RootState): TIngredient[] => state.burgerConstructor.ingredients,
-  ],
-  (bun, ingredients): TIngredient[] =>
-    [bun, ...ingredients, bun].filter((item) => item !== null)
-);
-
-export const getBurgerConstructorIngredientCount = createSelector(
-  [getAllIngredients, (_state: RootState, ingredientId: string): string => ingredientId],
-  (ingredients, ingredientId): number =>
-    ingredients.reduce((acc, item) => (item._id === ingredientId ? acc + 1 : acc), 0)
-);
-
-export const getOrderPrice = createSelector([getAllIngredients], (ingredients): number =>
-  ingredients.reduce((acc, item) => acc + item.price, 0)
-);
-
-export const getOrder = createSelector([getAllIngredients], (ingredients): string[] =>
-  ingredients.map((item) => item._id)
-);

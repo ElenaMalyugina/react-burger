@@ -1,4 +1,4 @@
-import { getBurgerConstructorIngredientCount } from '@/services/burger-constructor-service/slice';
+import { getBurgerConstructorIngredientCount } from '@/services/burger-constructor-service/selectors';
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ export const IngredientCard = ({
   });
 
   const ingredientCount = useSelector((state: RootState) =>
-    getBurgerConstructorIngredientCount(state, ingredient._id)
+    getBurgerConstructorIngredientCount(state)(ingredient._id)
   );
 
   return (
