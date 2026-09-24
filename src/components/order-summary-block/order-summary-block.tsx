@@ -30,7 +30,6 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
 
   const createOrderHandler = (): void => {
     void dispatch(sendOrder(orderData));
-    console.log('Заказ создан');
     openModal();
   };
 
