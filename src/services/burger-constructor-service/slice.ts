@@ -19,10 +19,14 @@ export const burgerConstructorSlice = createSlice({
     addBunBurger: (state, action: { payload: TIngredient }) => {
       state.bun = action.payload;
     },
-    addIngredientToBurger: (state, action: { payload: TIngredient }) => {
-      const ingredient = { ...action.payload };
-      ingredient.innerId = nanoid();
-      state.ingredients.push(ingredient);
+    addIngredientToBurger: {
+      reducer: (state, action: { payload: TIngredient }) => {
+        const ingredient = { ...action.payload };
+        state.ingredients.push(ingredient);
+      },
+      prepare: (ingredient: TIngredient) => {
+        return { payload: { ...ingredient, innerId: nanoid() } };
+      },
     },
     deleteIngredient: (state, action: { payload: TIngredient }) => {
       state.ingredients = state.ingredients.filter(
