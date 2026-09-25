@@ -3,6 +3,7 @@ import {
   getOrder,
   getOrderPrice,
 } from '@/services/burger-constructor-service/selectors';
+import { deleteAll } from '@/services/burger-constructor-service/slice';
 import { useAppDispatch } from '@/services/hooks';
 import {
   createOrder,
@@ -40,6 +41,10 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
   };
 
   const pauseOrderHandler = (): void => {
+    if (!createOrderError) {
+      void dispatch(deleteAll());
+    }
+
     closeModal();
   };
 

@@ -36,6 +36,10 @@ export const burgerConstructorSlice = createSlice({
     reorderBurgerConstructorIngredients: (state, action: { payload: TIngredient[] }) => {
       state.ingredients = action.payload;
     },
+    deleteAll: (state) => {
+      state.bun = null;
+      state.ingredients = [];
+    },
   },
   selectors: {
     getBurgerConstructorBun: (state) => state.bun,
@@ -51,4 +55,5 @@ export const {
   addIngredientToBurger,
   deleteIngredient,
   reorderBurgerConstructorIngredients,
+  deleteAll,
 } = burgerConstructorSlice.actions;
