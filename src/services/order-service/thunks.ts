@@ -1,4 +1,4 @@
-import { Urls } from '@/utils/urls';
+import { request } from '@/utils/checkResponse'; // проверь, что путь к файлу верный
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 type TCreateOrderResponse = {
@@ -11,23 +11,27 @@ type TCreateOrderResponse = {
 
 export const sendOrder = createAsyncThunk<number, string[]>(
   'order/createOrder',
-  async (ingredients: string[]) => {
+  async (ingredients: string[], { rejectWithValue }) => {
     const body = {
-      ingredients: ingredients,
+      ingredients,
     };
-    const res = await fetch(`${Urls.apiUrl}/api/orders`, {
+
+    const options: Record<string, unknown> = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+    };
+
+    try {
+      const order = (await request('/api/orders', options)) as TCreateOrderResponse;
+
+      return order.order.number;
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Не удалось создать заказ'
+      );
     }
-
-    const order = (await res.json()) as TCreateOrderResponse;
-
-    return order.order.number;
   }
 );

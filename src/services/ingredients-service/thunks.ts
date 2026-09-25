@@ -1,4 +1,4 @@
-import { Urls } from '@/utils/urls';
+import { request } from '@/utils/checkResponse';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { TIngredient } from '@/utils/types';
@@ -9,17 +9,18 @@ type TIngredientsResponse = {
 
 export const fetchIngredients = createAsyncThunk<TIngredient[], void>(
   'ingredients/fetchIngredients',
-  async () => {
-    const res = await fetch(`${Urls.apiUrl}/api/ingredients`);
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    const { data } = (await res.json()) as TIngredientsResponse;
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = (await request('/api/ingredients')) as TIngredientsResponse;
 
-    if (!Array.isArray(data)) {
-      throw new Error('Поле data не является массивом');
+      if (!Array.isArray(res.data)) {
+        throw new Error('Поле data не является массивом');
+      }
+      return res.data;
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка при загрузке ингредиентов'
+      );
     }
-
-    return data;
   }
 );
