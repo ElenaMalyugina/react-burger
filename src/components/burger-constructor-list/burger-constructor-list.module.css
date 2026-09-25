@@ -3,9 +3,15 @@
   flex-direction: column;
   height: 64vh;
   list-style-type: none;
+  transition: 0.3s;
 }
 
 .burgerConstructorListInner {
   padding-left: 0;
   list-style-type: none;
+}
+
+.isHover {
+  background: radial-gradient(circle, rgb(255 255 255 / 10%), transparent);
+  transition: 0.3s;
 }

@@ -1,5 +1,3 @@
-import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-
 import { BurgerConstructorList } from '../burger-constructor-list/burger-constructor-list';
 import { OrderSummaryBlock } from '../order-summary-block/order-summary-block';
 
@@ -7,27 +5,16 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './burger-constructor.module.css';
 
-type TBurgerConstructorProps = {
-  ingredients: TIngredient[];
-  isLoading: boolean;
-  isError: boolean;
+export type TDraggableElement = {
+  ingredient: TIngredient;
+  index?: number;
 };
 
-export const BurgerConstructor = ({
-  ingredients,
-  isLoading,
-  isError,
-}: TBurgerConstructorProps): React.JSX.Element => {
+export const BurgerConstructor = (): React.JSX.Element => {
   return (
     <section className={`pb-4 ${styles.burger_constructor}`}>
-      {isLoading && <Preloader />}
-      {isError && (
-        <p className="text text_type_main-small mt-2 mb-2">
-          Не удалось получить список ингредиентов
-        </p>
-      )}
-      <BurgerConstructorList ingredients={ingredients} />
-      <OrderSummaryBlock orderIngredients={ingredients} />
+      <BurgerConstructorList />
+      <OrderSummaryBlock />
     </section>
   );
 };

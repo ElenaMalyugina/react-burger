@@ -1,40 +1,50 @@
 import { useModal } from '@/hooks/useModal';
-import { Button } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import {
+  getOrder,
+  getOrderPrice,
+} from '@/services/burger-constructor-service/selectors';
+import { deleteAll } from '@/services/burger-constructor-service/slice';
+import { useAppDispatch } from '@/services/hooks';
+import {
+  createOrder,
+  createOrderLoading,
+  createOrderError,
+} from '@/services/order-service/slice';
+import { sendOrder } from '@/services/order-service/thunks';
+import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
 
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 import { PriceBlock } from '../price-block/price-block';
 
-import type { TIngredient } from '@/utils/types';
 import type React from 'react';
 
 import styles from './order-summary-block.module.css';
 
-type TOrderSummaryBlock = {
-  orderIngredients: TIngredient[];
-};
+export const OrderSummaryBlock = (): React.JSX.Element => {
+  const dispatch = useAppDispatch();
 
-export const OrderSummaryBlock = ({
-  orderIngredients,
-}: TOrderSummaryBlock): React.JSX.Element => {
-  const [totalCost, setTotalCost] = useState(0);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  useEffect(() => {
-    const newSummaryPrice = orderIngredients.reduce(
-      (acc, ingredient) => (acc = acc + ingredient.price),
-      0
-    );
-    setTotalCost(newSummaryPrice);
-  }, [orderIngredients]);
+  const createdOrderId = useSelector(createOrder);
+  const createdOrderLoading = useSelector(createOrderLoading);
+  const createdOrderError = useSelector(createOrderError);
 
-  const createOrder = (): void => {
-    console.log('Заказ создан');
+  const totalCost = useSelector(getOrderPrice);
+
+  const orderData = useSelector(getOrder);
+
+  const createOrderHandler = (): void => {
+    void dispatch(sendOrder(orderData));
     openModal();
   };
 
-  const pauseOrder = (): void => {
+  const pauseOrderHandler = (): void => {
+    if (!createOrderError) {
+      void dispatch(deleteAll());
+    }
+
     closeModal();
   };
 
@@ -43,14 +53,31 @@ export const OrderSummaryBlock = ({
       <section className="ml-5 mr-5 mb-5 mt-5">
         <div className={styles.orderSummaryFlex}>
           <PriceBlock price={totalCost} textClass={'text text_type_main-large'} />
-          <Button onClick={createOrder} size="medium" type="primary" htmlType={'button'}>
+          <Button
+            onClick={createOrderHandler}
+            size="medium"
+            type="primary"
+            htmlType={'button'}
+            disabled={totalCost === 0}
+          >
             Оформить заказ
           </Button>
         </div>
       </section>
       {isModalOpen && (
-        <Modal handleCloseModal={pauseOrder}>
-          <OrderDetails />
+        <Modal handleCloseModal={pauseOrderHandler}>
+          {createdOrderLoading ? (
+            <Preloader />
+          ) : createdOrderError != null ? (
+            <h3 className="text text_type_main-large mt-5">
+              Что-то пошло не так. <br />
+              Проверьте состав заказа.
+            </h3>
+          ) : typeof createdOrderId === 'number' && createdOrderId > 0 ? (
+            <OrderDetails orderId={createdOrderId} />
+          ) : (
+            ''
+          )}
         </Modal>
       )}
     </>
