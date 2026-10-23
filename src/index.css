@@ -40,3 +40,28 @@ body {
   margin: 0 auto;
   overflow: hidden;
 }
+
+.container{
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.page-header{
+  text-align: center;
+}
+
+.form-block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.note{
+  text-align: center;
+}
+
+.note a{
+  text-decoration: none;
+  color: var(--colors-interface-accent) ;
+}

@@ -1,17 +1,9 @@
 import { RouterProvider } from 'react-router-dom';
-
-import { AppHeader } from '@components/app-header/app-header';
-
-import { router } from '../router/router';
-
-import styles from './app.module.css';
+import { router } from '../../router/router';
 
 export const App = (): React.JSX.Element => {
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <RouterProvider router={router} />
-    </div>
+    <RouterProvider router={router} />
   );
 };
 
