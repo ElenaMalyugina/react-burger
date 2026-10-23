@@ -1,7 +1,10 @@
 .ingredientCard {
   position: relative;
+  display: block;
   margin-right: 12px;
+  color: #fff;
   text-align: center;
+  text-decoration: none;
   cursor: pointer;
   transition: 0.3s;
 }
