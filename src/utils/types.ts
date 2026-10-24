@@ -15,3 +15,5 @@ export type TIngredient = {
   __v: number;
   innerId?: string;
 };
+
+
