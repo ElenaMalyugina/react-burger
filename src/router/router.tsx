@@ -8,7 +8,7 @@ import { LoginPage } from '@/pages/LoginPage';
 import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
 import { ResetPasswordPage } from '@/pages/ResetPasswordPage';
 import { FeedPage } from '@/pages/FeedPage';
-import { ProfileRootPage } from '@/pages/ProfileRootPage';
+import { ProfileRootPage } from '@/pages/ProfileRootPage/ProfileRootPage';
 import { ProfileOrderPage } from '@/pages/ProfileOrderPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { Layout } from '@/components/layout/layout';
