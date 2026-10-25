@@ -17,7 +17,7 @@ type TRegisterResponse = {
   success: boolean;
 };
 
-export const registerSend = createAsyncThunk<TRegisterResponse, TRegisterDataState >(
+export const registerSend = createAsyncThunk<TRegisterResponse, TRegisterDataState, { rejectValue: string } >(
   'register/registerSend',
   async (userData: TRegisterDataState , { rejectWithValue }) => {
     const body = userData;
@@ -35,6 +35,7 @@ export const registerSend = createAsyncThunk<TRegisterResponse, TRegisterDataSta
 
       return regResponse;
     } catch (error: unknown) {
+
       return rejectWithValue(
         error instanceof Error ? error.message : 'Ошибка регистрации'
       );

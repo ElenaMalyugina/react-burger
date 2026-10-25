@@ -1,7 +1,9 @@
 import { useAppDispatch } from "@/services/hooks";
+import { registerError, registerLoading } from "@/services/register-service/slice";
 import { registerSend, type TRegisterDataState } from "@/services/register-service/thunks";
-import { Button, EmailInput, Input, PasswordInput } from "@krgaa/react-developer-burger-ui-components"
+import { Button, EmailInput, Input, PasswordInput, Preloader } from "@krgaa/react-developer-burger-ui-components"
 import { useState } from "react"
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"
 
 const initialState: TRegisterDataState = {
@@ -14,6 +16,9 @@ export const RegisterPage = (): React.JSX.Element=>{
   const dispatch = useAppDispatch();
 
   const [registerData, setRegisterData] = useState<TRegisterDataState>(initialState);
+
+  const isLoading = useSelector(registerLoading);
+  const regError = useSelector(registerError);
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>):void=>{
     const target = event.target;
@@ -28,8 +33,6 @@ export const RegisterPage = (): React.JSX.Element=>{
 
   const submitHandler = (event: React.SyntheticEvent)=>{
     event.preventDefault();
-    console.log(registerData);
-
     dispatch(registerSend(registerData));
 
   }
@@ -66,13 +69,20 @@ export const RegisterPage = (): React.JSX.Element=>{
             value={registerData.password}
             required
           />
-
-          <Button
-            size="medium"
-            type="primary"
-            htmlType={"submit"} >
-            Зарегистироваться
-          </Button>
+          {!isLoading &&
+            <Button
+              size="medium"
+              type="primary"
+              htmlType={"submit"} >
+              Зарегистироваться
+            </Button>
+          }
+          {isLoading &&
+            <Preloader/>
+          }
+          {regError &&
+            <p className="error-text text text_type_main-default">{regError}</p>
+          }
         </div>
 
       </form>

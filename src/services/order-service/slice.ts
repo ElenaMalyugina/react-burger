@@ -35,7 +35,7 @@ export const orderSlice = createSlice({
       })
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? 'Не удалось загрузить ингредиенты';
+        state.error = action.payload ?? 'Не удалось создать заказ';
       });
   },
 });

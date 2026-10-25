@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchIngredients } from './thunks';
 
 import type { TIngredient } from '@/utils/types';
+import { act } from 'react';
 
 type TIngredientsState = {
   ingredients: TIngredient[];

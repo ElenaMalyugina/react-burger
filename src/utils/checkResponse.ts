@@ -1,10 +1,25 @@
 import { Urls } from '@/utils/urls';
 
+type ResponseError = {
+  message: string;
+}
+
 const checkResponse = async (res: Response): Promise<unknown> => {
+  const resData: unknown = await res.json().catch(()=>null);
+
   if (!res.ok) {
-    throw new Error(`HTTP error! status: ${res.status}`);
+
+    const errorData = resData as ResponseError | null;
+
+    // Проверяем, что поле действительно есть и это строка
+    if (errorData?.message) {
+      throw new Error(errorData.message);
+    }
+
+    throw new Error("Что-то пошло не так");
   }
-  return await res.json();
+
+  return resData;
 };
 
 export const request = (
