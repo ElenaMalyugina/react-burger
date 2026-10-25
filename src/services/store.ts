@@ -5,13 +5,17 @@ import { ingredientsSlice } from './ingredients-service/slice';
 import { orderSlice } from './order-service/slice';
 import { selectedIngredientSlice } from './selected-ingredient-service/slice';
 import { registerSlice } from './register-service/slice';
+import { loginSlice } from './login-service/slice';
+import { logoutSlice } from './logout-service/slice';
 
 const rootReducer = combineSlices(
   ingredientsSlice,
   selectedIngredientSlice,
   orderSlice,
   burgerConstructorSlice,
-  registerSlice
+  registerSlice,
+  loginSlice,
+  logoutSlice
 );
 
 export const store = configureStore({

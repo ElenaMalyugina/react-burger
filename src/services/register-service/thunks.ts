@@ -1,4 +1,5 @@
 import { request } from '@/utils/checkResponse';
+import { saveAuthTokens } from '@/utils/token';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export type TRegisterDataState = {
@@ -32,6 +33,11 @@ export const registerSend = createAsyncThunk<TRegisterResponse, TRegisterDataSta
 
     try {
       const regResponse = (await request('/api/auth/register', options)) as TRegisterResponse;
+
+      /*const accessToken = regResponse.accessToken;
+      const refreshToken = regResponse.refreshToken;
+
+      saveAuthTokens(accessToken, refreshToken); - надо? все равно уходим на логин*/
 
       return regResponse;
     } catch (error: unknown) {
