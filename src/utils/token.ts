@@ -15,6 +15,10 @@ export const saveAuthTokens = (accessToken: string, refreshToken: string):void=>
   localStorage.setItem('refreshToken', refreshToken);
 }
 
+export const getAccessToken = (): string | null=>{
+  return localStorage.getItem('accessToken');
+}
+
 export const getRefreshToken = (): string | null=>{
   return localStorage.getItem('refreshToken');
 }
@@ -24,7 +28,7 @@ export const clearTokens = ()=>{
   localStorage.removeItem('refreshToken');
 }
 
-export async function refreshToken(): Promise<TTokenResponse> {
+export const refreshToken = async(): Promise<TTokenResponse> =>{
   const options: Record<string, unknown> = {
     method: 'POST',
     headers: {

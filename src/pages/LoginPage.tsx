@@ -13,13 +13,13 @@ const initialState: TLoginDataState = {
 
 
 
-export const LoginPage =(): React.JSX.Element=>{
+export const LoginPage = (): React.JSX.Element=>{
   const dispatch = useAppDispatch();
 
   const [loginData, setLoginData] = useState<TLoginDataState>(initialState);
 
   const isLoading = useSelector(loginLoading);
-  const regError = useSelector(loginError);
+  const formError = useSelector(loginError);
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>):void=>{
     const target = event.target;
@@ -70,8 +70,8 @@ export const LoginPage =(): React.JSX.Element=>{
           {isLoading &&
             <Preloader/>
           }
-          {regError &&
-            <p className="error-text text text_type_main-default">{regError}</p>
+          {formError &&
+            <p className="error-text text text_type_main-default">{formError}</p>
           }
         </div>
 

@@ -8,6 +8,7 @@ export const ProfilePage =(): React.JSX.Element=>{
       <form action="">
         <div className="form-block">
           <Input
+            icon="EditIcon"
             name="name"
             onChange={function fee(){}}
             placeholder="Имя"
@@ -17,7 +18,8 @@ export const ProfilePage =(): React.JSX.Element=>{
           />
 
           <EmailInput
-            name="email"
+            isIcon
+            name="login"
             onChange={function fee(){}}
             placeholder="E-mail"
             value={''}

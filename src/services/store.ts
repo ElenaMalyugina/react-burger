@@ -7,6 +7,7 @@ import { selectedIngredientSlice } from './selected-ingredient-service/slice';
 import { registerSlice } from './register-service/slice';
 import { loginSlice } from './login-service/slice';
 import { logoutSlice } from './logout-service/slice';
+import { forgotPasswordSlice } from './forgot-password-service/slice';
 
 const rootReducer = combineSlices(
   ingredientsSlice,
@@ -15,7 +16,8 @@ const rootReducer = combineSlices(
   burgerConstructorSlice,
   registerSlice,
   loginSlice,
-  logoutSlice
+  logoutSlice,
+  forgotPasswordSlice
 );
 
 export const store = configureStore({
