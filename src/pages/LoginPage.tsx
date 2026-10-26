@@ -11,8 +11,6 @@ const initialState: TLoginDataState = {
   password: ''
 }
 
-
-
 export const LoginPage = (): React.JSX.Element=>{
   const dispatch = useAppDispatch();
 
