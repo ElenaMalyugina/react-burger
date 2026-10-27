@@ -1,14 +1,15 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
 import { burgerConstructorSlice } from './burger-constructor-service/slice';
+import { editProfileSlice } from './edit-profile-service/slice';
+import { forgotPasswordSlice } from './forgot-password-service/slice';
 import { ingredientsSlice } from './ingredients-service/slice';
-import { orderSlice } from './order-service/slice';
-import { selectedIngredientSlice } from './selected-ingredient-service/slice';
-import { registerSlice } from './register-service/slice';
 import { loginSlice } from './login-service/slice';
 import { logoutSlice } from './logout-service/slice';
-import { forgotPasswordSlice } from './forgot-password-service/slice';
+import { orderSlice } from './order-service/slice';
+import { registerSlice } from './register-service/slice';
 import { resetPasswordSlice } from './reset-password-service/slice';
+import { selectedIngredientSlice } from './selected-ingredient-service/slice';
 
 const rootReducer = combineSlices(
   ingredientsSlice,
@@ -19,7 +20,8 @@ const rootReducer = combineSlices(
   loginSlice,
   logoutSlice,
   forgotPasswordSlice,
-  resetPasswordSlice
+  resetPasswordSlice,
+  editProfileSlice
 );
 
 export const store = configureStore({
