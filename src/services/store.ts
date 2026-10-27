@@ -1,5 +1,6 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
+import { authSlice } from './auth-service/slice';
 import { burgerConstructorSlice } from './burger-constructor-service/slice';
 import { editProfileSlice } from './edit-profile-service/slice';
 import { forgotPasswordSlice } from './forgot-password-service/slice';
@@ -21,7 +22,8 @@ const rootReducer = combineSlices(
   logoutSlice,
   forgotPasswordSlice,
   resetPasswordSlice,
-  editProfileSlice
+  editProfileSlice,
+  authSlice
 );
 
 export const store = configureStore({

@@ -1,16 +1,13 @@
 import { Urls } from '@/utils/urls';
-import { getAccessToken, refreshToken, saveAuthTokens } from './token';
 
-type ResponseError = {
-  message?: string;
-  status?: number;
-}
+import { getAccessToken, refreshToken } from './token';
+
+type ResponseError = Error & { status?: number };
 
 const checkResponse = async (res: Response): Promise<unknown> => {
-  const resData: unknown = await res.json().catch(()=>null);
+  const resData: unknown = await res.json().catch(() => null);
 
   if (!res.ok) {
-
     const errorData = resData as ResponseError | null;
 
     const message = errorData?.message ?? 'Что-то пошло не так';
@@ -32,7 +29,10 @@ export const request = (
   return fetch(url, options).then(checkResponse);
 };
 
-const updateOptions = (options: Record<string, unknown>, token: string): Record<string, unknown>=>{
+const updateOptions = (
+  options: Record<string, unknown>,
+  token: string
+): Record<string, unknown> => {
   const newHeaders = new Headers(options?.headers as HeadersInit);
   newHeaders.set('authorization', token);
 
@@ -42,7 +42,7 @@ const updateOptions = (options: Record<string, unknown>, token: string): Record<
   };
 
   return updatedOptions;
-}
+};
 
 //запрос с возможным обновлением токена
 export const fetchWithRefresh = async (
@@ -50,19 +50,17 @@ export const fetchWithRefresh = async (
   options?: Record<string, unknown>
 ): Promise<unknown> => {
   const accessToken = getAccessToken();
-  if(!accessToken) return; //выкинуть чего пострашнее, перекинуть на логин
-  if(!options){
-    options = {}
-  }
-  const updatedOptions = updateOptions(options, accessToken)
+  if (!accessToken) throw new Error('No token'); //выкинуть чего пострашнее, перекинуть на логин
+
+  options ??= {};
+
+  const updatedOptions = updateOptions(options, accessToken);
 
   try {
     return await request(endpoint, updatedOptions);
-  }
-  catch (error: unknown) {
+  } catch (error: unknown) {
     // Проверяем, что это именно наша ошибка со статусом
     if (error instanceof Error && 'status' in error) {
-
       const status = (error as ResponseError).status;
 
       if (status === 401 || status === 403) {
@@ -76,4 +74,4 @@ export const fetchWithRefresh = async (
     }
     throw error;
   }
-}
+};
