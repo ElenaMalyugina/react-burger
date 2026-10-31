@@ -10,7 +10,7 @@ import { ResetPasswordPage } from '@/pages/ResetPasswordPage';
 import { FeedPage } from '@/pages/FeedPage';
 import { ProfileRootPage } from '@/pages/ProfileRootPage/ProfileRootPage';
 import { ProfileOrderPage } from '@/pages/ProfileOrderPage';
-import { ProfilePage } from '@/pages/ProfilePage';
+import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { Layout } from '@/components/layout/layout';
 import { ProtectedRoute } from './protected-route';
 

@@ -5,12 +5,15 @@ import {
 } from '@/services/edit-profile-service/thunks';
 import { useAppDispatch } from '@/services/hooks';
 import {
+  Button,
   EmailInput,
   Input,
   PasswordInput,
+  Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import styles from './profile-page.module.css';
 
 const initialState: TProfileDataState = {
   email: '',
@@ -24,18 +27,28 @@ export const ProfilePage = (): React.JSX.Element => {
 
   const [profileData, setProfileData] = useState(initialState);
 
+  const [originalData, setOriginalData] = useState<Pick<TProfileDataState, 'name' | 'email'>>({
+    name: '',
+    email: '',
+  });
+
   const isLoading = useSelector(authLoading);
   const formError = useSelector(authError);
 
   useEffect(()=>{
+    const name = profileDataFromServer?.name ?? '';
+    const email = profileDataFromServer?.email ?? '';
+
     setProfileData((prev)=>({
       ...prev,
-      name: (profileDataFromServer?.name ?? ""),
-      email: (profileDataFromServer?.email ?? ""),
+      name,
+      email,
     }));
 
+    setOriginalData({ name, email });
   }, [profileDataFromServer]);
 
+  const hasChanges = profileData.name !== originalData.name || profileData.email !== originalData.email;
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const target = event.target;
@@ -53,14 +66,19 @@ export const ProfilePage = (): React.JSX.Element => {
     void dispatch(editProfileSend(profileData));
   };
 
+  const resetHandler = ():void =>{
+    setProfileData((prev)=>({
+      ...prev,
+      name: (profileDataFromServer?.name ?? ""),
+      email: (profileDataFromServer?.email ?? ""),
+    }));
+  }
+
   return (
     <>
       <div className="container">
         <h1 className="title page-header text text_type_main-large mb-10">Профиль</h1>
-        <form
-          action="https://new-stellarburgers.education-services.ru/api/auth/user"
-          onSubmit={submitHandler}
-        >
+        <form onSubmit={submitHandler}>
           <div className="form-block">
             <Input
               icon="EditIcon"
@@ -87,8 +105,22 @@ export const ProfilePage = (): React.JSX.Element => {
               name="password"
               onChange={changeInputHandler}
               value={profileData.password}
-              required
             />
+
+            {!isLoading && hasChanges && (
+              <div className={styles.buttonsWrapper}>
+                <Button size="medium" type="primary" htmlType={'submit'}>
+                  Сохранить
+                </Button>
+                <Button size="medium" type="primary" htmlType={'button'} onClick={resetHandler}>
+                  Отмена
+                </Button>
+              </div>
+            )}
+            {isLoading && <Preloader />}
+            {formError && (
+              <p className="error-text text text_type_main-default">{formError}</p>
+            )}
           </div>
         </form>
       </div>

@@ -25,7 +25,7 @@ export const editProfileSend = createAsyncThunk<
     const body = data;
 
     const options: Record<string, unknown> = {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
@@ -34,7 +34,7 @@ export const editProfileSend = createAsyncThunk<
 
     try {
       const editProfileResponse = (await fetchWithRefresh(
-        '/api/password-reset/reset',
+        '/api/auth/user',
         options
       )) as TEditProfileResponse;
       return editProfileResponse;

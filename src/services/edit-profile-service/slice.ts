@@ -21,7 +21,7 @@ export const editProfileSlice = createSlice({
   selectors: {
     editProfileResult: (state) => state.response ?? null,
     editProfileError: (state) => state.error ?? null,
-    editProfileLoading: (state) => state.loading ?? false,
+    editProfileLoading: (state) => state.loading ?? false
   },
   extraReducers: (builder) => {
     builder
