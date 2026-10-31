@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { authSend, type TAuthResponse } from './thunks';
 
-import { authSend } from './thunks';
 
 type TAuthResponseState = {
-  response: unknown;
+  authUserData: TAuthResponse | null;
+  isAuth:  boolean;
   loading: boolean;
   error: string | null;
 };
 
 const initialState: TAuthResponseState = {
-  response: null,
+  authUserData: null,
+  isAuth: false,
   loading: false,
   error: null as string | null,
 };
@@ -19,7 +21,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    authResult: (state) => state.response ?? null,
+    authResult: (state) => state.authUserData ?? null,
+    isAuthResult: (state) => state.isAuth ?? false,
     authError: (state) => state.error ?? null,
     authLoading: (state) => state.loading ?? false,
   },
@@ -31,7 +34,8 @@ export const authSlice = createSlice({
       })
       .addCase(authSend.fulfilled, (state, action) => {
         state.loading = false;
-        state.response = action.payload;
+        state.isAuth = true;
+        state.authUserData = action.payload;
       })
       .addCase(authSend.rejected, (state, action) => {
         state.loading = false;

@@ -1,6 +1,7 @@
+import { authError, authLoading, authResult } from '@/services/auth-service/slice';
 import {
   editProfileSend,
-  type TEditProfileDataState,
+  type TProfileDataState,
 } from '@/services/edit-profile-service/thunks';
 import { useAppDispatch } from '@/services/hooks';
 import {
@@ -8,9 +9,10 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const initialState: TEditProfileDataState = {
+const initialState: TProfileDataState = {
   email: '',
   name: '',
   password: '',
@@ -18,7 +20,22 @@ const initialState: TEditProfileDataState = {
 
 export const ProfilePage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const [profileData, setProfileData] = useState<TEditProfileDataState>(initialState);
+  const profileDataFromServer = useSelector(authResult)?.user;
+
+  const [profileData, setProfileData] = useState(initialState);
+
+  const isLoading = useSelector(authLoading);
+  const formError = useSelector(authError);
+
+  useEffect(()=>{
+    setProfileData((prev)=>({
+      ...prev,
+      name: (profileDataFromServer?.name ?? ""),
+      email: (profileDataFromServer?.email ?? ""),
+    }));
+
+  }, [profileDataFromServer]);
+
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const target = event.target;

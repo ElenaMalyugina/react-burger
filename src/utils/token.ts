@@ -37,9 +37,10 @@ export const refreshToken = async(): Promise<TTokenResponse> =>{
     body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
   };
 
-  const refreshData = await request('auth/token', options) as TTokenResponse;
-
-  saveAuthTokens(refreshData.accessToken, refreshData.refreshToken)
+  const refreshData = await request('api/auth/token', options) as TTokenResponse;
+  saveAuthTokens(refreshData.accessToken, refreshData.refreshToken);
 
   return refreshData;
+
+
 }

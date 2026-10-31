@@ -50,17 +50,18 @@ export const fetchWithRefresh = async (
   options?: Record<string, unknown>
 ): Promise<unknown> => {
   const accessToken = getAccessToken();
+
   if (!accessToken) throw new Error('No token'); //выкинуть чего пострашнее, перекинуть на логин
 
   options ??= {};
 
   const updatedOptions = updateOptions(options, accessToken);
-
   try {
     return await request(endpoint, updatedOptions);
   } catch (error: unknown) {
     // Проверяем, что это именно наша ошибка со статусом
     if (error instanceof Error && 'status' in error) {
+
       const status = (error as ResponseError).status;
 
       if (status === 401 || status === 403) {

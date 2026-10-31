@@ -1,4 +1,4 @@
-import { fetchWithRefresh } from '@/utils/checkResponse';
+import { fetchWithRefresh, request } from '@/utils/checkResponse';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export type TAuthResponse = {
@@ -14,19 +14,11 @@ export const authSend = createAsyncThunk<TAuthResponse, null, { rejectValue: str
   async (_, { rejectWithValue }) => {
     const options: Record<string, unknown> = {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
     };
 
     try {
-      //const accessToken = getAccessToken();
-      //const refreshToken = getRefreshToken();
-
-      //где проверять вообще наличие токенов?
-
       const authResponse = (await fetchWithRefresh(
-        '/api/auth/login',
+        '/api/auth/user',
         options
       )) as TAuthResponse;
 

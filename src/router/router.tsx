@@ -12,6 +12,7 @@ import { ProfileRootPage } from '@/pages/ProfileRootPage/ProfileRootPage';
 import { ProfileOrderPage } from '@/pages/ProfileOrderPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { Layout } from '@/components/layout/layout';
+import { ProtectedRoute } from './protected-route';
 
 export const router = createBrowserRouter([
   {
@@ -30,19 +31,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'register',
-        element: <RegisterPage/>
+        element: <ProtectedRoute component={<RegisterPage/>} onlyUnAuth={true}/>
       },
       {
         path: 'login',
-        element: <LoginPage/>
+        element: <ProtectedRoute component={<LoginPage/>} onlyUnAuth={true}/>
       },
       {
         path: 'forgot-password',
-        element: <ForgotPasswordPage/>
+        element: <ProtectedRoute component={<ForgotPasswordPage/>} onlyUnAuth={true}/>
       },
       {
         path: 'reset-password',
-        element: <ResetPasswordPage/>
+        element: <ProtectedRoute component={<ResetPasswordPage/>} onlyUnAuth={true}/>
       },
       {
         path: 'feed',
@@ -50,7 +51,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <ProfileRootPage />,
+        element: <ProtectedRoute component={<ProfileRootPage />} onlyUnAuth={false} />,
         children:[
           {
             path: '',

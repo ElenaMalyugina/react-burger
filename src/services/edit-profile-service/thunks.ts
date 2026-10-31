@@ -1,7 +1,7 @@
 import { fetchWithRefresh } from '@/utils/checkResponse';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export type TEditProfileDataState = {
+export type TProfileDataState = {
   name: string;
   email: string;
   password: string;
@@ -17,11 +17,11 @@ export type TEditProfileResponse = {
 
 export const editProfileSend = createAsyncThunk<
   TEditProfileResponse,
-  TEditProfileDataState,
+  TProfileDataState,
   { rejectValue: string }
 >(
   'editProfile/editProfileSend',
-  async (data: TEditProfileDataState, { rejectWithValue }) => {
+  async (data: TProfileDataState, { rejectWithValue }) => {
     const body = data;
 
     const options: Record<string, unknown> = {
