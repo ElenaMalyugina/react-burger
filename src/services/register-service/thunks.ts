@@ -7,7 +7,7 @@ export type TRegisterDataState = {
   password: string;
 };
 
-type TRegisterResponse = {
+export type TRegisterResponse = {
   accessToken: string;
   refreshToken: string;
   user: {

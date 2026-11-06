@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { forgotPasswordSend } from './thunks';
+import { forgotPasswordSend, type TForgotPasswordResponse } from './thunks';
 
 type TForgotPasswordResponseState = {
-  response: unknown;
+  response: TForgotPasswordResponse | null;
   loading: boolean;
   error: string | null;
   resetRequested: boolean;

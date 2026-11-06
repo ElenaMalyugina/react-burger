@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/services/hooks';
-import { logoutLoading, logoutResult } from '@/services/logout-service/slice';
+import { logoutLoading } from '@/services/logout-service/slice';
 import { logoutSend } from '@/services/logout-service/thunks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ export const ProfileRootPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const exitLoading = useSelector(logoutLoading);
-  const exitSuccess = useSelector(logoutResult);
 
   const logoutHandler = async (event: SyntheticEvent): Promise<void> => {
     event.preventDefault();
@@ -56,7 +55,6 @@ export const ProfileRootPage = (): React.JSX.Element => {
             <Outlet />
           </section>
         </div>
-        {exitSuccess && <p className="text text_type_main-default">{exitSuccess}</p>}
         {exitLoading && <Preloader />}
       </div>
     </main>

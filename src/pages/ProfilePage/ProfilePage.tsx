@@ -1,4 +1,5 @@
 import { authError, authLoading, authResult } from '@/services/auth-service/slice';
+import { editProfileIsUpdated } from '@/services/edit-profile-service/slice';
 import {
   editProfileSend,
   type TProfileDataState,
@@ -25,6 +26,7 @@ const initialState: TProfileDataState = {
 export const ProfilePage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const profileDataFromServer = useSelector(authResult);
+  const isUpdatedData = useSelector(editProfileIsUpdated);
 
   const [profileData, setProfileData] = useState(initialState);
 
@@ -65,9 +67,11 @@ export const ProfilePage = (): React.JSX.Element => {
     }));
   };
 
-  const submitHandler = (event: React.SyntheticEvent): void => {
+  const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    void dispatch(editProfileSend(profileData));
+    await dispatch(editProfileSend(profileData));
+
+    setOriginalData(profileData);
   };
 
   const resetHandler = (): void => {
@@ -129,6 +133,9 @@ export const ProfilePage = (): React.JSX.Element => {
             {isLoading && <Preloader />}
             {formError && (
               <p className="error-text text text_type_main-default">{formError}</p>
+            )}
+            {isUpdatedData && !hasChanges && (
+              <p className="text text_type_main-default">Данные успешно изменены</p>
             )}
           </div>
         </form>

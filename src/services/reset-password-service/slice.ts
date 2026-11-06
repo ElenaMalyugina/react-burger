@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { resetPasswordSend } from './thunks';
+import { resetPasswordSend, type TResetPasswordResponse } from './thunks';
 
 type TResetPasswordResponseState = {
-  response: unknown;
+  response: TResetPasswordResponse | null;
   loading: boolean;
   error: string | null;
-}
+};
 
 const initialState: TResetPasswordResponseState = {
   response: null,
   loading: false,
   error: null as string | null,
-}
+};
 
 export const resetPasswordSlice = createSlice({
   name: 'resetPassword',

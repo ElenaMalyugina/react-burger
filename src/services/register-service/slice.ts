@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { registerSend } from './thunks';
+import { registerSend, type TRegisterResponse } from './thunks';
 
 type TRegisterResponseDataState = {
-  response: unknown;
+  response: TRegisterResponse | null;
   loading: boolean;
   error: string | null;
-}
+};
 
 const initialState: TRegisterResponseDataState = {
   response: null,
   loading: false,
   error: null as string | null,
-}
+};
 
 export const registerSlice = createSlice({
   name: 'register',

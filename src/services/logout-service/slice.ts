@@ -32,6 +32,7 @@ export const logoutSlice = createSlice({
       .addCase(logoutSend.fulfilled, (state, action) => {
         state.loading = false;
         state.response = action.payload.message;
+        state.error = null;
       })
       .addCase(logoutSend.rejected, (state, action) => {
         state.loading = false;
