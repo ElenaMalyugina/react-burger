@@ -137,8 +137,12 @@ export default defineConfig(
       'react-hooks/exhaustive-deps': 'off',
       '@typescript-eslint/no-misused-promises': [
         'error',
-        { checksVoidReturn: { attributes: false } },
-      ],
+        {
+          checksVoidReturn: {
+            attributes: false
+          }
+        }
+      ]
     },
     settings: {
       'css-modules': {

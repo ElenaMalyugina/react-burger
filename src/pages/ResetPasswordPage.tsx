@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-
 import {
   forgotPasswordLoading,
   forgotPasswordRequested,
@@ -58,19 +56,15 @@ export const ResetPasswordPage = (): React.JSX.Element | null => {
     }));
   };
 
-  const submitHandler = (event: React.FormEvent): void => {
+  const submitHandler = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
-    dispatch(resetPasswordSend(resetPasswordData))
-      .then((result) => {
-        if (resetPasswordSend.fulfilled.match(result)) {
-          dispatch(resetForgotPasswordState());
-          navigate('/login', { replace: true });
-        }
-      })
-      .catch(() => {
-        console.log('error');
-      });
+    const result = await dispatch(resetPasswordSend(resetPasswordData));
+
+    if (resetPasswordSend.fulfilled.match(result)) {
+      dispatch(resetForgotPasswordState());
+      void navigate('/login', { replace: true });
+    }
   };
 
   return (
