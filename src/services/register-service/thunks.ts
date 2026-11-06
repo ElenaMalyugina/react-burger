@@ -1,5 +1,4 @@
 import { request } from '@/utils/checkResponse';
-import { saveAuthTokens } from '@/utils/token';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export type TRegisterDataState = {
@@ -18,33 +17,31 @@ type TRegisterResponse = {
   success: boolean;
 };
 
-export const registerSend = createAsyncThunk<TRegisterResponse, TRegisterDataState, { rejectValue: string } >(
-  'register/registerSend',
-  async (userData: TRegisterDataState , { rejectWithValue }) => {
-    const body = userData;
+export const registerSend = createAsyncThunk<
+  TRegisterResponse,
+  TRegisterDataState,
+  { rejectValue: string }
+>('register/registerSend', async (userData: TRegisterDataState, { rejectWithValue }) => {
+  const body = userData;
 
-    const options: Record<string, unknown> = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(body),
-    };
+  const options: Record<string, unknown> = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(body),
+  };
 
-    try {
-      const regResponse = (await request('/api/auth/register', options)) as TRegisterResponse;
+  try {
+    const regResponse = (await request(
+      '/api/auth/register',
+      options
+    )) as TRegisterResponse;
 
-      /*const accessToken = regResponse.accessToken;
-      const refreshToken = regResponse.refreshToken;
-
-      saveAuthTokens(accessToken, refreshToken); - надо? все равно уходим на логин*/
-
-      return regResponse;
-    } catch (error: unknown) {
-
-      return rejectWithValue(
-        error instanceof Error ? error.message : 'Ошибка регистрации'
-      );
-    }
+    return regResponse;
+  } catch (error: unknown) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : 'Ошибка регистрации'
+    );
   }
-);
+});

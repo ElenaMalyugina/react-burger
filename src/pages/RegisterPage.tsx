@@ -13,7 +13,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialState: TRegisterDataState = {
   name: '',
@@ -23,6 +23,7 @@ const initialState: TRegisterDataState = {
 
 export const RegisterPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [registerData, setRegisterData] = useState<TRegisterDataState>(initialState);
 
@@ -40,9 +41,10 @@ export const RegisterPage = (): React.JSX.Element => {
     }));
   };
 
-  const submitHandler = (event: React.SyntheticEvent): void => {
+  const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    void dispatch(registerSend(registerData));
+    await dispatch(registerSend(registerData));
+    void navigate('/login', { replace: true });
   };
 
   return (

@@ -44,7 +44,7 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
     await dispatch(forgotPasswordSend(forgotPasswordData));
-    void navigate('/login', { replace: true });
+    void navigate('/reset-password', { replace: true });
   };
 
   return (
