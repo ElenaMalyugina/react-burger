@@ -52,10 +52,7 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
         <h1 className="title page-header text text_type_main-large mb-10">
           Восстановление пароля
         </h1>
-        <form
-          action="https://new-stellarburgers.education-services.ru/api/password-reset"
-          onSubmit={submitHandler}
-        >
+        <form onSubmit={submitHandler}>
           <div className="form-block">
             <EmailInput
               name="email"

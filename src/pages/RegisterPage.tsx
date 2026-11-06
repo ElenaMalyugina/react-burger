@@ -51,10 +51,7 @@ export const RegisterPage = (): React.JSX.Element => {
         <h1 className="title page-header text text_type_main-large mb-10">
           Регистрация
         </h1>
-        <form
-          action="https://new-stellarburgers.education-services.ru/api/auth/register"
-          onSubmit={submitHandler}
-        >
+        <form onSubmit={submitHandler}>
           <div className="form-block">
             <Input
               name="name"

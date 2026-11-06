@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+
+import {
+  forgotPasswordLoading,
+  forgotPasswordRequested,
+  resetForgotPasswordState,
+} from '@/services/forgot-password-service/slice';
 import { useAppDispatch } from '@/services/hooks';
 import {
   resetPasswordError,
@@ -14,21 +21,31 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const initialState: TResetPasswordDataState = {
   password: '',
   token: '',
 };
 
-export const ResetPasswordPage = (): React.JSX.Element => {
+export const ResetPasswordPage = (): React.JSX.Element | null => {
+  const resetRequested = useSelector(forgotPasswordRequested);
+  const loading = useSelector(forgotPasswordLoading);
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const [resetPasswordData, setResetPasswordData] =
     useState<TResetPasswordDataState>(initialState);
-
   const isLoading = useSelector(resetPasswordLoading);
   const formError = useSelector(resetPasswordError);
+
+  // пока идёт запрос forgotPasswordSend — не решаем, разрешать ли доступ
+  if (loading) {
+    return null;
+  }
+
+  if (!resetRequested) {
+    return <Navigate to="/forgot-password" replace />;
+  }
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const target = event.target;
@@ -41,10 +58,19 @@ export const ResetPasswordPage = (): React.JSX.Element => {
     }));
   };
 
-  const submitHandler = (event: React.SyntheticEvent): void => {
+  const submitHandler = (event: React.FormEvent): void => {
     event.preventDefault();
-    void dispatch(resetPasswordSend(resetPasswordData));
-    //редирект
+
+    dispatch(resetPasswordSend(resetPasswordData))
+      .then((result) => {
+        if (resetPasswordSend.fulfilled.match(result)) {
+          dispatch(resetForgotPasswordState());
+          navigate('/login', { replace: true });
+        }
+      })
+      .catch(() => {
+        console.log('error');
+      });
   };
 
   return (
@@ -53,10 +79,7 @@ export const ResetPasswordPage = (): React.JSX.Element => {
         <h1 className="title page-header text text_type_main-large mb-10">
           Сброс пароля
         </h1>
-        <form
-          action="https://new-stellarburgers.education-services.ru/api/password-reset/reset"
-          onSubmit={submitHandler}
-        >
+        <form onSubmit={submitHandler}>
           <div className="form-block">
             <PasswordInput
               icon="ShowIcon"

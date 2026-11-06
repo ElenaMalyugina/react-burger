@@ -1,28 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authSend, type TAuthResponse } from './thunks';
 
+import { authSend, type TAuthResponse } from './thunks';
 
 type TAuthResponseState = {
   authUserData: TAuthResponse | null;
-  isAuth:  boolean;
+  isAuthChecked: boolean;
   loading: boolean;
   error: string | null;
 };
 
 const initialState: TAuthResponseState = {
   authUserData: null,
-  isAuth: false,
+  isAuthChecked: false,
   loading: false,
   error: null as string | null,
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: 'authSend',
   initialState,
   reducers: {},
   selectors: {
     authResult: (state) => state.authUserData ?? null,
-    isAuthResult: (state) => state.isAuth ?? false,
+    isAuthResult: (state) => state.isAuthChecked,
     authError: (state) => state.error ?? null,
     authLoading: (state) => state.loading ?? false,
   },
@@ -34,14 +34,16 @@ export const authSlice = createSlice({
       })
       .addCase(authSend.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuth = true;
+        state.isAuthChecked = true;
         state.authUserData = action.payload;
       })
       .addCase(authSend.rejected, (state, action) => {
         state.loading = false;
+        state.isAuthChecked = true;
+        state.authUserData = null;
         state.error = action.payload ?? 'Ошибка обновления профиля';
       });
   },
 });
 
-export const { authResult, authLoading, authError } = authSlice.selectors;
+export const { authResult, isAuthResult, authLoading, authError } = authSlice.selectors;

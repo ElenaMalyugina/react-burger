@@ -1,4 +1,4 @@
-import { fetchWithRefresh, request } from '@/utils/checkResponse';
+import { fetchWithRefresh } from '@/utils/checkResponse';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export type TAuthResponse = {
@@ -10,7 +10,7 @@ export type TAuthResponse = {
 };
 
 export const authSend = createAsyncThunk<TAuthResponse, null, { rejectValue: string }>(
-  'auth/authSend',
+  'authSend/authSend',
   async (_, { rejectWithValue }) => {
     const options: Record<string, unknown> = {
       method: 'GET',

@@ -6,22 +6,30 @@ type TForgotPasswordResponseState = {
   response: unknown;
   loading: boolean;
   error: string | null;
-}
+  resetRequested: boolean;
+};
 
 const initialState: TForgotPasswordResponseState = {
   response: null,
   loading: false,
   error: null as string | null,
-}
+  resetRequested: false,
+};
 
 export const forgotPasswordSlice = createSlice({
   name: 'forgotPassword',
   initialState,
-  reducers: {},
+  reducers: {
+    resetForgotPasswordState: (state) => {
+      state.resetRequested = false;
+      state.response = null;
+    },
+  },
   selectors: {
     forgotPasswordResult: (state) => state.response ?? null,
     forgotPasswordError: (state) => state.error ?? null,
-    forgotPasswordLoading: (state) => state.loading ?? false,
+    forgotPasswordLoading: (state) => state.loading,
+    forgotPasswordRequested: (state) => state.resetRequested,
   },
   extraReducers: (builder) => {
     builder
@@ -32,6 +40,7 @@ export const forgotPasswordSlice = createSlice({
       .addCase(forgotPasswordSend.fulfilled, (state, action) => {
         state.loading = false;
         state.response = action.payload;
+        state.resetRequested = true;
       })
       .addCase(forgotPasswordSend.rejected, (state, action) => {
         state.loading = false;
@@ -40,5 +49,11 @@ export const forgotPasswordSlice = createSlice({
   },
 });
 
-export const { forgotPasswordResult, forgotPasswordLoading, forgotPasswordError } =
-  forgotPasswordSlice.selectors;
+export const {
+  forgotPasswordResult,
+  forgotPasswordLoading,
+  forgotPasswordError,
+  forgotPasswordRequested,
+} = forgotPasswordSlice.selectors;
+
+export const { resetForgotPasswordState } = forgotPasswordSlice.actions;

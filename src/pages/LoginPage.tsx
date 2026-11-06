@@ -44,10 +44,7 @@ export const LoginPage = (): React.JSX.Element => {
     <main className="p-5 pt-10">
       <div className="container">
         <h1 className="title page-header text text_type_main-large mb-10">Вход</h1>
-        <form
-          action="https://new-stellarburgers.education-services.ru/api/auth/login"
-          onSubmit={submitHandler}
-        >
+        <form onSubmit={submitHandler}>
           <div className="form-block">
             <EmailInput
               name="email"

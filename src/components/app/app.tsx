@@ -1,19 +1,18 @@
-import { RouterProvider } from 'react-router-dom';
-import { router } from '../../router/router';
+import { authSend } from '@/services/auth-service/thunks';
 import { useAppDispatch } from '@/services/hooks';
 import { useEffect } from 'react';
-import { authSend } from '@/services/auth-service/thunks';
+import { RouterProvider } from 'react-router-dom';
+
+import { router } from '../../router/router';
 
 export const App = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(authSend(null));
+    void dispatch(authSend(null));
   }, [dispatch]);
 
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

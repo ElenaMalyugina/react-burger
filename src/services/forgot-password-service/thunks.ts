@@ -1,18 +1,22 @@
-import { request } from "@/utils/checkResponse";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { request } from '@/utils/checkResponse';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export type TForgotPasswordDataState = {
   email: string;
-}
+};
 
 export type TForgotPasswordResponse = {
   success: boolean;
   message: string;
-}
+};
 
-export const forgotPasswordSend = createAsyncThunk<TForgotPasswordResponse, TForgotPasswordDataState, { rejectValue: string } >(
+export const forgotPasswordSend = createAsyncThunk<
+  TForgotPasswordResponse,
+  TForgotPasswordDataState,
+  { rejectValue: string }
+>(
   'forgotPassword/forgotPasswordSend',
-  async (data: TForgotPasswordDataState , { rejectWithValue }) => {
+  async (data: TForgotPasswordDataState, { rejectWithValue }) => {
     const body = data;
 
     const options: Record<string, unknown> = {
@@ -24,14 +28,16 @@ export const forgotPasswordSend = createAsyncThunk<TForgotPasswordResponse, TFor
     };
 
     try {
-      const forgotPasswordResponse = (await request('/api/password-reset', options)) as TForgotPasswordResponse;
+      const forgotPasswordResponse = (await request(
+        '/api/password-reset',
+        options
+      )) as TForgotPasswordResponse;
+
       return forgotPasswordResponse;
-    }
-    catch (error: unknown) {
+    } catch (error: unknown) {
       return rejectWithValue(
         error instanceof Error ? error.message : 'Ошибка восстановления пароля'
       );
     }
   }
 );
-
