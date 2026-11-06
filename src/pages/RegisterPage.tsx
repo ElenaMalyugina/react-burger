@@ -1,3 +1,4 @@
+import { useForm } from '@/hooks/useForm';
 import { useAppDispatch } from '@/services/hooks';
 import { registerError, registerLoading } from '@/services/register-service/slice';
 import {
@@ -11,7 +12,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -24,27 +24,17 @@ const initialState: TRegisterDataState = {
 export const RegisterPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const [registerData, setRegisterData] = useState<TRegisterDataState>(initialState);
+  const { values, handleChange } = useForm(initialState);
 
   const isLoading = useSelector(registerLoading);
   const regError = useSelector(registerError);
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-
-    setRegisterData((prev) => ({
-      ...prev,
-      [inputName]: inputValue,
-    }));
-  };
-
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    await dispatch(registerSend(registerData));
-    void navigate('/login', { replace: true });
+    const result = await dispatch(registerSend(values));
+    if (registerSend.fulfilled.match(result)) {
+      void navigate('/login', { replace: true });
+    }
   };
 
   return (
@@ -57,27 +47,27 @@ export const RegisterPage = (): React.JSX.Element => {
           <div className="form-block">
             <Input
               name="name"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="Имя"
               size="default"
               type="text"
-              value={registerData.name}
+              value={values.name}
               required
             />
 
             <EmailInput
               name="email"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="E-mail"
-              value={registerData.email}
+              value={values.email}
               required
             />
 
             <PasswordInput
               icon="ShowIcon"
               name="password"
-              onChange={changeInputHandler}
-              value={registerData.password}
+              onChange={handleChange}
+              value={values.password}
               required
             />
             {!isLoading && (

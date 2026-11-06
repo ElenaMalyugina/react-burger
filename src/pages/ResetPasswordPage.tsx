@@ -1,3 +1,4 @@
+import { useForm } from '@/hooks/useForm';
 import {
   forgotPasswordLoading,
   forgotPasswordRequested,
@@ -17,7 +18,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
@@ -31,8 +31,9 @@ export const ResetPasswordPage = (): React.JSX.Element | null => {
   const loading = useSelector(forgotPasswordLoading);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [resetPasswordData, setResetPasswordData] =
-    useState<TResetPasswordDataState>(initialState);
+
+  const { values, handleChange } = useForm(initialState);
+
   const isLoading = useSelector(resetPasswordLoading);
   const formError = useSelector(resetPasswordError);
 
@@ -45,21 +46,10 @@ export const ResetPasswordPage = (): React.JSX.Element | null => {
     return <Navigate to="/forgot-password" replace />;
   }
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-
-    setResetPasswordData((prev) => ({
-      ...prev,
-      [inputName]: inputValue,
-    }));
-  };
-
   const submitHandler = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
-    const result = await dispatch(resetPasswordSend(resetPasswordData));
+    const result = await dispatch(resetPasswordSend(values));
 
     if (resetPasswordSend.fulfilled.match(result)) {
       dispatch(resetForgotPasswordState());
@@ -79,16 +69,16 @@ export const ResetPasswordPage = (): React.JSX.Element | null => {
               icon="ShowIcon"
               name="password"
               placeholder="Введите новый пароль"
-              onChange={changeInputHandler}
-              value={resetPasswordData.password}
+              onChange={handleChange}
+              value={values.password}
               required
             />
             <PasswordInput
               icon="ShowIcon"
               name="token"
               placeholder="Введите код из письма"
-              onChange={changeInputHandler}
-              value={resetPasswordData.token}
+              onChange={handleChange}
+              value={values.token}
               required
             />
             {!isLoading && (

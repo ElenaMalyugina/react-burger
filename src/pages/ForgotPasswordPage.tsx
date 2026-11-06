@@ -1,3 +1,4 @@
+import { useForm } from '@/hooks/useForm';
 import {
   forgotPasswordError,
   forgotPasswordLoading,
@@ -12,7 +13,6 @@ import {
   EmailInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -24,27 +24,18 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [forgotPasswordData, setForgotPasswordData] =
-    useState<TForgotPasswordDataState>(initialState);
+  const { values, handleChange } = useForm(initialState);
 
   const isLoading = useSelector(forgotPasswordLoading);
   const formError = useSelector(forgotPasswordError);
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-
-    setForgotPasswordData((prev) => ({
-      ...prev,
-      [inputName]: inputValue,
-    }));
-  };
-
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    await dispatch(forgotPasswordSend(forgotPasswordData));
-    void navigate('/reset-password', { replace: true });
+    const result = await dispatch(forgotPasswordSend(values));
+
+    if (forgotPasswordSend.fulfilled.match(result)) {
+      void navigate('/reset-password', { replace: true });
+    }
   };
 
   return (
@@ -57,9 +48,9 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
           <div className="form-block">
             <EmailInput
               name="email"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="E-mail"
-              value={forgotPasswordData.email}
+              value={values.email}
               required
             />
             {!isLoading && (

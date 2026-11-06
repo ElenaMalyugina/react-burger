@@ -1,3 +1,4 @@
+import { useForm } from '@/hooks/useForm';
 import { useAppDispatch } from '@/services/hooks';
 import { loginError, loginLoading } from '@/services/login-service/slice';
 import { loginSend, type TLoginDataState } from '@/services/login-service/thunks';
@@ -7,7 +8,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -19,25 +19,14 @@ const initialState: TLoginDataState = {
 export const LoginPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const [loginData, setLoginData] = useState<TLoginDataState>(initialState);
+  const { values, handleChange } = useForm(initialState);
 
   const isLoading = useSelector(loginLoading);
   const formError = useSelector(loginError);
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-
-    setLoginData((prev) => ({
-      ...prev,
-      [inputName]: inputValue,
-    }));
-  };
-
   const submitHandler = (event: React.SyntheticEvent): void => {
     event.preventDefault();
-    void dispatch(loginSend(loginData));
+    void dispatch(loginSend(values));
   };
 
   return (
@@ -48,17 +37,17 @@ export const LoginPage = (): React.JSX.Element => {
           <div className="form-block">
             <EmailInput
               name="email"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="E-mail"
-              value={loginData.email}
+              value={values.email}
               required
             />
 
             <PasswordInput
               icon="ShowIcon"
               name="password"
-              onChange={changeInputHandler}
-              value={loginData.password}
+              onChange={handleChange}
+              value={values.password}
               required
             />
             {!isLoading && (

@@ -1,3 +1,4 @@
+import { useForm } from '@/hooks/useForm';
 import { authError, authLoading, authResult } from '@/services/auth-service/slice';
 import { editProfileIsUpdated } from '@/services/edit-profile-service/slice';
 import {
@@ -28,14 +29,14 @@ export const ProfilePage = (): React.JSX.Element => {
   const profileDataFromServer = useSelector(authResult);
   const isUpdatedData = useSelector(editProfileIsUpdated);
 
-  const [profileData, setProfileData] = useState(initialState);
+  const {
+    values: profileData,
+    setValues: setProfileData,
+    handleChange,
+  } = useForm(initialState);
 
-  const [originalData, setOriginalData] = useState<
-    Pick<TProfileDataState, 'name' | 'email'>
-  >({
-    name: '',
-    email: '',
-  });
+  const [originalData, setOriginalData] =
+    useState<Pick<TProfileDataState, 'name' | 'email'>>(initialState);
 
   const isLoading = useSelector(authLoading);
   const formError = useSelector(authError);
@@ -56,22 +57,18 @@ export const ProfilePage = (): React.JSX.Element => {
   const hasChanges =
     profileData.name !== originalData.name || profileData.email !== originalData.email;
 
-  const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const target = event.target;
-    const inputName = target.name;
-    const inputValue = target.value;
-
-    setProfileData((prev) => ({
-      ...prev,
-      [inputName]: inputValue,
-    }));
-  };
-
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    await dispatch(editProfileSend(profileData));
 
-    setOriginalData(profileData);
+    const result = await dispatch(editProfileSend(profileData));
+
+    if (editProfileSend.fulfilled.match(result)) {
+      setProfileData((prev) => ({ ...prev, password: '' }));
+      setOriginalData({
+        name: result.payload.user.name ?? '',
+        email: result.payload.user.email ?? '',
+      });
+    }
   };
 
   const resetHandler = (): void => {
@@ -91,7 +88,7 @@ export const ProfilePage = (): React.JSX.Element => {
             <Input
               icon="EditIcon"
               name="name"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="Имя"
               size="default"
               type="text"
@@ -102,7 +99,7 @@ export const ProfilePage = (): React.JSX.Element => {
             <EmailInput
               isIcon
               name="email"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               placeholder="E-mail"
               value={profileData.email}
               required
@@ -111,8 +108,9 @@ export const ProfilePage = (): React.JSX.Element => {
             <PasswordInput
               icon="ShowIcon"
               name="password"
-              onChange={changeInputHandler}
+              onChange={handleChange}
               value={profileData.password}
+              disabled
             />
 
             {!isLoading && hasChanges && (

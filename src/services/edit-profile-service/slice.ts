@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { editProfileSend, type TEditProfileResponse } from './thunks';
 
-type TEditProfileResponseState = {
+export type TEditProfileResponseState = {
   response: TEditProfileResponse | null;
   loading: boolean;
   isUpdated: boolean;
