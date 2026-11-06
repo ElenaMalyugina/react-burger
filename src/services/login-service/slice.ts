@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loginSend } from './thunks';
+import { loginSend, type TLoginResponse } from './thunks';
 
 type TLoginResponseDataState = {
-  response: unknown;
+  response: TLoginResponse | null;
   loading: boolean;
   error: string | null;
-}
+};
 
 const initialState: TLoginResponseDataState = {
   response: null,
   loading: false,
   error: null as string | null,
-}
+};
 
 export const loginSlice = createSlice({
   name: 'login',
@@ -40,5 +40,4 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { loginResult, loginLoading, loginError } =
-  loginSlice.selectors;
+export const { loginResult, loginLoading, loginError } = loginSlice.selectors;

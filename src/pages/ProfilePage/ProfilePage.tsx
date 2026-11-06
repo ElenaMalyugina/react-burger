@@ -13,6 +13,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import styles from './profile-page.module.css';
 
 const initialState: TProfileDataState = {
@@ -23,11 +24,13 @@ const initialState: TProfileDataState = {
 
 export const ProfilePage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const profileDataFromServer = useSelector(authResult)?.user;
+  const profileDataFromServer = useSelector(authResult);
 
   const [profileData, setProfileData] = useState(initialState);
 
-  const [originalData, setOriginalData] = useState<Pick<TProfileDataState, 'name' | 'email'>>({
+  const [originalData, setOriginalData] = useState<
+    Pick<TProfileDataState, 'name' | 'email'>
+  >({
     name: '',
     email: '',
   });
@@ -35,11 +38,11 @@ export const ProfilePage = (): React.JSX.Element => {
   const isLoading = useSelector(authLoading);
   const formError = useSelector(authError);
 
-  useEffect(()=>{
+  useEffect(() => {
     const name = profileDataFromServer?.name ?? '';
     const email = profileDataFromServer?.email ?? '';
 
-    setProfileData((prev)=>({
+    setProfileData((prev) => ({
       ...prev,
       name,
       email,
@@ -48,7 +51,8 @@ export const ProfilePage = (): React.JSX.Element => {
     setOriginalData({ name, email });
   }, [profileDataFromServer]);
 
-  const hasChanges = profileData.name !== originalData.name || profileData.email !== originalData.email;
+  const hasChanges =
+    profileData.name !== originalData.name || profileData.email !== originalData.email;
 
   const changeInputHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const target = event.target;
@@ -66,13 +70,13 @@ export const ProfilePage = (): React.JSX.Element => {
     void dispatch(editProfileSend(profileData));
   };
 
-  const resetHandler = ():void =>{
-    setProfileData((prev)=>({
+  const resetHandler = (): void => {
+    setProfileData((prev) => ({
       ...prev,
-      name: (profileDataFromServer?.name ?? ""),
-      email: (profileDataFromServer?.email ?? ""),
+      name: profileDataFromServer?.name ?? '',
+      email: profileDataFromServer?.email ?? '',
     }));
-  }
+  };
 
   return (
     <>
@@ -112,7 +116,12 @@ export const ProfilePage = (): React.JSX.Element => {
                 <Button size="medium" type="primary" htmlType={'submit'}>
                   Сохранить
                 </Button>
-                <Button size="medium" type="primary" htmlType={'button'} onClick={resetHandler}>
+                <Button
+                  size="medium"
+                  type="primary"
+                  htmlType={'button'}
+                  onClick={resetHandler}
+                >
                   Отмена
                 </Button>
               </div>

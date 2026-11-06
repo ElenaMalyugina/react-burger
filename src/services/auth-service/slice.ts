@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { loginSend } from '../login-service/thunks';
+import { logoutSend } from '../logout-service/thunks';
 import { authSend, type TAuthResponse } from './thunks';
 
 type TAuthResponseState = {
-  authUserData: TAuthResponse | null;
+  authUserData: TAuthResponse['user'] | null;
   isAuthChecked: boolean;
   loading: boolean;
   error: string | null;
@@ -35,14 +37,29 @@ export const authSlice = createSlice({
       .addCase(authSend.fulfilled, (state, action) => {
         state.loading = false;
         state.isAuthChecked = true;
-        state.authUserData = action.payload;
+        state.authUserData = action.payload.user;
       })
       .addCase(authSend.rejected, (state, action) => {
         state.loading = false;
         state.isAuthChecked = true;
         state.authUserData = null;
         state.error = action.payload ?? 'Ошибка обновления профиля';
-      });
+      })
+      .addMatcher(
+        (action) => loginSend.fulfilled.match(action),
+        (state, action) => {
+          state.authUserData = action.payload.user;
+          state.isAuthChecked = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        (action) => logoutSend.fulfilled.match(action),
+        (state) => {
+          state.authUserData = null;
+          state.isAuthChecked = true;
+        }
+      );
   },
 });
 

@@ -6,13 +6,13 @@ type TLogoutResponse = {
   response: string | null;
   loading: boolean;
   error: string | null;
-}
+};
 
 const initialState: TLogoutResponse = {
   response: null,
   loading: false,
   error: null as string | null,
-}
+};
 
 export const logoutSlice = createSlice({
   name: 'logout',
@@ -35,10 +35,9 @@ export const logoutSlice = createSlice({
       })
       .addCase(logoutSend.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? 'Не удалось войти';
+        state.error = action.payload ?? 'Не удалось выйти';
       });
   },
 });
 
-export const { logoutResult, logoutLoading, logoutError } =
-  logoutSlice.selectors;
+export const { logoutResult, logoutLoading, logoutError } = logoutSlice.selectors;

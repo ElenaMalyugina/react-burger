@@ -18,7 +18,7 @@ export const ProtectedRoute = ({
   component,
 }: TComponent): React.JSX.Element | null => {
   const isAuthChecked = useSelector(isAuthResult);
-  const user = useSelector(authResult)?.user;
+  const user = useSelector(authResult);
   const location = useLocation();
   const from = (location.state as TLocationState | null)?.from ?? { pathname: '/' };
 
