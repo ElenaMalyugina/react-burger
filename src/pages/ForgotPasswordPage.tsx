@@ -14,7 +14,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialState: TForgotPasswordDataState = {
   email: '',
@@ -22,6 +22,7 @@ const initialState: TForgotPasswordDataState = {
 
 export const ForgotPasswordPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [forgotPasswordData, setForgotPasswordData] =
     useState<TForgotPasswordDataState>(initialState);
@@ -40,10 +41,10 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
     }));
   };
 
-  const submitHandler = (event: React.SyntheticEvent): void => {
+  const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    void dispatch(forgotPasswordSend(forgotPasswordData));
-    //редирект
+    await dispatch(forgotPasswordSend(forgotPasswordData));
+    void navigate('/login', { replace: true });
   };
 
   return (
