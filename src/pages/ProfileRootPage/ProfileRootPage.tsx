@@ -1,8 +1,7 @@
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { logoutLoading } from '@/services/logout-service/slice';
 import { logoutSend } from '@/services/logout-service/thunks';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 import type { SyntheticEvent } from 'react';
@@ -12,7 +11,7 @@ import styles from './ProfileRootPage.module.css';
 export const ProfileRootPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const exitLoading = useSelector(logoutLoading);
+  const exitLoading = useAppSelector(logoutLoading);
 
   const logoutHandler = async (event: SyntheticEvent): Promise<void> => {
     event.preventDefault();

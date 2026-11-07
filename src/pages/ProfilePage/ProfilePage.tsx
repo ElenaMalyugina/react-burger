@@ -5,7 +5,7 @@ import {
   editProfileSend,
   type TProfileDataState,
 } from '@/services/edit-profile-service/thunks';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   Button,
   EmailInput,
@@ -14,7 +14,6 @@ import {
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import styles from './profile-page.module.css';
 
@@ -26,8 +25,8 @@ const initialState: TProfileDataState = {
 
 export const ProfilePage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const profileDataFromServer = useSelector(authResult);
-  const isUpdatedData = useSelector(editProfileIsUpdated);
+  const profileDataFromServer = useAppSelector(authResult);
+  const isUpdatedData = useAppSelector(editProfileIsUpdated);
 
   const {
     values: profileData,
@@ -38,8 +37,8 @@ export const ProfilePage = (): React.JSX.Element => {
   const [originalData, setOriginalData] =
     useState<Pick<TProfileDataState, 'name' | 'email'>>(initialState);
 
-  const isLoading = useSelector(authLoading);
-  const formError = useSelector(authError);
+  const isLoading = useAppSelector(authLoading);
+  const formError = useAppSelector(authError);
 
   useEffect(() => {
     const name = profileDataFromServer?.name ?? '';

@@ -7,13 +7,12 @@ import {
   forgotPasswordSend,
   type TForgotPasswordDataState,
 } from '@/services/forgot-password-service/thunks';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   Button,
   EmailInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 const initialState: TForgotPasswordDataState = {
@@ -26,8 +25,8 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
 
   const { values, handleChange } = useForm(initialState);
 
-  const isLoading = useSelector(forgotPasswordLoading);
-  const formError = useSelector(forgotPasswordError);
+  const isLoading = useAppSelector(forgotPasswordLoading);
+  const formError = useAppSelector(forgotPasswordError);
 
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();

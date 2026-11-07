@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   getIngredients,
   getIngredientsError,
@@ -7,7 +7,6 @@ import {
 import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { IngredientCard } from '../Ingredient-card/Ingredient-card';
@@ -21,9 +20,9 @@ export const BurgerIngredients = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
 
   //получение списка всех ингредиентов
-  const ingredients = useSelector(getIngredients);
-  const isLoading = useSelector(getIngredientsLoading);
-  const isError = useSelector(getIngredientsError);
+  const ingredients = useAppSelector(getIngredients);
+  const isLoading = useAppSelector(getIngredientsLoading);
+  const isError = useAppSelector(getIngredientsError);
 
   useEffect(() => {
     void dispatch(fetchIngredients());

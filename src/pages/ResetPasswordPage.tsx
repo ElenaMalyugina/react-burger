@@ -4,7 +4,7 @@ import {
   forgotPasswordRequested,
   resetForgotPasswordState,
 } from '@/services/forgot-password-service/slice';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   resetPasswordError,
   resetPasswordLoading,
@@ -18,7 +18,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const initialState: TResetPasswordDataState = {
@@ -27,15 +26,15 @@ const initialState: TResetPasswordDataState = {
 };
 
 export const ResetPasswordPage = (): React.JSX.Element | null => {
-  const resetRequested = useSelector(forgotPasswordRequested);
-  const loading = useSelector(forgotPasswordLoading);
+  const resetRequested = useAppSelector(forgotPasswordRequested);
+  const loading = useAppSelector(forgotPasswordLoading);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { values, handleChange } = useForm(initialState);
 
-  const isLoading = useSelector(resetPasswordLoading);
-  const formError = useSelector(resetPasswordError);
+  const isLoading = useAppSelector(resetPasswordLoading);
+  const formError = useAppSelector(resetPasswordError);
 
   // пока идёт запрос forgotPasswordSend — не решаем, разрешать ли доступ
   if (loading) {

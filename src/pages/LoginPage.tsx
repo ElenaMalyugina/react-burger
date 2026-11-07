@@ -1,5 +1,5 @@
 import { useForm } from '@/hooks/useForm';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { loginError, loginLoading } from '@/services/login-service/slice';
 import { loginSend, type TLoginDataState } from '@/services/login-service/thunks';
 import {
@@ -8,7 +8,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import type { TLocationState } from '@/router/protected-route';
@@ -25,8 +24,8 @@ export const LoginPage = (): React.JSX.Element => {
 
   const { values, handleChange } = useForm(initialState);
 
-  const isLoading = useSelector(loginLoading);
-  const formError = useSelector(loginError);
+  const isLoading = useAppSelector(loginLoading);
+  const formError = useAppSelector(loginError);
 
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
