@@ -36,3 +36,5 @@
 		'@utils': path.resolve(__dirname, './src/utils'),
 	},
 ```
+Для спринта 4 - проект изначально выполняется на Typescript
+
