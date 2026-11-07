@@ -33,9 +33,9 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const createdOrderId = useSelector(createOrder);
-  const createdOrderLoading = useSelector(createOrderLoading);
-  const createdOrderError = useSelector(createOrderError);
+  const currentOrderId = useSelector(createOrder);
+  const currentOrderLoading = useSelector(createOrderLoading);
+  const currentOrderError = useSelector(createOrderError);
 
   const totalCost = useSelector(getOrderPrice);
 
@@ -54,7 +54,7 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
   };
 
   const pauseOrderHandler = (): void => {
-    if (!createOrderError) {
+    if (!currentOrderError) {
       void dispatch(deleteAll());
     }
 
@@ -79,15 +79,15 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
       </section>
       {isModalOpen && (
         <Modal handleCloseModal={pauseOrderHandler}>
-          {createdOrderLoading ? (
+          {currentOrderLoading ? (
             <Preloader />
-          ) : createdOrderError != null ? (
+          ) : currentOrderError != null ? (
             <h3 className="text text_type_main-large mt-5">
               Что-то пошло не так. <br />
               Проверьте состав заказа.
             </h3>
-          ) : typeof createdOrderId === 'number' && createdOrderId > 0 ? (
-            <OrderDetails orderId={createdOrderId} />
+          ) : typeof currentOrderId === 'number' && currentOrderId > 0 ? (
+            <OrderDetails orderId={currentOrderId} />
           ) : (
             ''
           )}

@@ -28,13 +28,16 @@ export const orderSlice = createSlice({
       .addCase(sendOrder.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.orderNum = null;
       })
       .addCase(sendOrder.fulfilled, (state, action) => {
         state.loading = false;
         state.orderNum = action.payload;
+        state.error = null;
       })
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false;
+        state.orderNum = null;
         state.error = action.payload ?? 'Не удалось создать заказ';
       });
   },
