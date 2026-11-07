@@ -1,5 +1,5 @@
 import { useForm } from '@/hooks/useForm';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { registerError, registerLoading } from '@/services/register-service/slice';
 import {
   registerSend,
@@ -12,7 +12,6 @@ import {
   PasswordInput,
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 const initialState: TRegisterDataState = {
@@ -26,8 +25,8 @@ export const RegisterPage = (): React.JSX.Element => {
   const navigate = useNavigate();
   const { values, handleChange } = useForm(initialState);
 
-  const isLoading = useSelector(registerLoading);
-  const regError = useSelector(registerError);
+  const isLoading = useAppSelector(registerLoading);
+  const regError = useAppSelector(registerError);
 
   const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();

@@ -5,7 +5,7 @@ import {
   getOrderPrice,
 } from '@/services/burger-constructor-service/selectors';
 import { deleteAll } from '@/services/burger-constructor-service/slice';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   createOrder,
   createOrderLoading,
@@ -13,7 +13,6 @@ import {
 } from '@/services/order-service/slice';
 import { sendOrder } from '@/services/order-service/thunks';
 import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Modal from '../modal/modal';
@@ -29,17 +28,17 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const user = useSelector(authResult);
+  const user = useAppSelector(authResult);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const currentOrderId = useSelector(createOrder);
-  const currentOrderLoading = useSelector(createOrderLoading);
-  const currentOrderError = useSelector(createOrderError);
+  const currentOrderId = useAppSelector(createOrder);
+  const currentOrderLoading = useAppSelector(createOrderLoading);
+  const currentOrderError = useAppSelector(createOrderError);
 
-  const totalCost = useSelector(getOrderPrice);
+  const totalCost = useAppSelector(getOrderPrice);
 
-  const orderData = useSelector(getOrder);
+  const orderData = useAppSelector(getOrder);
 
   const createOrderHandler = (): void => {
     if (!user) {

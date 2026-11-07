@@ -5,10 +5,9 @@ import {
   getBurgerConstructorIngredients,
   reorderBurgerConstructorIngredients,
 } from '@/services/burger-constructor-service/slice';
-import { useAppDispatch } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useSelector } from 'react-redux';
 
 import { BurgerConstructorCard } from '../burger-constructor-card/burger-constructor-card';
 import { EmptyConstructorCard } from '../empty-constructor-card/empty-constructor-card';
@@ -19,8 +18,8 @@ import styles from './burger-constructor-list.module.css';
 
 export const BurgerConstructorList = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const bunIngredient = useSelector(getBurgerConstructorBun);
-  const otherIngredients = useSelector(getBurgerConstructorIngredients);
+  const bunIngredient = useAppSelector(getBurgerConstructorBun);
+  const otherIngredients = useAppSelector(getBurgerConstructorIngredients);
 
   const onDropSortHandler = (dragIndex: number, hoverIndex: number): void => {
     const list = [...otherIngredients];

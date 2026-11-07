@@ -1,5 +1,5 @@
+import { useAppSelector } from '@/services/hooks';
 import { getIngredientById } from '@/services/ingredients-service/slice';
-import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { IngredientDetails } from '../Ingredient-details/Ingredient-details';
@@ -12,7 +12,7 @@ export const IngredientModal = (): React.JSX.Element => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const ingredient: TIngredient | null = useSelector((state: RootState) =>
+  const ingredient: TIngredient | null = useAppSelector((state: RootState) =>
     getIngredientById(state, id!)
   );
 
