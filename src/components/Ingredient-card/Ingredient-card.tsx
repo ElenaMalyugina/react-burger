@@ -2,6 +2,7 @@ import { getBurgerConstructorIngredientCount } from '@/services/burger-construct
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { PriceBlock } from '../price-block/price-block';
 
@@ -12,12 +13,12 @@ import styles from './ingredient-card.module.css';
 
 type TIngredientCardProps = {
   ingredient: TIngredient;
-  handleClick: () => void;
+  //handleClick: () => void;
 };
 
 export const IngredientCard = ({
   ingredient,
-  handleClick,
+  //handleClick,
 }: TIngredientCardProps): React.JSX.Element => {
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
@@ -36,14 +37,16 @@ export const IngredientCard = ({
       ref={(node) => {
         dragRef(node);
       }} // правильный тип для ref
-      className={`p-2 ${styles.ingredientCard} ${isDragging ? 'opacity-90' : ''}`}
-      onClick={handleClick}
-      tabIndex={0}
     >
-      <Counter count={ingredientCount} size="default" />
-      <img src={ingredient.image} alt={ingredient.name} />
-      <PriceBlock price={ingredient.price} textClass="text text_type_main-medium" />
-      <h3>{ingredient.name}</h3>
+      <Link
+        to={`/ingredients/${ingredient._id}`}
+        className={`p-2 ${styles.ingredientCard} ${isDragging ? 'opacity-90' : ''}`}
+      >
+        <Counter count={ingredientCount} size="default" />
+        <img src={ingredient.image} alt={ingredient.name} />
+        <PriceBlock price={ingredient.price} textClass="text text_type_main-medium" />
+        <h3>{ingredient.name}</h3>
+      </Link>
     </li>
   );
 };

@@ -24,3 +24,52 @@ body {
 .modal-header {
   margin-right: 60px;
 }
+
+.title {
+  width: 100%;
+  max-width: 1260px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.container{
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.page-header{
+  text-align: center;
+}
+
+.form-block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.note{
+  text-align: center;
+}
+
+.note a{
+  text-decoration: none;
+  color: var(--colors-interface-accent) ;
+}
+
+.in-work{
+  text-align: center;
+}
+
+.error-text{
+  color:var(--colors-interface-error);
+}

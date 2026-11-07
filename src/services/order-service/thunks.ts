@@ -9,7 +9,7 @@ type TCreateOrderResponse = {
   success: boolean;
 };
 
-export const sendOrder = createAsyncThunk<number, string[]>(
+export const sendOrder = createAsyncThunk<number, string[], { rejectValue: string }>(
   'order/createOrder',
   async (ingredients: string[], { rejectWithValue }) => {
     const body = {
