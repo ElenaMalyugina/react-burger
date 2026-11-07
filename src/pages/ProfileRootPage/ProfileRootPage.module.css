@@ -1,0 +1,26 @@
+.profileFlex{
+  display: flex;
+  gap: 20px;
+}
+
+.content{
+  flex: 1;
+}
+
+.menuList{
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.menuItem{
+  margin-bottom: 14px;
+}
+
+.menuItem a{
+  color: var(--text-inactive-color);
+  text-decoration: none;
+}
+
+.menuItem a.active{
+  color: var(--text-primary-color);
+}

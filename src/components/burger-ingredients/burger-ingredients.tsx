@@ -1,4 +1,3 @@
-import { useModal } from '@/hooks/useModal';
 import { useAppDispatch } from '@/services/hooks';
 import {
   getIngredients,
@@ -9,17 +8,10 @@ import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-
-import {
-  selectIngredient,
-  removeSelectedIngredient,
-  selectActiveIngredient,
-} from '@services/selected-ingredient-service/slice';
+import { Outlet } from 'react-router-dom';
 
 import { IngredientCard } from '../Ingredient-card/Ingredient-card';
-import { IngredientDetails } from '../Ingredient-details/Ingredient-details';
 import { IngredientsList } from '../ingredients-list/ingredients-list';
-import Modal from '../modal/modal';
 
 import type { TIngredient } from '@utils/types';
 
@@ -46,47 +38,21 @@ export const BurgerIngredients = (): React.JSX.Element => {
 
   const scrollContainerRef = useRef<HTMLElement | null>(null);
 
-  //модальное окно с деталями ингредиента
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const activeIngredient = useSelector(selectActiveIngredient);
-
-  const openModalDetails = (ingredient: TIngredient): void => {
-    openModal();
-    dispatch(selectIngredient(ingredient));
-  };
-
-  const closeModalDetails = (): void => {
-    closeModal();
-    dispatch(removeSelectedIngredient());
-  };
-
   //распределение ингредиентов по табам
   const [bunIngredients, setBunIngredients] = useState<TIngredient[]>([]);
   const [mainIngredients, setMainIngredients] = useState<TIngredient[]>([]);
   const [sauceIngredients, setSauceIngredients] = useState<TIngredient[]>([]);
 
   const BunIngredientsCards = bunIngredients.map((item) => (
-    <IngredientCard
-      key={item._id}
-      ingredient={item}
-      handleClick={() => openModalDetails(item)}
-    />
+    <IngredientCard key={item._id} ingredient={item} />
   ));
 
   const MainIngredientsCards = mainIngredients.map((item) => (
-    <IngredientCard
-      key={item._id}
-      ingredient={item}
-      handleClick={() => openModalDetails(item)}
-    />
+    <IngredientCard key={item._id} ingredient={item} />
   ));
 
   const SauceIngredientsCards = sauceIngredients.map((item) => (
-    <IngredientCard
-      key={item._id}
-      ingredient={item}
-      handleClick={() => openModalDetails(item)}
-    />
+    <IngredientCard key={item._id} ingredient={item} />
   ));
 
   useEffect(() => {
@@ -188,11 +154,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
           </IngredientsList>
         </article>
       </section>
-      {isModalOpen && (
-        <Modal header={'Детали ингредиента'} handleCloseModal={closeModalDetails}>
-          <IngredientDetails ingredient={activeIngredient} />
-        </Modal>
-      )}
+      <Outlet />
     </section>
   );
 };

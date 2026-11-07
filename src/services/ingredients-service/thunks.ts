@@ -7,7 +7,7 @@ type TIngredientsResponse = {
   data: TIngredient[];
 };
 
-export const fetchIngredients = createAsyncThunk<TIngredient[], void>(
+export const fetchIngredients = createAsyncThunk<TIngredient[], void, { rejectValue: string } >(
   'ingredients/fetchIngredients',
   async (_, { rejectWithValue }) => {
     try {
