@@ -1,4 +1,5 @@
 import { useModal } from '@/hooks/useModal';
+import { authResult } from '@/services/auth-service/slice';
 import {
   getOrder,
   getOrderPrice,
@@ -13,6 +14,7 @@ import {
 import { sendOrder } from '@/services/order-service/thunks';
 import { Button, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Modal from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -24,6 +26,10 @@ import styles from './order-summary-block.module.css';
 
 export const OrderSummaryBlock = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const user = useSelector(authResult);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -36,6 +42,13 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
   const orderData = useSelector(getOrder);
 
   const createOrderHandler = (): void => {
+    if (!user) {
+      void navigate('/login', {
+        state: { from: location },
+      });
+      return;
+    }
+
     void dispatch(sendOrder(orderData));
     openModal();
   };

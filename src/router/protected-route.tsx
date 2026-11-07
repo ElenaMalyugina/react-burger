@@ -2,7 +2,7 @@ import { authResult, isAuthResult } from '@/services/auth-service/slice';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
-type TLocationState = {
+export type TLocationState = {
   from: {
     pathname: string;
   };

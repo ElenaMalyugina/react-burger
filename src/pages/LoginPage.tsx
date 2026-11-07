@@ -9,7 +9,9 @@ import {
   Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import type { TLocationState } from '@/router/protected-route';
 
 const initialState: TLoginDataState = {
   email: '',
@@ -18,15 +20,23 @@ const initialState: TLoginDataState = {
 
 export const LoginPage = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { values, handleChange } = useForm(initialState);
 
   const isLoading = useSelector(loginLoading);
   const formError = useSelector(loginError);
 
-  const submitHandler = (event: React.SyntheticEvent): void => {
+  const submitHandler = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    void dispatch(loginSend(values));
+    const result = await dispatch(loginSend(values));
+
+    if (loginSend.fulfilled.match(result)) {
+      const from = (location.state as TLocationState | null)?.from;
+
+      void navigate(from?.pathname ?? '/', { replace: true });
+    }
   };
 
   return (
