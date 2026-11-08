@@ -1,23 +1,29 @@
 import type { Middleware, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 
-type TSocketMessage = unknown;
-
-export type TSocketConfig = {
+export type TSocketConfig<TData = unknown, TError = unknown> = {
   url: string;
+  sliceName: string;
+  connect: () => UnknownAction;
   onOpen: () => UnknownAction;
-  onMessage: (data: TSocketMessage) => UnknownAction;
-  onError: (error: unknown) => UnknownAction;
+  onMessage: (data: TData) => UnknownAction;
+  onError: (error: TError) => UnknownAction;
   onClose: () => UnknownAction;
 };
 
-export const createSocketMiddleware = (config: TSocketConfig): Middleware => {
+export const createSocketMiddleware = <TData = unknown, TError = unknown>(
+  config: TSocketConfig<TData, TError>
+): Middleware => {
   let ws: WebSocket | null = null;
+
+  let isConnected = false; // Флаг: считается ли пользователь подключённым?
+  const reconnectPeriod = 3000; // 3 секунды
+  let reconnectTimerId: ReturnType<typeof setTimeout> | number = 0;
 
   return (store) => (next) => (action) => {
     const { type, payload } = action as PayloadAction;
 
     //коннект
-    if (type === 'socket/connect') {
+    if (type === `${config.sliceName}/connect`) {
       const { payload: token } = action as PayloadAction<string, 'socket/connect'>;
 
       if (ws) {
@@ -35,27 +41,37 @@ export const createSocketMiddleware = (config: TSocketConfig): Middleware => {
       //получено сообщение
       ws.onmessage = (event: MessageEvent<string>): void => {
         try {
-          const data: TSocketMessage = JSON.parse(event.data);
+          const data = JSON.parse(event.data) as TData;
           store.dispatch(config.onMessage(data));
         } catch (error) {
+          const errorMessage = 'Ошибка парсинга' as TError;
           console.log(error);
-          store.dispatch(config.onError('Ошибка парсинга'));
+          store.dispatch(config.onError(errorMessage));
         }
       };
 
       //получена ошибка
       ws.onerror = (): void => {
-        store.dispatch(config.onError('Ошибка WebSocket-соединения'));
+        const errorMessage = 'Ошибка WebSocket-соединения' as TError;
+        store.dispatch(config.onError(errorMessage));
       };
 
       ws.onclose = (): void => {
         store.dispatch(config.onClose());
         ws = null;
+
+        if (isConnected) {
+          reconnectTimerId = setTimeout(() => {
+            store.dispatch(config.connect());
+          }, reconnectPeriod);
+        }
       };
+
+      isConnected = true;
     }
 
     // если фронт отправил сообщение
-    if (type === 'socket/sendMessage') {
+    if (type === `${config.sliceName}/sendMessage`) {
       const message = payload;
 
       // Проверяем две вещи:
@@ -67,7 +83,10 @@ export const createSocketMiddleware = (config: TSocketConfig): Middleware => {
     }
 
     // если фронт закрыл соединение
-    if (type === 'socket/disconnect') {
+    if (type === `${config.sliceName}/disconnect`) {
+      clearTimeout(reconnectTimerId);
+      reconnectTimerId = 0;
+      isConnected = false;
       if (ws) {
         ws.close();
         ws = null;

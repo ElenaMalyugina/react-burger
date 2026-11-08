@@ -1,15 +1,22 @@
+import {
+  connect,
+  onClose,
+  onError,
+  onMessage,
+  onOpen,
+  type Order,
+} from '@/services/feeds-service/slice';
+import { Urls } from '@/utils/urls';
 import { createSocketMiddleware, type TSocketConfig } from '@/utils/ws-factory';
 
-import type { UnknownAction } from '@reduxjs/toolkit';
-
-const noopData: () => UnknownAction = () => ({ type: 'noop' });
-
-const config: TSocketConfig = {
-  url: '',
-  onOpen: noopData,
-  onMessage: noopData,
-  onError: noopData,
-  onClose: noopData,
+const config: TSocketConfig<Order, string> = {
+  url: `${Urls.socketUrl}/orders/all`,
+  sliceName: 'feedSocket',
+  connect,
+  onOpen,
+  onMessage,
+  onError,
+  onClose,
 };
 
 export const feedSocketMiddleware = createSocketMiddleware(config);

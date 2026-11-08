@@ -4,6 +4,7 @@ import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { authSlice } from './auth-service/slice';
 import { burgerConstructorSlice } from './burger-constructor-service/slice';
 import { editProfileSlice } from './edit-profile-service/slice';
+import { feedSocketSlice } from './feeds-service/slice';
 import { forgotPasswordSlice } from './forgot-password-service/slice';
 import { ingredientsSlice } from './ingredients-service/slice';
 import { loginSlice } from './login-service/slice';
@@ -24,7 +25,8 @@ const rootReducer = combineSlices(
   forgotPasswordSlice,
   resetPasswordSlice,
   editProfileSlice,
-  authSlice
+  authSlice,
+  feedSocketSlice
 );
 
 export const store = configureStore({
