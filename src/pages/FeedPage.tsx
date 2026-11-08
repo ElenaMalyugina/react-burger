@@ -1,12 +1,15 @@
+import { FeedOrdersList } from '@/components/feed-orders-list/feed-orders-list';
+
 export const FeedPage = (): React.JSX.Element => {
   return (
-    <main className="p-5 pt-10">
-      <div className="container">
-        <h1 className="title page-header text text_type_main-large mb-10">
-          Лента заказов
-        </h1>
-        <p className="in-work text text_type_main-default">В разработке</p>
-      </div>
-    </main>
+    <>
+      <h1 className="title text text_type_main-large mt-10 mb-5 pl-5">Лента заказов</h1>
+      <main className="main pl-5 pr-5">
+        <section>
+          <FeedOrdersList />
+        </section>
+        <section></section>
+      </main>
+    </>
   );
 };

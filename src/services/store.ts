@@ -1,3 +1,4 @@
+import { feedSocketMiddleware } from '@/middlewares/feed-ws-middleware';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
 import { authSlice } from './auth-service/slice';
@@ -29,6 +30,8 @@ const rootReducer = combineSlices(
 export const store = configureStore({
   reducer: rootReducer,
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(feedSocketMiddleware),
 });
 
 //чтобы ts не ругался
