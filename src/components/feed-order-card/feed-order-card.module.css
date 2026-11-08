@@ -1,0 +1,10 @@
+.feedOrderCard {
+  margin-bottom: 10px;
+}
+
+.feedOrderCardLink {
+  display: block;
+  color: var(--text-primary-color);
+  background: var(--background-element);
+  border-radius: 40px;
+}

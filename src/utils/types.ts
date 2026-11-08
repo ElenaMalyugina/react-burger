@@ -16,4 +16,12 @@ export type TIngredient = {
   innerId?: string;
 };
 
-
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: 'done';
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};

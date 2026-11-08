@@ -1,26 +1,24 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export type Order = {
-  _id: string;
-  ingredients: string[];
-  status: 'done';
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
-};
+import type { TOrder } from '@/utils/types';
 
-type OrdersSocketState = {
+export type TOrdersSocketState = {
   isConnected: boolean;
-  messages: Order[];
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
   error: string | null;
   isLoading: boolean;
 };
 
 // Начальное состояние
-const initialState: OrdersSocketState = {
+const initialState: TOrdersSocketState = {
   isConnected: false,
-  messages: [],
+  success: false,
+  orders: [],
+  total: 0,
+  totalToday: 0,
   error: null,
   isLoading: false,
 };
@@ -30,7 +28,7 @@ export const feedSocketSlice = createSlice({
   name: 'feedSocket',
   initialState,
   selectors: {
-    feedOrders: (state) => state.messages,
+    feedOrders: (state) => state.orders,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -40,10 +38,10 @@ export const feedSocketSlice = createSlice({
     },
     disconnect: (state) => {
       state.isConnected = false;
-      state.messages = [];
+      state.orders = [];
       state.isLoading = false;
     },
-    sendMessage: (state, action: PayloadAction<Order>) => {
+    sendMessage: (state, action: PayloadAction<TOrdersSocketState>) => {
       console.log(state);
       console.log(action);
       // Middleware будет обрабатывать отправку
@@ -54,8 +52,8 @@ export const feedSocketSlice = createSlice({
       state.isConnected = true;
       state.error = null;
     },
-    onMessage: (state, action: PayloadAction<Order>) => {
-      state.messages.push(action.payload);
+    onMessage: (state, action: PayloadAction<TOrdersSocketState>) => {
+      state.orders = action.payload.orders;
     },
     onError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;

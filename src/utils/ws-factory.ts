@@ -38,10 +38,11 @@ export const createSocketMiddleware = <TData = unknown, TError = unknown>(
         store.dispatch(config.onOpen());
       };
 
-      //получено сообщение
+      //получены новые данные
       ws.onmessage = (event: MessageEvent<string>): void => {
         try {
           const data = JSON.parse(event.data) as TData;
+
           store.dispatch(config.onMessage(data));
         } catch (error) {
           const errorMessage = 'Ошибка парсинга' as TError;
