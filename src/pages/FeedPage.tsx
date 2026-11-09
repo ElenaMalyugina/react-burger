@@ -23,7 +23,7 @@ export const FeedPage = (): React.JSX.Element => {
     <>
       <h1 className="title text text_type_main-large mt-10 mb-5 pl-5">Лента заказов</h1>
       <main className="main pl-5 pr-5">
-        <section className={`box-with-scroll`}>
+        <section className={`box-with-scroll pr-10`}>
           <FeedOrdersList orders={orders} />
         </section>
         <section></section>

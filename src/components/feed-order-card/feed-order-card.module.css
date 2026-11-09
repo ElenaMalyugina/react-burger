@@ -5,6 +5,20 @@
 .feedOrderCardLink {
   display: block;
   color: var(--text-primary-color);
+  text-decoration: none;
   background: var(--background-element);
   border-radius: 40px;
+}
+
+.feedIngredientList {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
