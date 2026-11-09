@@ -1,5 +1,5 @@
+import { getIngredientsByIds, getTotalPrice } from '@/services/feeds-service/selectors';
 import { useAppSelector } from '@/services/hooks';
-import { getIngredientsByIds } from '@/services/ingredients-service/slice';
 import { formatRelativeDate } from '@/utils/data-formatter';
 import { Link } from 'react-router-dom';
 
@@ -16,16 +16,17 @@ type TFeedOrderCardProps = {
 };
 
 export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element => {
+  // Получаем все ингредиенты из стора (по ID)
   const ingredientsArray = useAppSelector((state: RootState) => {
     return getIngredientsByIds(state, order.ingredients);
   });
 
-  const totalPrice = ingredientsArray.reduce((acc, item) => {
-    return acc + (item?.price ?? 0);
-  }, 0);
+  const totalPrice = useAppSelector((state: RootState) => {
+    return getTotalPrice(state, order.ingredients);
+  });
 
   return (
-    <li className={styles.feedOrderCard}>
+    <li className={styles.feedOrderCard} key={order._id}>
       <Link className={`p-8 ${styles.feedOrderCardLink}`} to={`feed/${order._id}`}>
         <div className={styles.row}>
           <p className="text text_type_main-default">#{order.number}</p>
@@ -38,11 +39,14 @@ export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element
 
         <div className={styles.row}>
           <ul className={styles.feedIngredientList}>
-            {ingredientsArray.map((ingredient) => (
-              <FeedIngredientItem key={ingredient?._id} ingredient={ingredient} />
-            ))}
-          </ul>
+            {ingredientsArray.map((ingredient, i) => {
+              if (!ingredient) return;
 
+              return (
+                <FeedIngredientItem key={ingredient._id + i} ingredient={ingredient} />
+              );
+            })}
+          </ul>
           <PriceBlock price={totalPrice} textClass="text text_type_main-medium" />
         </div>
       </Link>

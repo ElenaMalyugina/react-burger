@@ -29,6 +29,8 @@ export const feedSocketSlice = createSlice({
   initialState,
   selectors: {
     feedOrders: (state) => state.orders,
+    feedTotal: (state) => state.total,
+    feedTotalToday: (state) => state.totalToday,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -39,6 +41,7 @@ export const feedSocketSlice = createSlice({
     disconnect: (state) => {
       state.isConnected = false;
       state.orders = [];
+      state.total = 0;
       state.isLoading = false;
     },
     sendMessage: (state, action: PayloadAction<TOrdersSocketState>) => {
@@ -54,6 +57,8 @@ export const feedSocketSlice = createSlice({
     },
     onMessage: (state, action: PayloadAction<TOrdersSocketState>) => {
       state.orders = action.payload.orders;
+      state.total = action.payload.total;
+      state.totalToday = action.payload.totalToday;
     },
     onError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -69,4 +74,4 @@ export const feedSocketSlice = createSlice({
 export const { connect, disconnect, sendMessage, onOpen, onMessage, onError, onClose } =
   feedSocketSlice.actions;
 
-export const { feedOrders } = feedSocketSlice.selectors;
+export const { feedOrders, feedTotal, feedTotalToday } = feedSocketSlice.selectors;
