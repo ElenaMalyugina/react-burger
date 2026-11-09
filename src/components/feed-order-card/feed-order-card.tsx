@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/services/hooks';
-import { getIngredientById } from '@/services/ingredients-service/slice';
+import { getIngredientsByIds } from '@/services/ingredients-service/slice';
 import { formatRelativeDate } from '@/utils/data-formatter';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import { FeedIngredientItem } from '../feed-ingredient-item/feed-ingredient-item
 import { PriceBlock } from '../price-block/price-block';
 
 import type { RootState } from '@/services/store';
-import type { TIngredient, TOrder } from '@/utils/types';
+import type { TOrder } from '@/utils/types';
 
 import styles from './feed-order-card.module.css';
 
@@ -17,13 +17,7 @@ type TFeedOrderCardProps = {
 
 export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element => {
   const ingredientsArray = useAppSelector((state: RootState) => {
-    return order.ingredients.reduce((acc: TIngredient[], id) => {
-      const ingr = getIngredientById(state, id);
-      if (ingr) {
-        acc.push(ingr);
-      }
-      return acc;
-    }, []);
+    return getIngredientsByIds(state, order.ingredients);
   });
 
   const totalPrice = ingredientsArray.reduce((acc, item) => {
