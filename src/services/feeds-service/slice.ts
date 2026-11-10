@@ -31,6 +31,8 @@ export const feedSocketSlice = createSlice({
     feedOrders: (state) => state.orders,
     feedTotal: (state) => state.total,
     feedTotalToday: (state) => state.totalToday,
+    getOrderById: (state, id: string) =>
+      state.orders.find((item) => item._id === id) ?? null,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -74,4 +76,5 @@ export const feedSocketSlice = createSlice({
 export const { connect, disconnect, sendMessage, onOpen, onMessage, onError, onClose } =
   feedSocketSlice.actions;
 
-export const { feedOrders, feedTotal, feedTotalToday } = feedSocketSlice.selectors;
+export const { feedOrders, feedTotal, feedTotalToday, getOrderById } =
+  feedSocketSlice.selectors;

@@ -27,7 +27,7 @@ export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element
 
   return (
     <li className={styles.feedOrderCard} key={order._id}>
-      <Link className={`p-8 ${styles.feedOrderCardLink}`} to={`feed/${order._id}`}>
+      <Link className={`p-8 ${styles.feedOrderCardLink}`} to={`/feed/${order._id}`}>
         <div className={styles.row}>
           <p className="text text_type_main-default">#{order.number}</p>
           <p className="text text_type_main-default">

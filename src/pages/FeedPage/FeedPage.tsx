@@ -10,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import styles from './FeedPage.module.css';
 
@@ -60,6 +61,7 @@ export const FeedPage = (): React.JSX.Element => {
           </article>
         </section>
       </main>
+      <Outlet />
     </>
   );
 };
