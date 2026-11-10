@@ -1,4 +1,5 @@
 import { FeedOrdersList } from '@/components/feed-orders-list/feed-orders-list';
+import { FeedStatusesBlock } from '@/components/feed-statuses-block/feed-statuses-block';
 import {
   connect,
   disconnect,
@@ -41,28 +42,20 @@ export const FeedPage = (): React.JSX.Element => {
         <section className={`pl-10 ${styles.section}`}>
           <div className={styles.statusesBlock}>
             <article className={styles.statusesArticle}>
-              <h2 className="text text_type_main-default mb-5">Готовы</h2>
-              <ul>
-                {doneOrders.map((order) => (
-                  <li key={order._id}>{order.number}</li>
-                ))}
-              </ul>
+              <h2 className="text text_type_main-medium mb-5">Готовы</h2>
+              <FeedStatusesBlock orders={doneOrders} status="done" />
             </article>
             <article>
-              <h2 className="text text_type_main-default mb-5">В работе</h2>
-              <ul>
-                {pendingOrders.map((order) => (
-                  <li key={order._id}>{order.number}</li>
-                ))}
-              </ul>
+              <h2 className="text text_type_main-medium mb-5">В работе</h2>
+              <FeedStatusesBlock orders={pendingOrders} status="pending" />
             </article>
           </div>
           <article>
-            <h2 className="text text_type_main-default mb-5">Выполнено за все время</h2>
+            <h2 className="text text_type_main-medium mb-5">Выполнено за все время</h2>
             <p className="text text_type_main-large mb-5">{total}</p>
           </article>
           <article>
-            <h2 className="text text_type_main-default mb-5">Выполнено за сегодня</h2>
+            <h2 className="text text_type_main-medium mb-5">Выполнено за сегодня</h2>
             <p className="text text_type_main-large mb-5">{totalToday}</p>
           </article>
         </section>
