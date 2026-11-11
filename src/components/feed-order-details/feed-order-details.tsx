@@ -105,17 +105,19 @@ export const FeedOrderDetails = ({ order }: TFeedOrderDetails): React.JSX.Elemen
         </table>
       </div>
       <table className={styles.ingredientsTableTotal}>
-        <tr>
-          <td className="text text_type_main-default" colSpan={2}>
-            {formatRelativeDate(order.createdAt)}
-          </td>
-          <td>
-            <PriceBlock
-              textClass={`text text_type_main-default ${styles.totalPrice}`}
-              price={totalPrice}
-            />
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td className="text text_type_main-default" colSpan={2}>
+              {formatRelativeDate(order.createdAt)}
+            </td>
+            <td>
+              <PriceBlock
+                textClass={`text text_type_main-default ${styles.totalPrice}`}
+                price={totalPrice}
+              />
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );
