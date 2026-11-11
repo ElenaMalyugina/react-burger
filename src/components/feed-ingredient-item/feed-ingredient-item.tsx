@@ -13,7 +13,7 @@ export const FeedIngredientItem = ({
     <li className={styles.ingredientItem}>
       <img
         className={styles.ingredientIcon}
-        src={ingredient?.image}
+        src={ingredient?.image_mobile}
         alt={ingredient?.name}
         title={ingredient?.name}
       />

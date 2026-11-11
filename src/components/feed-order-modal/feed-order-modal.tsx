@@ -22,7 +22,7 @@ export const FeedOrderModal = (): React.JSX.Element | null => {
 
   return (
     order && (
-      <Modal header={'Детали заказа'} handleCloseModal={closeModalDetails}>
+      <Modal handleCloseModal={closeModalDetails}>
         <FeedOrderDetails order={order} />
       </Modal>
     )

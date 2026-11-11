@@ -1,0 +1,63 @@
+.orderModalBody {
+  max-width: 700px;
+}
+
+.orderNumber {
+  margin-bottom: 40px;
+}
+
+.done {
+  color: cyan;
+}
+
+.pending,
+.created {
+  color: white;
+}
+
+.tableWrapper {
+  max-height: 300px;
+}
+
+.ingredientsTable {
+  width: 100%;
+}
+
+.ingredientImgWrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border: 1px solid #4c4cff;
+  border-radius: 50%;
+}
+
+.ingredientImg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 90px;
+  transform: translate(-50%, -50%);
+}
+
+.price {
+  display: inline-block;
+  margin: 0;
+}
+
+.ingredientsTableTotal {
+  width: 100%;
+}
+
+.ingredientsTableTotal td {
+  padding-top: 20px;
+}
+
+.ingredientsTableTotal td:last-child {
+  text-align: right;
+}
+
+.ingredientsTableTotal .totalPrice {
+  justify-content: flex-end;
+}
