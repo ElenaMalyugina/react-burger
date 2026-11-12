@@ -67,6 +67,12 @@ export const router = createBrowserRouter([
           {
             path: 'orders',
             element: <ProfileOrdersPage />,
+            children: [
+              {
+                path: ':id',
+                element: <FeedOrderModal />,
+              },
+            ],
           },
         ],
       },
