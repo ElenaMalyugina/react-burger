@@ -1,17 +1,31 @@
+import { getAccessToken, refreshToken } from './token';
+
 import type { Middleware, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 
 export type TSocketConfig<TData = unknown, TError = unknown> = {
   url: string;
   sliceName: string;
   connect: () => UnknownAction;
+  disconnect: () => UnknownAction;
   onOpen: () => UnknownAction;
   onMessage: (data: TData) => UnknownAction;
   onError: (error: TError) => UnknownAction;
   onClose: () => UnknownAction;
 };
 
+type InvalidTokenMessage = {
+  message: string;
+};
+
+const isInvalidTokenMessage = (value: unknown): value is InvalidTokenMessage =>
+  typeof value === 'object' &&
+  value !== null &&
+  'message' in value &&
+  typeof (value as { message: unknown }).message === 'string';
+
 export const createSocketMiddleware = <TData = unknown, TError = unknown>(
-  config: TSocketConfig<TData, TError>
+  config: TSocketConfig<TData, TError>,
+  isToken = false
 ): Middleware => {
   let ws: WebSocket | null = null;
 
@@ -24,13 +38,22 @@ export const createSocketMiddleware = <TData = unknown, TError = unknown>(
 
     //коннект
     if (type === `${config.sliceName}/connect`) {
-      const { payload: token } = action as PayloadAction<string, 'socket/connect'>;
+      //const { payload: token } = action as PayloadAction<string, string>;
 
       if (ws) {
         ws.close();
       }
 
-      ws = new WebSocket(`${config.url}?token=${token}`);
+      const wssUrl = new URL(config.url);
+
+      if (isToken) {
+        const token = getAccessToken();
+        if (token) {
+          wssUrl.searchParams.set('token', token.replace('Bearer ', ''));
+        }
+      }
+
+      ws = new WebSocket(wssUrl);
 
       //колбэки
       //открыто
@@ -41,9 +64,34 @@ export const createSocketMiddleware = <TData = unknown, TError = unknown>(
       //получены новые данные
       ws.onmessage = (event: MessageEvent<string>): void => {
         try {
-          const data = JSON.parse(event.data) as TData;
+          const data = JSON.parse(event.data) as unknown;
 
-          store.dispatch(config.onMessage(data));
+          if (
+            isToken &&
+            isInvalidTokenMessage(data) &&
+            data.message === 'Invalid or missing token'
+          ) {
+            refreshToken()
+              .then((refreshedData) => {
+                const wssUrl = new URL(config.url); // Новый URL, на основании того, который сохраняли
+
+                wssUrl.searchParams.set(
+                  'token',
+                  refreshedData.accessToken.replace('Bearer ', '')
+                );
+
+                store.dispatch(config.connect());
+              })
+              .catch((error) => {
+                const errorMessage = 'Ошибка токена' as TError;
+                console.log(error);
+                store.dispatch(config.onError(errorMessage));
+              });
+
+            store.dispatch(config.disconnect());
+            return;
+          }
+          store.dispatch(config.onMessage(data as TData));
         } catch (error) {
           const errorMessage = 'Ошибка парсинга' as TError;
           console.log(error);

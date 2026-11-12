@@ -9,7 +9,7 @@ import { PriceBlock } from '../price-block/price-block';
 import type { RootState } from '@/services/store';
 import type { TOrder } from '@/utils/types';
 
-import styles from './feed-order-card.module.css';
+import styles from '../styles/order-card.module.css';
 
 type TFeedOrderCardProps = {
   order: TOrder;
@@ -26,8 +26,8 @@ export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element
   });
 
   return (
-    <li className={styles.feedOrderCard} key={order._id}>
-      <Link className={`p-8 ${styles.feedOrderCardLink}`} to={`/feed/${order._id}`}>
+    <li className={styles.orderCard} key={order._id}>
+      <Link className={`p-8 ${styles.orderCardLink}`} to={`/feed/${order._id}`}>
         <div className={styles.row}>
           <p className="text text_type_main-default">#{order.number}</p>
           <p className="text text_type_main-default">
@@ -38,7 +38,7 @@ export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element
         <h2 className={`text text_type_main-medium mb-5 mt-5`}>{order.name}</h2>
 
         <div className={styles.row}>
-          <ul className={styles.feedIngredientList}>
+          <ul className={styles.ingredientList}>
             {ingredientsArray.map((ingredient, i) => {
               if (!ingredient) return;
 

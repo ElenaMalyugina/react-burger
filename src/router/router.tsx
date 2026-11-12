@@ -5,7 +5,7 @@ import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
 import { Home } from '@/pages/Home';
 import { LoginPage } from '@/pages/LoginPage';
 import { NotFound } from '@/pages/NotFound';
-import { ProfileOrderPage } from '@/pages/ProfileOrderPage';
+import { ProfileOrdersPage } from '@/pages/ProfileOrdersPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { ProfileRootPage } from '@/pages/ProfileRootPage/ProfileRootPage';
 import { RegisterPage } from '@/pages/RegisterPage';
@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'orders',
-            element: <ProfileOrderPage />,
+            element: <ProfileOrdersPage />,
           },
         ],
       },

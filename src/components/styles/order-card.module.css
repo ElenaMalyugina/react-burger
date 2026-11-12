@@ -1,8 +1,8 @@
-.feedOrderCard {
+.orderCard {
   margin-bottom: 10px;
 }
 
-.feedOrderCardLink {
+.orderCardLink {
   display: block;
   color: var(--text-primary-color);
   text-decoration: none;
@@ -10,7 +10,7 @@
   border-radius: 40px;
 }
 
-.feedIngredientList {
+.ingredientList {
   display: flex;
   margin: 0;
   padding: 0;

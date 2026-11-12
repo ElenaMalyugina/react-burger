@@ -25,3 +25,14 @@ export type TOrder = {
   updatedAt: string;
   number: number;
 };
+
+export type TOrdersSocketState = {
+  isConnected: boolean;
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+  error: string | null;
+  isLoading: boolean;
+  isToken: boolean;
+};

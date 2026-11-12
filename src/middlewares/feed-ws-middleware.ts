@@ -4,10 +4,11 @@ import {
   onError,
   onMessage,
   onOpen,
-  type TOrdersSocketState,
 } from '@/services/feeds-service/slice';
 import { Urls } from '@/utils/urls';
 import { createSocketMiddleware, type TSocketConfig } from '@/utils/ws-factory';
+
+import type { TOrdersSocketState } from '@/utils/types';
 
 const config: TSocketConfig<TOrdersSocketState, string> = {
   url: `${Urls.socketUrl}/orders/all`,

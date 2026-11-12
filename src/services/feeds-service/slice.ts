@@ -1,16 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { TOrder } from '@/utils/types';
-
-export type TOrdersSocketState = {
-  isConnected: boolean;
-  success: boolean;
-  orders: TOrder[];
-  total: number;
-  totalToday: number;
-  error: string | null;
-  isLoading: boolean;
-};
+import type { TOrdersSocketState } from '@/utils/types';
 
 // Начальное состояние
 const initialState: TOrdersSocketState = {
@@ -21,6 +11,7 @@ const initialState: TOrdersSocketState = {
   totalToday: 0,
   error: null,
   isLoading: false,
+  isToken: false,
 };
 
 // Создаём слайс
