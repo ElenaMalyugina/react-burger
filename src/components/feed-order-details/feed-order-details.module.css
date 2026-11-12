@@ -42,7 +42,7 @@
 }
 
 .price {
-  display: inline-block;
+  display: inline-flex;
   margin: 0;
 }
 
