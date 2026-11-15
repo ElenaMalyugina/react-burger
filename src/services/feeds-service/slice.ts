@@ -1,5 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+import { getOrderById } from './thunks';
+
 import type { TOrdersSocketState } from '@/utils/types';
 
 // Начальное состояние
@@ -7,6 +9,8 @@ const initialState: TOrdersSocketState = {
   isConnected: false,
   success: false,
   orders: [],
+  activeOrder: null,
+  activeOrderError: null,
   total: 0,
   totalToday: 0,
   error: null,
@@ -22,8 +26,7 @@ export const feedSocketSlice = createSlice({
     feedOrders: (state) => state.orders,
     feedTotal: (state) => state.total,
     feedTotalToday: (state) => state.totalToday,
-    getOrderById: (state, id: string) =>
-      state.orders.find((item) => item._id === id) ?? null,
+    getActiveOrder: (state) => state.activeOrder,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -61,11 +64,42 @@ export const feedSocketSlice = createSlice({
       state.isConnected = false;
       state.isLoading = false;
     },
+    setActiveOrder: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      state.activeOrder = state.orders.find((item) => item._id === id) ?? null;
+    },
+    clearActiveOrder: (state) => {
+      state.activeOrder = null;
+      state.activeOrderError = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getOrderById.pending, (state) => {
+        state.activeOrder = null;
+        state.activeOrderError = null;
+      })
+      .addCase(getOrderById.fulfilled, (state, action) => {
+        state.activeOrder = action.payload;
+        state.activeOrderError = null;
+      })
+      .addCase(getOrderById.rejected, (state) => {
+        state.activeOrder = null;
+        state.activeOrderError = 'Заказ не найден';
+      });
   },
 });
 
-export const { connect, disconnect, sendMessage, onOpen, onMessage, onError, onClose } =
-  feedSocketSlice.actions;
+export const {
+  connect,
+  disconnect,
+  sendMessage,
+  onOpen,
+  onMessage,
+  onError,
+  onClose,
+  clearActiveOrder,
+} = feedSocketSlice.actions;
 
-export const { feedOrders, feedTotal, feedTotalToday, getOrderById } =
+export const { feedOrders, feedTotal, feedTotalToday, getActiveOrder } =
   feedSocketSlice.selectors;

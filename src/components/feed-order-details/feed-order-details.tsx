@@ -83,8 +83,6 @@ export const FeedOrderDetails = ({ order }: TFeedOrderDetails): React.JSX.Elemen
     return getTotalPrice(state, order.ingredients);
   });
 
-  console.log(JSON.stringify(ingredientsArray));
-
   return (
     <div className={styles.orderModalBody}>
       <p className={`text text_type_main-default ${styles.orderNumber}`}>

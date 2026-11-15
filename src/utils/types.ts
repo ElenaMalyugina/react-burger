@@ -30,6 +30,8 @@ export type TOrdersSocketState = {
   isConnected: boolean;
   success: boolean;
   orders: TOrder[];
+  activeOrder: TOrder | null;
+  activeOrderError: string | null;
   total: number;
   totalToday: number;
   error: string | null;

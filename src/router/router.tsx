@@ -1,5 +1,6 @@
 import { FeedOrderModal } from '@/components/feed-order-modal/feed-order-modal';
 import { Layout } from '@/components/layout/layout';
+import { ProfileOrderModal } from '@/components/profile-order-modal/profile-order-modal';
 import { FeedPage } from '@/pages/FeedPage/FeedPage';
 import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
 import { Home } from '@/pages/Home';
@@ -70,7 +71,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: ':id',
-                element: <FeedOrderModal />,
+                element: <ProfileOrderModal />,
               },
             ],
           },
