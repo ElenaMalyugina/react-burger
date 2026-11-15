@@ -98,6 +98,7 @@ export const {
   onMessage,
   onError,
   onClose,
+  setActiveOrder,
   clearActiveOrder,
 } = profileOrdersSocketSlice.actions;
 

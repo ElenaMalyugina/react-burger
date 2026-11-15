@@ -11,6 +11,7 @@ import type { TOrder } from '@/utils/types';
 
 export const FeedOrderModal = (): React.JSX.Element | null => {
   const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -23,7 +24,7 @@ export const FeedOrderModal = (): React.JSX.Element | null => {
 
   useEffect(() => {
     if (id) void dispatch(getOrderById(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     order && (

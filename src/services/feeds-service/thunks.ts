@@ -5,7 +5,7 @@ import type { RootState } from '../store';
 import type { TOrder } from '@/utils/types';
 
 type TOrderResponse = {
-  data: TOrder;
+  order: TOrder;
 };
 
 export const getOrderById = createAsyncThunk<
@@ -20,12 +20,12 @@ export const getOrderById = createAsyncThunk<
   }
 
   try {
-    const res = (await request(`/api/ordres/${orderId}`)) as TOrderResponse;
+    const res = (await request(`/api/orders/${orderId}`)) as TOrderResponse;
 
-    if (!Array.isArray(res.data)) {
+    if (!res?.order) {
       throw new Error('Поле data не содержит инфо о заказе');
     }
-    return res.data;
+    return res.order;
   } catch (error: unknown) {
     return rejectWithValue(
       error instanceof Error ? error.message : 'Ошибка при загрузке данных заказа'
