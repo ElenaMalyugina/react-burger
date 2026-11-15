@@ -4,6 +4,7 @@ import {
   onError,
   onMessage,
   onOpen,
+  disconnect,
 } from '@/services/feeds-service/slice';
 import { Urls } from '@/utils/urls';
 import { createSocketMiddleware, type TSocketConfig } from '@/utils/ws-factory';
@@ -18,6 +19,7 @@ const config: TSocketConfig<TOrdersSocketState, string> = {
   onMessage,
   onError,
   onClose,
+  disconnect,
 };
 
 export const feedSocketMiddleware = createSocketMiddleware(config);

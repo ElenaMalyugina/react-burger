@@ -16,6 +16,10 @@ export type TIngredient = {
   innerId?: string;
 };
 
+export type TExtendedIngredient = TIngredient & {
+  count: number;
+};
+
 export type TOrder = {
   _id: string;
   ingredients: string[];

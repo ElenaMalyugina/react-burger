@@ -1,3 +1,5 @@
+import { isOrderValid } from '@/utils/checkValidOrder';
+
 import { FeedOrderCard } from '../feed-order-card/feed-order-card';
 
 import type { TOrder } from '@/utils/types';
@@ -9,9 +11,11 @@ type TFeedOrderListProps = {
 };
 
 export const FeedOrdersList = ({ orders }: TFeedOrderListProps): React.JSX.Element => {
-  const orderCards = orders.map((order) => (
-    <FeedOrderCard key={order._id} order={order} />
-  ));
+  const orderCards = orders.map((order) => {
+    if (!isOrderValid) return;
+
+    return <FeedOrderCard key={order._id} order={order} />;
+  });
 
   return <ul className={styles.feedOrdersList}>{orderCards}</ul>;
 };

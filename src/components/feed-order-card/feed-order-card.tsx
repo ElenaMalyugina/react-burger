@@ -1,12 +1,11 @@
-import { getIngredientsByIds, getTotalPrice } from '@/services/feeds-service/selectors';
-import { useAppSelector } from '@/services/hooks';
+import { useOrderCard } from '@/hooks/useOrderCard';
 import { formatRelativeDate } from '@/utils/data-formatter';
+import { ingredientsRowsArrayBuilder } from '@/utils/ingredients-filter';
 import { Link } from 'react-router-dom';
 
 import { FeedIngredientItem } from '../feed-ingredient-item/feed-ingredient-item';
 import { PriceBlock } from '../price-block/price-block';
 
-import type { RootState } from '@/services/store';
 import type { TOrder } from '@/utils/types';
 
 import styles from '../styles/order-card.module.css';
@@ -16,14 +15,9 @@ type TFeedOrderCardProps = {
 };
 
 export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element => {
-  // Получаем все ингредиенты из стора (по ID)
-  const ingredientsArray = useAppSelector((state: RootState) => {
-    return getIngredientsByIds(state, order.ingredients);
-  });
+  const ingredientsArray = useOrderCard(order.ingredients).ingredientsArray;
 
-  const totalPrice = useAppSelector((state: RootState) => {
-    return getTotalPrice(state, order.ingredients);
-  });
+  const totalPrice = useOrderCard(order.ingredients).totalPrice;
 
   return (
     <li className={styles.orderCard} key={order._id}>
@@ -39,7 +33,7 @@ export const FeedOrderCard = ({ order }: TFeedOrderCardProps): React.JSX.Element
 
         <div className={styles.row}>
           <ul className={styles.ingredientList}>
-            {ingredientsArray.map((ingredient, i) => {
+            {ingredientsRowsArrayBuilder(ingredientsArray).map((ingredient, i) => {
               if (!ingredient) return;
 
               return (

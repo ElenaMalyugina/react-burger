@@ -27,6 +27,7 @@ export const profileOrdersSocketSlice = createSlice({
     profileTotal: (state) => state.total,
     profileTotalToday: (state) => state.totalToday,
     getActiveOrder: (state) => state.activeOrder,
+    getIsOrders: (state) => state.orders.length > 0,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -102,5 +103,10 @@ export const {
   clearActiveOrder,
 } = profileOrdersSocketSlice.actions;
 
-export const { profileOrders, profileTotal, profileTotalToday, getActiveOrder } =
-  profileOrdersSocketSlice.selectors;
+export const {
+  profileOrders,
+  profileTotal,
+  profileTotalToday,
+  getActiveOrder,
+  getIsOrders,
+} = profileOrdersSocketSlice.selectors;

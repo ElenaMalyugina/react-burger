@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { getIngredients } from '../ingredients-service/slice';
+import { getIngredients } from './ingredients-service/slice';
 
 import type { RootState } from '@/services/store';
 import type { TIngredient } from '@/utils/types';

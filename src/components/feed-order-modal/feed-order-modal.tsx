@@ -1,4 +1,8 @@
-import { clearActiveOrder, getActiveOrder } from '@/services/feeds-service/slice';
+import {
+  clearActiveOrder,
+  getActiveOrder,
+  getIsOrders,
+} from '@/services/feeds-service/slice';
 import { getOrderById } from '@/services/feeds-service/thunks';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useEffect } from 'react';
@@ -14,6 +18,7 @@ export const FeedOrderModal = (): React.JSX.Element | null => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isSocketOrders = useAppSelector(getIsOrders);
 
   const order: TOrder | null = useAppSelector(getActiveOrder);
 
@@ -23,8 +28,8 @@ export const FeedOrderModal = (): React.JSX.Element | null => {
   };
 
   useEffect(() => {
-    if (id) void dispatch(getOrderById(id));
-  }, [dispatch, id]);
+    if (id && isSocketOrders) void dispatch(getOrderById(id));
+  }, [dispatch, id, isSocketOrders]);
 
   return (
     order && (

@@ -1,3 +1,5 @@
+import { isOrderValid } from '@/utils/checkValidOrder';
+
 import { ProfileOrderCard } from '../profile-order-card/profile-order-card';
 
 import type { TOrder } from '@/utils/types';
@@ -11,9 +13,11 @@ type TProfileOrderListProps = {
 export const ProfileOrdersList = ({
   orders,
 }: TProfileOrderListProps): React.JSX.Element => {
-  const orderCards = orders.map((order) => (
-    <ProfileOrderCard key={order._id} order={order} />
-  ));
+  const orderCards = orders.map((order) => {
+    if (!isOrderValid) return;
+
+    return <ProfileOrderCard key={order._id} order={order} />;
+  });
 
   return <ul className={styles.profieOrdersList}>{orderCards}</ul>;
 };

@@ -27,6 +27,7 @@ export const feedSocketSlice = createSlice({
     feedTotal: (state) => state.total,
     feedTotalToday: (state) => state.totalToday,
     getActiveOrder: (state) => state.activeOrder,
+    getIsOrders: (state) => state.orders.length > 0,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -102,5 +103,5 @@ export const {
   clearActiveOrder,
 } = feedSocketSlice.actions;
 
-export const { feedOrders, feedTotal, feedTotalToday, getActiveOrder } =
+export const { feedOrders, feedTotal, feedTotalToday, getActiveOrder, getIsOrders } =
   feedSocketSlice.selectors;

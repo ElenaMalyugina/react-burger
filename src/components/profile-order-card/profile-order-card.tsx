@@ -1,12 +1,11 @@
-import { getIngredientsByIds, getTotalPrice } from '@/services/feeds-service/selectors';
-import { useAppSelector } from '@/services/hooks';
+import { useOrderCard } from '@/hooks/useOrderCard';
 import { formatRelativeDate } from '@/utils/data-formatter';
+import { statusesFormatter } from '@/utils/statuses-formatter';
 import { Link } from 'react-router-dom';
 
 import { FeedIngredientItem } from '../feed-ingredient-item/feed-ingredient-item';
 import { PriceBlock } from '../price-block/price-block';
 
-import type { RootState } from '@/services/store';
 import type { TOrder } from '@/utils/types';
 
 import styles from '../styles/order-card.module.css';
@@ -18,14 +17,12 @@ type TProfileOrderCardProps = {
 export const ProfileOrderCard = ({
   order,
 }: TProfileOrderCardProps): React.JSX.Element => {
-  // Получаем все ингредиенты из стора (по ID)
-  const ingredientsArray = useAppSelector((state: RootState) => {
-    return getIngredientsByIds(state, order.ingredients);
-  });
+  const ingredientsArray = useOrderCard(order.ingredients).ingredientsArray;
 
-  const totalPrice = useAppSelector((state: RootState) => {
-    return getTotalPrice(state, order.ingredients);
-  });
+  const ingredientsArrayBuns =
+    ingredientsArray.filter((ingr) => ingr?.type === 'bun') ?? [];
+
+  const totalPrice = useOrderCard(order.ingredients).totalPrice;
 
   return (
     <li className={styles.orderCard} key={order._id}>
@@ -41,10 +38,12 @@ export const ProfileOrderCard = ({
         </div>
 
         <h2 className={`text text_type_main-medium mb-5 mt-5`}>{order.name}</h2>
-
+        <p className={`text text_type_main-default mb-5 ${order.status}`}>
+          {statusesFormatter(order.status)}
+        </p>
         <div className={styles.row}>
           <ul className={styles.ingredientList}>
-            {ingredientsArray.map((ingredient, i) => {
+            {ingredientsArrayBuns.map((ingredient, i) => {
               if (!ingredient) return;
 
               return (
