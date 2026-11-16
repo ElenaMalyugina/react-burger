@@ -16,4 +16,29 @@ export type TIngredient = {
   innerId?: string;
 };
 
+export type TExtendedIngredient = TIngredient & {
+  count: number;
+};
 
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: 'done' | 'pending' | 'created';
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
+
+export type TOrdersSocketState = {
+  isConnected: boolean;
+  success: boolean;
+  orders: TOrder[];
+  activeOrder: TOrder | null;
+  activeOrderError: string | null;
+  total: number;
+  totalToday: number;
+  error: string | null;
+  isLoading: boolean;
+  isToken: boolean;
+};

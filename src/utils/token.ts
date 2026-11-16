@@ -1,34 +1,34 @@
-import { request } from "./checkResponse";
+import { request } from './checkResponse';
 
 type TTokenResponse = {
   success: boolean;
   accessToken: string;
   refreshToken: string;
-}
+};
 
-export const isTokenExists = ():boolean => {
+export const isTokenExists = (): boolean => {
   return !!localStorage.getItem('accessToken');
-}
+};
 
-export const saveAuthTokens = (accessToken: string, refreshToken: string):void=>{
+export const saveAuthTokens = (accessToken: string, refreshToken: string): void => {
   localStorage.setItem('accessToken', accessToken);
   localStorage.setItem('refreshToken', refreshToken);
-}
+};
 
-export const getAccessToken = (): string | null=>{
+export const getAccessToken = (): string | null => {
   return localStorage.getItem('accessToken');
-}
+};
 
-export const getRefreshToken = (): string | null=>{
+export const getRefreshToken = (): string | null => {
   return localStorage.getItem('refreshToken');
-}
+};
 
-export const clearTokens = ()=>{
+export const clearTokens = (): void => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
-}
+};
 
-export const refreshToken = async(): Promise<TTokenResponse> =>{
+export const refreshToken = async (): Promise<TTokenResponse> => {
   const options: Record<string, unknown> = {
     method: 'POST',
     headers: {
@@ -37,10 +37,8 @@ export const refreshToken = async(): Promise<TTokenResponse> =>{
     body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
   };
 
-  const refreshData = await request('api/auth/token', options) as TTokenResponse;
+  const refreshData = (await request('api/auth/token', options)) as TTokenResponse;
   saveAuthTokens(refreshData.accessToken, refreshData.refreshToken);
 
   return refreshData;
-
-
-}
+};

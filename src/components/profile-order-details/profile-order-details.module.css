@@ -1,0 +1,31 @@
+.orderModalBody {
+  max-width: 700px;
+}
+
+.orderNumber {
+  margin-bottom: 40px;
+}
+
+.tableWrapper {
+  max-height: 300px;
+}
+
+.ingredientsTable {
+  width: 100%;
+}
+
+.ingredientsTableTotal {
+  width: 100%;
+}
+
+.ingredientsTableTotal td {
+  padding-top: 20px;
+}
+
+.ingredientsTableTotal td:last-child {
+  text-align: right;
+}
+
+.ingredientsTableTotal .totalPrice {
+  justify-content: flex-end;
+}

@@ -1,0 +1,25 @@
+.columnsContainer {
+  display: flex;
+  gap: 20%;
+  margin-bottom: 40px;
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.done {
+  color: cyan;
+}
+
+.pending {
+  color: white;
+}
+
+.created {
+  color: white;
+}
+
+.orderItem {
+  margin-bottom: 6px;
+  font-size: 20px;
+}

@@ -4,7 +4,6 @@ import { fetchIngredients } from './thunks';
 
 import type { TIngredient } from '@/utils/types';
 
-
 type TIngredientsState = {
   ingredients: TIngredient[];
   loading: boolean;

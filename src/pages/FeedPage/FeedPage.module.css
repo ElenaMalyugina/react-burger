@@ -1,0 +1,12 @@
+.section {
+  flex: 1;
+}
+
+.statusesBlock {
+  display: flex;
+  gap: 20px;
+}
+
+.statusesArticle {
+  flex: 1;
+}

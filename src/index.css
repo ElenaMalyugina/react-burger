@@ -41,35 +41,44 @@ body {
   overflow: hidden;
 }
 
-.container{
+.container {
   max-width: 1240px;
   margin: 0 auto;
 }
 
-.page-header{
+.page-header {
   text-align: center;
 }
 
-.form-block{
+.form-block {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
 }
 
-.note{
+.note {
   text-align: center;
 }
 
-.note a{
+.note a {
+  color: var(--colors-interface-accent);
   text-decoration: none;
-  color: var(--colors-interface-accent) ;
 }
 
-.in-work{
+.in-work {
   text-align: center;
 }
 
-.error-text{
-  color:var(--colors-interface-error);
+.error-text {
+  color: var(--colors-interface-error);
+}
+
+.done {
+  color: cyan;
+}
+
+.pending,
+.created {
+  color: white;
 }

@@ -1,4 +1,4 @@
-import { request } from '@/utils/checkResponse'; // проверь, что путь к файлу верный
+import { fetchWithRefresh } from '@/utils/checkResponse'; // проверь, что путь к файлу верный
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 type TCreateOrderResponse = {
@@ -25,7 +25,10 @@ export const sendOrder = createAsyncThunk<number, string[], { rejectValue: strin
     };
 
     try {
-      const order = (await request('/api/orders', options)) as TCreateOrderResponse;
+      const order = (await fetchWithRefresh(
+        '/api/orders',
+        options
+      )) as TCreateOrderResponse;
 
       return order.order.number;
     } catch (error: unknown) {
