@@ -8,7 +8,6 @@ import {
   feedTotalToday,
 } from '@/services/feeds-service/slice';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
-import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -24,8 +23,6 @@ export const FeedPage = (): React.JSX.Element => {
   const pendingOrders = orders.filter((order) => order.status == 'pending').slice(0, 20);
 
   useEffect((): (() => void) => {
-    void dispatch(fetchIngredients());
-
     void dispatch(connect());
 
     return () => {

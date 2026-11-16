@@ -1,10 +1,9 @@
-import { useAppDispatch, useAppSelector } from '@/services/hooks';
+import { useAppSelector } from '@/services/hooks';
 import {
   getIngredients,
   getIngredientsError,
   getIngredientsLoading,
 } from '@/services/ingredients-service/slice';
-import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import { Preloader, Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -17,16 +16,10 @@ import type { TIngredient } from '@utils/types';
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = (): React.JSX.Element => {
-  const dispatch = useAppDispatch();
-
   //получение списка всех ингредиентов
   const ingredients = useAppSelector(getIngredients);
   const isLoading = useAppSelector(getIngredientsLoading);
   const isError = useAppSelector(getIngredientsError);
-
-  useEffect(() => {
-    void dispatch(fetchIngredients());
-  }, []);
 
   //установка активного таба по умолчанию
   const [activeType, setActiveType] = useState('bun');

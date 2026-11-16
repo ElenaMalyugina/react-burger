@@ -1,6 +1,5 @@
 import { ProfileOrdersList } from '@/components/profile-orders-list/profile-orders-list';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
-import { fetchIngredients } from '@/services/ingredients-service/thunks';
 import {
   connect,
   disconnect,
@@ -15,8 +14,6 @@ export const ProfileOrdersPage = (): React.JSX.Element => {
   const orders = useAppSelector(profileOrders) ?? [];
 
   useEffect((): (() => void) => {
-    void dispatch(fetchIngredients());
-
     void dispatch(connect());
 
     return () => {
