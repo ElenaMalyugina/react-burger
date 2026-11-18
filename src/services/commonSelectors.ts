@@ -15,7 +15,7 @@ export const getIngredientsByIds = createSelector(
     ingredients: TIngredient[]
   ): (TIngredient | undefined)[] => {
     return ingredientsIds.map((ingrId: string): TIngredient | undefined =>
-      ingredients.find((el: TIngredient): boolean => el._id == ingrId)
+      ingredients.find((el: TIngredient): boolean => el._id === ingrId)
     );
   }
 );
