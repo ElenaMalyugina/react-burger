@@ -38,7 +38,7 @@ describe('authSlice', () => {
 
       expect(state.loading).toBe(true);
       expect(state.error).toBe(null);
-      // isAuthChecked и пользователь не трогаем
+
       expect(state.isAuthChecked).toBe(false);
       expect(state.authUserData).toBe(null);
     });

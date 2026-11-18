@@ -80,7 +80,7 @@ describe('селекторы конструктора', () => {
   });
 
   describe('getBurgerConstructorIngredientCount', () => {
-    it('считает вхождения ингредиента по _id, включая булку в двух концах', () => {
+    it('считает вхождения ингредиента по _id, включая булку в начале и в конце', () => {
       const state = buildState(
         addBunBurger(bun),
         addIngredientToBurger(sauce),

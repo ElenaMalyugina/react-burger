@@ -142,7 +142,7 @@ describe('burgerConstructorSlice', () => {
   });
 
   describe('deleteAll', () => {
-    it('очищает булку и ингредиенты', () => {
+    it('обнуляет состав бургера', () => {
       const state = run(addBunBurger(bun), addIngredientToBurger(sauce), deleteAll());
 
       expect(state.bun).toBe(null);
@@ -159,7 +159,7 @@ describe('burgerConstructorSlice', () => {
       expect(getBurgerConstructorBun(rootState as never)).toEqual(bun);
     });
 
-    it('getBurgerConstructorIngredients возвращает список', () => {
+    it('getBurgerConstructorIngredients возвращает список ингредиентов', () => {
       const action = addIngredientToBurger(sauce);
       const rootState = {
         [burgerConstructorSlice.name]: run(action),
