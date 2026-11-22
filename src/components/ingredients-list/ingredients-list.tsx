@@ -12,7 +12,7 @@ export const IngredientsList = ({
   children,
 }: TIngredientsListProps): React.JSX.Element => {
   return (
-    <article className="mb-20" data-type={ingredientsType}>
+    <article className="mb-20" data-type={ingredientsType} data-testid={ingredientsType}>
       <h2>{displayIngredientsType}</h2>
       <ul className={`custom-scroll ${styles['ingredients-list']}`}>{children}</ul>
     </article>

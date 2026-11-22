@@ -50,6 +50,7 @@ export const LoginPage = (): React.JSX.Element => {
               placeholder="E-mail"
               value={values.email}
               required
+              data-testid="email"
             />
 
             <PasswordInput
@@ -57,6 +58,7 @@ export const LoginPage = (): React.JSX.Element => {
               name="password"
               onChange={handleChange}
               value={values.password}
+              data-testid="password"
               required
             />
             {!isLoading && (

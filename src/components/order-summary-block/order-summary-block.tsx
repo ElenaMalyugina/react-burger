@@ -63,7 +63,7 @@ export const OrderSummaryBlock = (): React.JSX.Element => {
   return (
     <>
       <section className="ml-5 mr-5 mb-5 mt-5">
-        <div className={styles.orderSummaryFlex}>
+        <div className={styles.orderSummaryFlex} data-testid="order-summary">
           <PriceBlock price={totalCost} textClass={'text text_type_main-large'} />
           <Button
             onClick={createOrderHandler}

@@ -1,0 +1,63 @@
+{
+    "success": true,
+    "name": "Минеральный краторный бургер",
+    "order": {
+        "ingredients": [
+            {
+                "_id": "692889f16bf770001bfeb4cc",
+                "name": "Краторная булка N-200i",
+                "type": "bun",
+                "proteins": 80,
+                "fat": 24,
+                "carbohydrates": 53,
+                "calories": 420,
+                "price": 1255,
+                "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "692889f16bf770001bfeb4d6",
+                "name": "Хрустящие минеральные кольца",
+                "type": "main",
+                "proteins": 808,
+                "fat": 689,
+                "carbohydrates": 609,
+                "calories": 986,
+                "price": 300,
+                "image": "https://code.s3.yandex.net/react/code/mineral_rings.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/mineral_rings-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "692889f16bf770001bfeb4cc",
+                "name": "Краторная булка N-200i",
+                "type": "bun",
+                "proteins": 80,
+                "fat": 24,
+                "carbohydrates": 53,
+                "calories": 420,
+                "price": 1255,
+                "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+                "__v": 0
+            }
+        ],
+        "_id": "6b03270b8da1e6001b2ba795",
+        "owner": {
+            "name": "test0611202",
+            "email": "test06112026@test.ru",
+            "createdAt": "2026-11-06T11:51:03.396Z",
+            "updatedAt": "2026-11-06T16:02:47.357Z"
+        },
+        "status": "done",
+        "name": "Минеральный краторный бургер",
+        "createdAt": "2026-11-22T17:31:55.928Z",
+        "updatedAt": "2026-11-22T17:32:10.962Z",
+        "number": 2657,
+        "price": 2810
+    }
+}

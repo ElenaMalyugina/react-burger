@@ -39,6 +39,7 @@ function Modal({ header, children, handleCloseModal }: TTModalProps): React.JSX.
             className={styles.closeButton}
             onClick={handleCloseModal}
             title="Закрыть"
+            name="Закрыть"
           >
             <CloseIcon type="primary" />
           </button>

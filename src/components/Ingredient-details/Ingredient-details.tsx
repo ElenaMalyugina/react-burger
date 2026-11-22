@@ -13,7 +13,12 @@ export const IngredientDetails = ({
     ingredient && (
       <div>
         <img src={ingredient.image_large} />
-        <h4 className="text text_type_main-medium mb-3">{ingredient.name}</h4>
+        <h4
+          className="text text_type_main-medium mb-3"
+          data-testid="modal-ingredient-name"
+        >
+          {ingredient.name}
+        </h4>
         <table
           className={`text text_type_main-small text_color_inactive ${styles.table}`}
         >

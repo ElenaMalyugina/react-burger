@@ -7,7 +7,7 @@ type TOrderDetailsProps = {
 
 export const OrderDetails = ({ orderId }: TOrderDetailsProps): React.JSX.Element => {
   return (
-    <div className={styles.orderDetails}>
+    <div className={styles.orderDetails} data-testid="order-modal">
       <h3 className="text text_type_digits-large mb-6">{orderId}</h3>
       <h3 className="text text_type_main-medium mb-10">Идентификатор заказа</h3>
       <div className={`mb-10 p-8 ${styles.status}`}>
