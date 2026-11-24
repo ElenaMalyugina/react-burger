@@ -3,16 +3,16 @@ import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 
 test('Страница отображается с правильным заголовком', async ({ page }) => {
-  await page.goto('http://localhost:5173');
+  await page.goto('/');
   await expect(page.getByText('Соберите бургер')).toBeVisible();
 });
 
 test('Группы ингредиентов отображаются на странице', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-
   await page.routeFromHAR('./e2e/hars/ingredients.har', {
     url: `${Urls.apiUrl}/api/ingredients`
   });
+
+  await page.goto('/');
 
   await expect(page.getByTestId('bun')).toBeVisible();
   await expect(page.getByTestId('main')).toBeVisible();
@@ -21,11 +21,11 @@ test('Группы ингредиентов отображаются на стр
 
 
 test('Полученные ингредиенты отображаются на странице ', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-
   await page.routeFromHAR('./e2e/hars/ingredients.har', {
     url: `${Urls.apiUrl}/api/ingredients`
   });
+
+  await page.goto('/');
 
   await expect(page.getByText("Флюоресцентная булка R2-D3")).toBeVisible();
   await expect(page.getByText("Хрустящие минеральные кольца")).toBeVisible();
@@ -33,11 +33,11 @@ test('Полученные ингредиенты отображаются на 
 });
 
 test('Модальное окно открывается по клику на ингредиент', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-
   await page.routeFromHAR('./e2e/hars/ingredients.har', {
     url: `${Urls.apiUrl}/api/ingredients`
   });
+
+  await page.goto('/');
 
   await page.getByTestId('692889f16bf770001bfeb4cc').click();
 
@@ -49,11 +49,11 @@ test('Модальное окно открывается по клику на и
 });
 
 test('Создание заказа - перетаскивание карточек', async ({ page }) => {
-  await page.goto('http://localhost:5173');
-
   await page.routeFromHAR('./e2e/hars/ingredients.har', {
     url: `${Urls.apiUrl}/api/ingredients`
   });
+
+  await page.goto('/');
 
   const constructorList = page.getByTestId("constructor-list");
   const constructorItems = constructorList.locator("li");
@@ -99,7 +99,7 @@ test('Создание заказа - открытие модалки', async ({
   });
 
   //логин
-  await page.goto('http://localhost:5173/login');
+  await page.goto('/login');
   await page.getByTestId('email').fill('test@example.com');
   await page.getByTestId('password').fill('password');
   await page.getByRole('button', { name: 'Войти' }).click();
