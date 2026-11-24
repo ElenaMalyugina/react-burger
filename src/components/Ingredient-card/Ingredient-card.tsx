@@ -37,6 +37,7 @@ export const IngredientCard = ({
       ref={(node) => {
         dragRef(node);
       }} // правильный тип для ref
+      data-testid={ingredient._id}
     >
       <Link
         to={`/ingredients/${ingredient._id}`}

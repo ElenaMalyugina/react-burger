@@ -78,6 +78,7 @@ export const BurgerConstructorList = (): React.JSX.Element => {
       ref={(node) => {
         dropTarget(node);
       }}
+      data-testid="constructor-list"
     >
       {!bunIngredient && (
         <EmptyConstructorCard
