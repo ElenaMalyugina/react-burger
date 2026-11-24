@@ -127,5 +127,5 @@ test('Создание заказа - открытие модалки', async ({
 
   //Закрытие модалки
   await page.getByRole("button", {name: "Закрыть"}).click();
-  await expect(page.getByText("Детали ингредиента")).toBeHidden();
+  await expect(page.getByTestId("order-modal")).toBeHidden();
 });
